@@ -1,0 +1,181 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:core';
+import 'dart:io';
+import 'dart:math' as math;
+
+import 'package:crypto/crypto.dart';
+import 'package:encrypt/encrypt.dart';
+
+import 'answer.dart';
+import 'util/request.dart';
+import 'util/utils.dart';
+
+part 'module/album.dart';
+part 'module/artist.dart';
+part 'module/banner.dart';
+part 'module/batch.dart';
+part 'module/calendar.dart';
+part 'module/captcha.dart';
+part 'module/check_music.dart';
+part 'module/cloudsearch.dart';
+part 'module/comment.dart';
+part 'module/countries.dart';
+part 'module/daily_signin.dart';
+part 'module/digitalAlbum.dart';
+part 'module/dj.dart';
+part 'module/event.dart';
+part 'module/fm.dart';
+part 'module/follow.dart';
+part 'module/history.dart';
+part 'module/homepage.dart';
+part 'module/hot.dart';
+part 'module/like.dart';
+part 'module/login.dart';
+part 'module/lyric.dart';
+part 'module/msg.dart';
+part 'module/mv.dart';
+part 'module/personal.dart';
+part 'module/playlist.dart';
+part 'module/playmode.dart';
+part 'module/recommend.dart';
+part 'module/related.dart';
+part 'module/resource_like.dart';
+part 'module/search.dart';
+part 'module/simi.dart';
+part 'module/song.dart';
+part 'module/top.dart';
+part 'module/user.dart';
+part 'module/video.dart';
+part 'module/weblog.dart';
+
+typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
+
+final handles = <String, Handler>{
+  "/album/newest": albumNewest,
+  "/album/sublist": albumSublist,
+  "/album": album,
+  "/artist/album": artistAlbum,
+  "/artist/desc": artistDesc,
+  "/artist/list": artistList,
+  "/artist/mv": artistMv,
+  "/artist/sub": artistSub,
+  "/artist/sublist": artistSubList,
+  "/artists": artists,
+  "/banner": banner,
+  "/batch": batch,
+  // "/captch/register": captchaRegister,
+  "/captch/send": captchaSend,
+  "/captch/verify": captchaVerify,
+  "/comment/album": commentAlbum,
+  "/comment/dj": commentDj,
+  "/comment/events": commentEvents,
+  "/comment/hot": commentHot,
+  "/comment/like": commentLike,
+  "/comment/music": commentMusic,
+  "/comment/mv": commentMv,
+  "/comment/playlist": commentPlaylist,
+  "/comment/video": commentVideo,
+  "/comment": comment,
+  "/daily_signin": dailySignin,
+  "/digitalAlbum/purchased": digitalAlbumPurchased,
+  "/dj/banner": djBanner,
+  "/dj/category/excludehot": djCategoryExcludehot,
+  "/dj/category/recommend": djCategoryRecommend,
+  "/dj/catelist": djCatelist,
+  "/dj/detail": djDetail,
+  "/dj/hot": djHot,
+  "/dj/paygift": djPaygift,
+  "/dj/program/detail": djProgramDetail,
+  "/dj/recommend/type": djRecommendType,
+  "/dj/recommend": djRecommend,
+  "/dj/sub": djSub,
+  "/dj/sublist": djSublist,
+  "/dj/today/perfered": djTodayPerfered,
+  "/event/del": eventDel,
+  "/event/forward": eventForward,
+  "/event": event,
+  "/fm_trash": fmTrash,
+  "/follow": follow,
+  "/hot_topic": hotTopic,
+  "/like": like,
+  "/likelist": likelist,
+  "/login/cellphone": loginCellphone,
+  "/login/refresh": loginRefresh,
+  "/login/status": loginStatus,
+  "/login": login,
+  "/logout": logout,
+  "/cellphone/existence/check": cellphoneExistenceCheck,
+  "/activate/init/profile": activateInitProfile,
+  "/lyric": lyric,
+  "/msg/comment": msgComment,
+  "/msg/forwards": msgForwards,
+  "/msg/notice": msgNotice,
+  "/msg/private/history": msgPrivateHistory,
+  "/msg/private": msgPrivate,
+  "/mv/detail": mvDetail,
+  "/mv/first": mvFirst,
+  "/mv/sub": mvSub,
+  "/mv/sublist": mvSublist,
+  "/personal_fm": personalFm,
+  "/personalized/djprogram": personalizedDjprogram,
+  "/personalized/mv": personalizedMv,
+  "/personalized/newsong": personalizedNewsong,
+  "/personalized/privatecontent": personalizedPrivatecontent,
+  "/personalized": personalized,
+  "/playlist/catlist": playlistCatlist,
+  "/playlist/create": playlistCreate,
+  "/playlist/detail": playlistDetail,
+  "/playlist/hot": playlistHot,
+  "/playlist/subscribe": playlistSubscribe,
+  "/playlist/subscribers": playlistSubscribers,
+  "/playlist/tracks": playlistTracks,
+  "/playmode/intelligence/list": playmode_intelligence_list,
+  "/program/recommend": program_recommend,
+  "/recommend/resource": recommend_resource,
+  "/recommend/songs": recommend_songs,
+  "/related/allvideo": related_allvideo,
+  "/related/playlist": related_playlist,
+  "/resource/like": resource_like,
+  "/search/hot": search_hot,
+  "/search/multimatch": search_multimatch,
+  "/search/suggest": search_suggest,
+  "/search": search,
+  "/simi/artist": simi_artist,
+  "/simi/mv": simi_mv,
+  "/simi/playlist": simi_playlist,
+  "/simi/song": simi_song,
+  "/simi/user": simi_user,
+  "/song/detail": song_detail,
+  "/song/url": song_url,
+  "/top/album": top_album,
+  "/top/artists": top_artists,
+  "/top/list": top_list,
+  "/top/mv": top_mv,
+  "/top/playlist/highquality": top_playlist_highquality,
+  "/top/playlist": top_playlist,
+  "/top/song": top_song,
+  "/toplist/artist": toplist_artist,
+  "/toplist/detail": toplist_detail,
+  "/toplist": toplist,
+  "/user/audio": user_audio,
+  "/user/cloud_del": user_cloud_del,
+  "/user/cloud_detail": user_cloud_detail,
+  "/user/cloud": user_cloud,
+  "/user/detail": user_detail,
+  "/user/dj": user_dj,
+  "/user/event": user_event,
+  "/user/followeds": user_followeds,
+  "/user/follows": user_follows,
+  "/user/playlist": user_playlist,
+  "/user/record": user_record,
+  "/user/subcount": user_subcount,
+  "/user/update": user_update,
+  "/video/detail": video_detail,
+  "/video/group": video_group,
+  "/video/sub": video_sub,
+  "/video/url": video_url,
+  "/weblog": weblog,
+  "/homepageBlockPage": homepageBlockPage,
+  // "/homepageDragonBall": homepageDragonBall,
+};
