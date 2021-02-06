@@ -1,7 +1,7 @@
 part of '../module.dart';
 
 // 点赞与取消点赞资源
-Handler resource_like = (query, cookie) {
+Handler resourceLike = (query, cookie) {
   cookie.add(Cookie('os', 'pc'));
   query['t'] = (query['t'] == 1 ? 'like' : 'unlike');
   query['type'] = const {
@@ -16,6 +16,11 @@ Handler resource_like = (query, cookie) {
     data['threadId'] = query['threadId'];
   }
 
-  return request('POST', 'https://music.163.com/weapi/v1/discovery/recommend/songs', data,
-      crypto: Crypto.weapi, cookies: cookie);
+  return request(
+    'POST',
+    'https://music.163.com/weapi/resource/${query["t"]}',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
 };

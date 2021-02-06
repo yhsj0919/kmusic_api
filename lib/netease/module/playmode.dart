@@ -1,7 +1,7 @@
 part of '../module.dart';
 
 // 智能播放
-Handler playmode_intelligence_list = (query, cookie) {
+Handler playmodeIntelligenceList = (query, cookie) {
   return request(
       'POST',
       'http://music.163.com/weapi/playmode/intelligence/list',

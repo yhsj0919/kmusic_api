@@ -41,6 +41,7 @@ part 'module/playmode.dart';
 part 'module/recommend.dart';
 part 'module/related.dart';
 part 'module/resource_like.dart';
+part 'module/scrobble.dart';
 part 'module/search.dart';
 part 'module/simi.dart';
 part 'module/song.dart';
@@ -130,13 +131,13 @@ final handles = <String, Handler>{
   "/playlist/subscribe": playlistSubscribe,
   "/playlist/subscribers": playlistSubscribers,
   "/playlist/tracks": playlistTracks,
-  "/playmode/intelligence/list": playmode_intelligence_list,
-  "/program/recommend": program_recommend,
-  "/recommend/resource": recommend_resource,
-  "/recommend/songs": recommend_songs,
-  "/related/allvideo": related_allvideo,
-  "/related/playlist": related_playlist,
-  "/resource/like": resource_like,
+  "/playmode/intelligence/list": playmodeIntelligenceList,
+  "/program/recommend": programRecommend,
+  "/recommend/resource": recommendResource,
+  "/recommend/songs": recommendSongs,
+  "/related/allvideo": relatedAllvideo,
+  "/related/playlist": relatedPlaylist,
+  "/resource/like": resourceLike,
   "/search/hot": search_hot,
   "/search/multimatch": search_multimatch,
   "/search/suggest": search_suggest,
