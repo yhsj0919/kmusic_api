@@ -9,8 +9,8 @@ Handler batch = (query, cookie) {
     }
   });
   return eapiRequest(
-    'POST',
     'http://music.163.com/eapi/batch',
+    '/api/batch',
     data,
     cookies: cookie,
   );

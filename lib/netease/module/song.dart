@@ -3,21 +3,40 @@ part of '../module.dart';
 const _keys = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 // 歌曲详情
-Handler song_detail = (query, cookie) {
+Handler songDetail = (query, cookie) {
   query['ids'] = query['ids'].toString().split(RegExp(r'\s*,\s*'));
   return request(
-      'POST',
-      'https://music.163.com/weapi/v3/song/detail',
-      {
-        'c': '[' + query['ids'].map((id) => ('{"id":' + id + '}')).join(',') + ']',
-        'ids': '[' + query['ids'].join(',') + ']'
-      },
-      crypto: Crypto.weapi,
-      cookies: cookie);
+    'POST',
+    'https://music.163.com/weapi/v3/song/detail',
+    {
+      'c':
+          '[' + query['ids'].map((id) => ('{"id":' + id + '}')).join(',') + ']',
+      'ids': '[' + query['ids'].join(',') + ']'
+    },
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
+
+// 更新歌曲顺序
+Handler songOrderUpdate = (query, cookie) {
+  return request(
+    'POST',
+    'http://interface.music.163.com/api/playlist/manipulate/tracks',
+    {
+      'pid': query['pid'],
+      'trackIds': query['ids'],
+      'op': 'update',
+    },
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
 };
 
 // 歌曲链接
-Handler song_url = (query, cookie) {
+Handler songUrl = (query, cookie) {
+  cookie.add(Cookie('os', 'pc'));
+
   if (!cookie.any((cookie) => cookie.name == 'MUSIC_U')) {
     String _createdSecretKey({int size = 16}) {
       StringBuffer buffer = StringBuffer();
@@ -31,13 +50,13 @@ Handler song_url = (query, cookie) {
     cookie = List.from(cookie)..add(Cookie('_ntes_nuid', _createdSecretKey()));
   }
 
-  return request(
-      'POST',
-      'https://music.163.com/weapi/song/enhance/player/url',
-      {
-        'ids': '[${query['id']}]',
-        'br': int.parse(query['br'] ?? '999000'),
-      },
-      crypto: Crypto.weapi,
-      cookies: cookie);
+  return eapiRequest(
+    'https://interface3.music.163.com/eapi/song/enhance/player/url',
+    '/api/song/enhance/player/url',
+    {
+      'ids': '[${query["id"]}]',
+      'br': int.parse(query['br'] ?? '999000'),
+    },
+    cookies: cookie,
+  );
 };

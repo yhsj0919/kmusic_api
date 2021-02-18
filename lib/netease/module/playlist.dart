@@ -43,8 +43,8 @@ Handler playlistDelete = (query, cookie) {
 // 更新歌单描述
 Handler playlistDescUpdate = (query, cookie) {
   return eapiRequest(
-    'POST',
     'https://interface3.music.163.com/eapi/playlist/desc/update',
+    '/api/playlist/desc/update',
     {
       'id': query['id'],
       'desc': query['desc'],
@@ -126,8 +126,8 @@ Handler playlistNameUpdate = (query, cookie) {
   };
 
   return eapiRequest(
-    'POST',
     'https://interface3.music.163.com/eapi/playlist/update/name',
+    '/api/playlist/update/name',
     data,
     cookies: cookie,
   );
@@ -184,8 +184,8 @@ Handler playlistTagsUpdate = (query, cookie) {
   };
 
   return eapiRequest(
-    'POST',
     'https://interface3.music.163.com/eapi/playlist/tags/update',
+    '/api/playlist/tags/update',
     data,
     cookies: cookie,
   );

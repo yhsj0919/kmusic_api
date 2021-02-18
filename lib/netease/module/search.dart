@@ -1,41 +1,62 @@
 part of '../module.dart';
 
-// 热门搜索
+// 默认搜索关键词
 Handler searchDefaultkeyword = (query, cookie) {
   return eapiRequest(
-    'POST',
     'https://interface3.music.163.com/eapi/search/defaultkeyword/get',
+    '/api/search/defaultkeyword/get',
     {},
     cookies: cookie,
   );
 };
 
-// 热门搜索
-Handler search_hot = (query, cookie) {
+// 热搜列表
+Handler searchHotDetail = (query, cookie) {
   return request(
-      'POST', 'https://music.163.com/weapi/search/hot', {'type': 1111},
-      crypto: Crypto.weapi, cookies: cookie, ua: 'mobile');
+    'POST',
+    'https://music.163.com/weapi/hotsearchlist/get',
+    {},
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
+
+// 热门搜索
+Handler searchHot = (query, cookie) {
+  return request(
+    'POST',
+    'https://music.163.com/weapi/search/hot',
+    {'type': 1111},
+    crypto: Crypto.weapi,
+    cookies: cookie,
+    ua: 'mobile',
+  );
 };
 
 // 多类型搜索
-Handler search_multimatch = (query, cookie) {
+Handler searchMultimatch = (query, cookie) {
   return request(
-      'POST',
-      'https://music.163.com/weapi/search/suggest/multimatch',
-      {
-        'type': query['type'] ?? 1,
-        's': query['keywords'] ?? '',
-      },
-      crypto: Crypto.weapi,
-      cookies: cookie);
+    'POST',
+    'https://music.163.com/weapi/search/suggest/multimatch',
+    {
+      'type': query['type'] ?? 1,
+      's': query['keywords'] ?? '',
+    },
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
 };
 
 // 搜索建议
-Handler search_suggest = (query, cookie) {
+Handler searchSuggest = (query, cookie) {
   final type = query['type'] == 'mobile' ? 'keyword' : 'web';
-  return request('POST', 'https://music.163.com/weapi/search/suggest/$type',
-      {'s': query['keywords'] ?? ''},
-      crypto: Crypto.weapi, cookies: cookie);
+  return request(
+    'POST',
+    'https://music.163.com/weapi/search/suggest/$type',
+    {'s': query['keywords'] ?? ''},
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
 };
 
 //搜索
@@ -48,6 +69,11 @@ Handler search = (query, cookie) {
     'limit': query['limit'] ?? 30,
     'offset': query['offset'] ?? 0
   };
-  return request('POST', 'https://music.163.com/weapi/search/get', data,
-      crypto: Crypto.weapi, cookies: cookie);
+  return request(
+    'POST',
+    'https://music.163.com/weapi/search/get',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
 };

@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 // import 'package:hive/hive.dart';
 
@@ -57,6 +54,19 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> songUrl(String id) async {
+    netEase.songurl(id).then((value) {
+      print(">>>>>>>>>>>>>>>>>");
+      setState(() {
+        _platformVersion = value.toString();
+
+        print(_platformVersion);
+      });
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -78,6 +88,12 @@ class _MyAppState extends State<MyApp> {
                 status();
               },
               child: Text('status'),
+            ),
+            TextButton(
+              onPressed: () {
+                songUrl('1498342485');
+              },
+              child: Text('SongUrl'),
             ),
           ],
         ),

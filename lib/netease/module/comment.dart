@@ -302,8 +302,8 @@ Handler commentNew = (query, cookies) {
   };
 
   return eapiRequest(
-    'POST',
     'https://music.163.com/api/v2/resource/comments',
+    '/api/v2/resource/comments',
     data,
     cookies: cookies,
   );

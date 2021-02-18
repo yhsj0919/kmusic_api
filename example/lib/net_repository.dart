@@ -80,6 +80,10 @@ class NetRepository {
     return _doRequest('/login/status', params: {});
   }
 
+  Future<dynamic> songurl(String id) async {
+    return _doRequest('/song/url', params: {'id': id});
+  }
+
   ///获取用户信息 , 歌单，收藏，mv, dj 数量
   Future<dynamic> getUserSubCount() {
     return _doRequest('/user/subcount');

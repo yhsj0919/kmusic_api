@@ -43,6 +43,9 @@ part 'module/related.dart';
 part 'module/resource_like.dart';
 part 'module/scrobble.dart';
 part 'module/search.dart';
+part 'module/send.dart';
+part 'module/setting.dart';
+part 'module/share.dart';
 part 'module/simi.dart';
 part 'module/song.dart';
 part 'module/top.dart';
@@ -138,17 +141,17 @@ final handles = <String, Handler>{
   "/related/allvideo": relatedAllvideo,
   "/related/playlist": relatedPlaylist,
   "/resource/like": resourceLike,
-  "/search/hot": search_hot,
-  "/search/multimatch": search_multimatch,
-  "/search/suggest": search_suggest,
+  "/search/hot": searchHot,
+  "/search/multimatch": searchMultimatch,
+  "/search/suggest": searchSuggest,
   "/search": search,
-  "/simi/artist": simi_artist,
-  "/simi/mv": simi_mv,
-  "/simi/playlist": simi_playlist,
-  "/simi/song": simi_song,
-  "/simi/user": simi_user,
-  "/song/detail": song_detail,
-  "/song/url": song_url,
+  "/simi/artist": simiArtist,
+  "/simi/mv": simiMv,
+  "/simi/playlist": simiPlaylist,
+  "/simi/song": simiSong,
+  "/simi/user": simiUser,
+  "/song/detail": songDetail,
+  "/song/url": songUrl,
   "/top/album": top_album,
   "/top/artists": top_artists,
   "/top/list": top_list,
