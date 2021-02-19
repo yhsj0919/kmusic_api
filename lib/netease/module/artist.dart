@@ -83,7 +83,7 @@ Handler artistMv = (query, cookie) => request(
 // 歌手新MV
 Handler artistNewMv = (Map query, List<Cookie> cookie) {
   cookie.add(Cookie("os", 'ios'));
-  cookie.add(Cookie("appver", '8.0.00'));
+  cookie.add(Cookie("appver", '8.1.20'));
 
   return request(
       'POST',
@@ -99,7 +99,7 @@ Handler artistNewMv = (Map query, List<Cookie> cookie) {
 // 歌手新歌
 Handler artistNewSong = (Map query, List<Cookie> cookie) {
   cookie.add(Cookie("os", 'ios'));
-  cookie.add(Cookie("appver", '8.0.00'));
+  cookie.add(Cookie("appver", '8.1.20'));
 
   return request(
       'POST',

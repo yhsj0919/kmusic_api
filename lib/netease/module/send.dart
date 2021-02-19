@@ -22,7 +22,7 @@ Handler sendPlaylist = (query, cookie) {
 // 私信歌曲
 Handler sendSong = (query, cookie) {
   cookie.add(Cookie('os', "ios"));
-  cookie.add(Cookie('appver', "8.0.00"));
+  cookie.add(Cookie('appver', "8.1.20"));
 
   final data = {
     'id': query['id'],

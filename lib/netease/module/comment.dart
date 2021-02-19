@@ -97,21 +97,10 @@ Handler commentHot = (query, cookies) {
   );
 };
 
-// 云村热评
-Handler commentHotWall = (query, cookies) {
-  return request(
-    'POST',
-    'https://music.163.com/api/comment/hotwall/list/get',
-    {},
-    crypto: Crypto.weapi,
-    cookies: cookies,
-  );
-};
-
 //
 Handler commentHugList = (query, cookies) {
   cookies.add(Cookie('os', 'ios'));
-  cookies.add(Cookie('appver', '8.0.00'));
+  cookies.add(Cookie('appver', '8.1.20'));
 
   query['type'] = const {
     0: 'R_SO_4_', //  歌曲

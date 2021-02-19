@@ -5,7 +5,7 @@ part of '../module.dart';
 // query.refresh 是否刷新数据
 Handler homepageBlockPage = (query, cookie) {
   cookie.add(Cookie('os', 'ios'));
-  cookie.add(Cookie('appver', '8.0.00'));
+  cookie.add(Cookie('appver', '8.1.20'));
   return request(
     'POST',
     'https://music.163.com/api/homepage/block/page',
@@ -21,7 +21,7 @@ Handler homepageBlockPage = (query, cookie) {
 // !需要登录或者匿名登录，非登录返回 []
 Handler homepageDragonBall = (query, cookie) {
   cookie.add(Cookie('os', 'ios'));
-  cookie.add(Cookie('appver', '8.0.00'));
+  cookie.add(Cookie('appver', '8.1.20'));
 
   if (cookie.where((element) => element.name == "MUSIC_U").length == 0) {
     cookie.add(Cookie('MUSIC_A',

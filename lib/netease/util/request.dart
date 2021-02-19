@@ -72,7 +72,7 @@ Future<Answer> eapiRequest(
     //encrypt.base64.encode(imei + '\t02:00:00:00:00:00\t5106025eb79a5247\t70ffbaac7')
     "deviceId": cookie['deviceId'],
     // app版本
-    "appver": cookie['appver'] ?? "8.0.0",
+    "appver": cookie['appver'] ?? "8.1.20",
     //版本号
     "versioncode": cookie['versioncode'] ?? "140",
     //设备model

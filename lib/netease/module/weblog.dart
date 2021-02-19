@@ -5,7 +5,7 @@ Handler weblog = (query, cookie) {
   return request(
     'POST',
     'https://music.163.com/weapi/feedback/weblog',
-    {},
+    query['data'] ?? {},
     crypto: Crypto.weapi,
     cookies: cookie,
   );
