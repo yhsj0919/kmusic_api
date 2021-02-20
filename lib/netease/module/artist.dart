@@ -113,7 +113,7 @@ Handler artistNewSong = (Map query, List<Cookie> cookie) {
 };
 
 // 歌手歌曲
-Handler artistSong = (Map query, List<Cookie> cookie) {
+Handler artistSongs = (Map query, List<Cookie> cookie) {
   cookie.add(Cookie("os", 'pc'));
 
   return request(

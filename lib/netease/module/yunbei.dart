@@ -1,5 +1,6 @@
 part of '../module.dart';
 
+//云贝支出
 Handler yunbeiExpense = (query, cookie) {
   return request(
     'POST',
@@ -12,7 +13,7 @@ Handler yunbeiExpense = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝账户信息
 Handler yunbeiInfo = (query, cookie) {
   return request(
     'POST',
@@ -22,7 +23,7 @@ Handler yunbeiInfo = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝收入
 Handler yunbeiReceipt = (query, cookie) {
   return request(
     'POST',
@@ -35,7 +36,7 @@ Handler yunbeiReceipt = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝签到
 Handler yunbeiSign = (query, cookie) {
   return request(
     'POST',
@@ -47,7 +48,7 @@ Handler yunbeiSign = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝完成任务
 Handler yunbeiTaskFinish = (query, cookie) {
   return request(
     'POST',
@@ -61,6 +62,7 @@ Handler yunbeiTaskFinish = (query, cookie) {
   );
 };
 
+//云贝todo任务
 Handler yunbeiTaskTodo = (query, cookie) {
   return request(
     'POST',
@@ -70,7 +72,7 @@ Handler yunbeiTaskTodo = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝所有任务
 Handler yunbeiTask = (query, cookie) {
   return request(
     'POST',
@@ -80,7 +82,7 @@ Handler yunbeiTask = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝今日签到信息
 Handler yunbeiToday = (query, cookie) {
   return request(
     'POST',
@@ -90,7 +92,7 @@ Handler yunbeiToday = (query, cookie) {
     cookies: cookie,
   );
 };
-
+//云贝
 Handler yunbei = (query, cookie) {
   return request(
     'POST',

@@ -1,6 +1,6 @@
 part of '../module.dart';
 
-// 智能播放
+// 心动模式/智能播放
 Handler playmodeIntelligenceList = (query, cookie) {
   return request(
       'POST',

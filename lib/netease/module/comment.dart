@@ -51,7 +51,7 @@ Handler commentEvents = (query, cookies) {
     cookies: cookies,
   );
 };
-
+//楼层评论
 Handler commentFloor = (query, cookies) {
   final data = {
     'parentCommentId': query['parentCommentId'],
@@ -97,7 +97,7 @@ Handler commentHot = (query, cookies) {
   );
 };
 
-//
+//评论抱一抱列表
 Handler commentHugList = (query, cookies) {
   cookies.add(Cookie('os', 'ios'));
   cookies.add(Cookie('appver', '8.1.20'));

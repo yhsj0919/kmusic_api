@@ -247,7 +247,7 @@ Handler djSublist = (query, cookie) {
   );
 };
 
-// 电台详情
+// 电台订阅者列表
 Handler djSubscriber = (query, cookie) {
   final data = {
     'time': query['time'] ?? '-1',

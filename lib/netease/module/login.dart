@@ -36,7 +36,7 @@ Handler loginQrCheck = (query, cookie) {
 };
 
 //返回二维码信息，自己去生成二维码
-Handler loginQrCreat = (query, cookie) {
+Handler loginQrCreate = (query, cookie) {
   final url = 'https://music.163.com/login?codekey=${query["key"]}';
   return Future.value(
     Answer(
