@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:kmusic_api/utils/request.dart';
+
 import '../../netease_cloud_music.dart';
-import '../answer.dart';
+import '../../utils/answer.dart';
 import 'crypto.dart';
 
 enum Crypto { linuxapi, weapi }
@@ -98,7 +100,7 @@ Future<Answer> eapiRequest(
   data = eapi(optionUrl, data);
   url = url.replaceAll(RegExp(r"\w*api"), 'eapi');
 
-  return _doRequest(url, headers, data, method).then((response) async {
+  return httpRequest(url, headers, data, method).then((response) async {
     final bytes = (await response.expand((e) => e).toList()).cast<int>();
 
     List<int> data;
@@ -156,7 +158,7 @@ Future<Answer> request(
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36';
     url = 'https://music.163.com/api/linux/forward';
   }
-  return _doRequest(url, headers, data, method).then((response) async {
+  return httpRequest(url, headers, data, method).then((response) async {
     var ans = Answer(cookie: response.cookies);
 
     final content =
@@ -173,14 +175,5 @@ Future<Answer> request(
     debugPrint(e.toString());
     debugPrint(s.toString());
     return Answer(status: 502, body: {'code': 502, 'msg': e.toString()});
-  });
-}
-
-Future<HttpClientResponse> _doRequest(
-    String url, Map<String, String> headers, Map data, String method) {
-  return HttpClient().openUrl(method, Uri.parse(url)).then((request) {
-    headers.forEach(request.headers.add);
-    request.write(Uri(queryParameters: data.cast()).query);
-    return request.close();
   });
 }

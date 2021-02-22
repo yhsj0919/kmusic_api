@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:kmusic_api/netease/answer.dart';
 import 'package:kmusic_api/netease_cloud_music.dart';
+import 'package:kmusic_api/utils/answer.dart';
 import 'package:path_provider/path_provider.dart';
 
 class NetRepository {

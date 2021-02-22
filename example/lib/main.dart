@@ -5,6 +5,8 @@ import 'dart:async';
 
 import 'package:kmusic_api_example/net_repository.dart';
 
+import 'baidu_repository.dart';
+
 void main() {
   // var path = Directory.current.path;
   // Hive.init(path);
@@ -20,12 +22,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = '';
   NetRepository netEase;
+  BaiduRepository baiduRepository;
 
   @override
   void initState() {
     super.initState();
     // initPlatformState();
     netEase = NetRepository();
+    baiduRepository = BaiduRepository();
   }
 
   Future<void> initPlatformState() async {
@@ -67,6 +71,19 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> baidu() async {
+    baiduRepository.test().then((value) {
+      print(">>>>>>>>>>>>>>>>>");
+      setState(() {
+        _platformVersion = value.toString();
+
+        print(_platformVersion);
+      });
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -94,6 +111,12 @@ class _MyAppState extends State<MyApp> {
                 songUrl('1498342485');
               },
               child: Text('SongUrl'),
+            ),
+            TextButton(
+              onPressed: () {
+                baidu();
+              },
+              child: Text('百度测试'),
             ),
           ],
         ),

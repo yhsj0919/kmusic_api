@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'netease/answer.dart';
+import 'utils/answer.dart';
 import 'netease/module.dart';
 
 typedef DebugPrinter = void Function(String message);

@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'dart:io';
 
-Future<HttpClientResponse> _doRequest(
+Future<HttpClientResponse> httpRequest(
     String url, Map<String, String> headers, Map data, String method) {
   return HttpClient().openUrl(method, Uri.parse(url)).then((request) {
     headers.forEach(request.headers.add);

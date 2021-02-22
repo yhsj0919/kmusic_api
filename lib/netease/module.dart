@@ -5,9 +5,9 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
-import 'answer.dart';
-import 'util/request.dart';
-import 'util/utils.dart';
+import '../utils/answer.dart';
+import 'util/net_request.dart';
+import '../utils/utils.dart';
 
 part 'module/album.dart';
 part 'module/artist.dart';
