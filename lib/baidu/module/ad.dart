@@ -1,6 +1,7 @@
 part of '../module.dart';
 
-Handler test = (Map query, auth) {
+//开屏
+Handler openScreen = (Map query, auth) {
   return request(
     'GET',
     "https://api-qianqian.taihe.com/v1/ad/openscreen",
