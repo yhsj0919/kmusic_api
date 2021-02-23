@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:kmusic_api/netease_cloud_music.dart';
+import 'package:kmusic_api/utils/answer.dart';
 // import 'package:hive/hive.dart';
 
 import 'dart:async';
@@ -23,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = '';
   NetRepository netEase;
   BaiduRepository baiduRepository;
+  HttpServer server;
 
   @override
   void initState() {
@@ -94,6 +100,7 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             Text('Running on: $_platformVersion\n'),
+            Text('服务状态: ${server?.address?.host ?? ''}:${server?.port ?? ''}'),
             TextButton(
               onPressed: () {
                 initPlatformState();
@@ -118,9 +125,71 @@ class _MyAppState extends State<MyApp> {
               },
               child: Text('百度测试'),
             ),
+            TextButton(
+              onPressed: () async {
+                server = await _startServer(address: '127.0.0.1', port: 3001);
+
+                setState(() {});
+              },
+              child: Text('开启服务：3001'),
+            ),
+            TextButton(
+              onPressed: () async {
+                server?.close()?.then((value) {
+                  server = null;
+
+                  setState(() {});
+                });
+              },
+              child: Text('关闭服务'),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+Future<HttpServer> _startServer({address = "localhost", int port = 3000}) {
+  return HttpServer.bind(address, port, shared: true).then((server) {
+    print("start listen at: http://$address:$port");
+    server.listen((request) {
+      _handleRequest(request);
+    });
+    return server;
+  });
+}
+
+void _handleRequest(HttpRequest request) async {
+  Answer answer;
+
+  String path = request.uri.path;
+
+  if (path.startsWith("/netease")) {
+    answer = await cloudMusicApi(path.replaceAll("/netease", ""),
+            parameter: request.uri.queryParameters, cookie: request.cookies)
+        .catchError((e, s) async {
+      print(e.toString());
+      print(s.toString());
+      return const Answer();
+    });
+  } else if (path.startsWith("/baidu")) {
+    answer = await cloudMusicApi(path.replaceAll("/baidu", ""),
+            parameter: request.uri.queryParameters, cookie: request.cookies)
+        .catchError((e, s) async {
+      print(e.toString());
+      print(s.toString());
+      return const Answer();
+    });
+  } else {
+    answer = Answer()
+        .copy(body: {'code': 500, 'msg': '仅支持“/netease”和“/baidu”开头的接口'});
+  }
+
+  request.response.statusCode = answer.status;
+  request.response.cookies.addAll(answer.cookie);
+  request.response.write(json.encode(answer.body));
+  request.response.close();
+
+  print("request[${answer.status}] : ${request.uri}");
 }
