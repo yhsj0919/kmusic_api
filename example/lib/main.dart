@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:kmusic_api/baidu_music.dart';
 import 'package:kmusic_api/netease_cloud_music.dart';
 import 'package:kmusic_api/utils/answer.dart';
 // import 'package:hive/hive.dart';
@@ -47,7 +48,11 @@ class _MyAppState extends State<MyApp> {
         print(_platformVersion);
       });
     }).catchError((e) {
-      print(e.toString());
+      setState(() {
+        _platformVersion = e.toString();
+
+        print(_platformVersion);
+      });
     });
   }
 
@@ -60,7 +65,11 @@ class _MyAppState extends State<MyApp> {
         print(_platformVersion);
       });
     }).catchError((e) {
-      print(e.toString());
+      setState(() {
+        _platformVersion = e.toString();
+
+        print(_platformVersion);
+      });
     });
   }
 
@@ -73,7 +82,11 @@ class _MyAppState extends State<MyApp> {
         print(_platformVersion);
       });
     }).catchError((e) {
-      print(e.toString());
+      setState(() {
+        _platformVersion = e.toString();
+
+        print(_platformVersion);
+      });
     });
   }
 
@@ -86,7 +99,11 @@ class _MyAppState extends State<MyApp> {
         print(_platformVersion);
       });
     }).catchError((e) {
-      print(e.toString());
+      setState(() {
+        _platformVersion = e.toString();
+
+        print(_platformVersion);
+      });
     });
   }
 
@@ -127,7 +144,7 @@ class _MyAppState extends State<MyApp> {
             ),
             TextButton(
               onPressed: () async {
-                server = await _startServer(address: '127.0.0.1', port: 3001);
+                server = await _startServer(address: '0.0.0.0', port: 3001);
 
                 setState(() {});
               },
@@ -150,7 +167,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-Future<HttpServer> _startServer({address = "localhost", int port = 3000}) {
+Future<HttpServer> _startServer({address = "0.0.0.0", int port = 3000}) {
   return HttpServer.bind(address, port, shared: true).then((server) {
     print("start listen at: http://$address:$port");
     server.listen((request) {
@@ -174,8 +191,9 @@ void _handleRequest(HttpRequest request) async {
       return const Answer();
     });
   } else if (path.startsWith("/baidu")) {
-    answer = await cloudMusicApi(path.replaceAll("/baidu", ""),
-            parameter: request.uri.queryParameters, cookie: request.cookies)
+    answer = await baiduMusicApi(path.replaceAll("/baidu", ""),
+            parameter: request.uri.queryParameters,
+            auth: request.headers['auth']?.first ?? '')
         .catchError((e, s) async {
       print(e.toString());
       print(s.toString());

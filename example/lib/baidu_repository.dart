@@ -39,6 +39,6 @@ class BaiduRepository {
 
   //测试接口
   Future<dynamic> test() {
-    return _doRequest('/account/info', params: {"tsId": 'T10053430210'});
+    return _doRequest('/song/info', params: {"tsId": 'T10053430210'});
   }
 }
