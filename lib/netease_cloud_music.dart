@@ -17,8 +17,12 @@ Future<Answer> cloudMusicApi(
   Map parameter,
   List<Cookie> cookie = const [],
 }) async {
-  assert(path != null, "path can not be null");
-  assert(handles.containsKey(path), "此 api url 未被定义, 请检查: $path ");
+  // assert(path != null, "path can not be null");
+  // assert(handles.containsKey(path), "此 api url 未被定义, 请检查: $path ");
+  if (!handles.containsKey(path)) {
+    return Answer()
+        .copy(body: {'code': 500, 'msg': "此 api url 未被定义, 请检查: $path "});
+  }
   final Handler handle = handles[path];
 
   try {
