@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:kmusic_api/netease_cloud_music.dart';
 import 'package:kmusic_api/utils/answer.dart';
-import 'package:path_provider/path_provider.dart';
 
 class NetRepository {
   static const int _NEED_LOGIN = 301;
@@ -12,9 +11,7 @@ class NetRepository {
 
   NetRepository() {
     scheduleMicrotask(() async {
-      var path = await getApplicationSupportDirectory();
-      PersistCookieJar cookieJar =
-          PersistCookieJar(dir: path.path + "/.cookies/");
+      PersistCookieJar cookieJar = PersistCookieJar();
       _cookieJar.complete(cookieJar);
     });
   }

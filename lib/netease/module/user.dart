@@ -27,6 +27,24 @@ Handler userAudio = (query, cookie) {
     cookies: cookie,
   );
 };
+// 用户绑定手机
+Handler userBindingCellphone = (query, cookie) {
+  final data = {
+    'phone': query['phone'],
+    'countrycode': query['countrycode'] ?? '86',
+    'captcha': query['captcha'],
+    'password':
+        Encrypted(md5.convert(utf8.encode(query['password'])).bytes).base16,
+  };
+
+  return request(
+    'POST',
+    'https://music.163.com/api/user/bindingCellphone',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
 
 // 用户绑定
 Handler userBinding = (query, cookie) {
@@ -157,8 +175,10 @@ Handler userFolloweds = (query, cookie) {
     'https://music.163.com/eapi/user/getfolloweds/${query["uid"]}',
     {
       'userId': query['uid'],
+      'time': '0',
       'limit': query['limit'] ?? 30,
-      'time': query['lasttime '] ?? -1,
+      'offset': query['offset '] ?? 0,
+      'getcounts': 'true',
     },
     crypto: Crypto.weapi,
     cookies: cookie,

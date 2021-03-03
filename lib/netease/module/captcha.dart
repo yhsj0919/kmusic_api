@@ -8,7 +8,7 @@ Handler captchaSend = (query, cookie) {
   };
   return request(
     'POST',
-    'https://music.163.com/weapi/sms/captcha/sent',
+    'https://music.163.com/api/sms/captcha/sent',
     data,
     crypto: Crypto.weapi,
     cookies: cookie,

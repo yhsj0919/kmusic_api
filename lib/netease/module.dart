@@ -268,6 +268,7 @@ final handles = <String, Handler>{
   //用户
   "/user/account": userAccount,
   "/user/audio": userAudio,
+  "/user/bindingCellphone": userBindingCellphone,
   "/user/binding": userBinding,
   "/user/cloud/del": userCloudDel,
   "/user/cloud/detail": userCloudDetail,

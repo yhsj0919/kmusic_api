@@ -11,13 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  async: "^2.4.2"
-  path: "^1.7.0"
-  pedantic: "^1.9.2"
-  encrypt: ^4.1.0 
-  dio: ^3.0.10
-  dio_cookie_manager: ^1.0.0
-  path_provider: ^1.6.27
+  async: ^2.5.0
+#  path: ^1.8.0
+  pedantic: ^1.10.0
+  encrypt: ^4.1.0
 
 dev_dependencies:
   flutter_test:
