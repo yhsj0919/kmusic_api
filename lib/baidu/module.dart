@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:kmusic_api/baidu/util/baidu_request.dart';
+import 'package:kmusic_api/utils/answer.dart';
 
 part 'module/account.dart';
 part 'module/ad.dart';
@@ -15,7 +16,7 @@ part 'module/song.dart';
 part 'module/trackList.dart';
 part 'module/user.dart';
 
-typedef Handler = Future<dynamic> Function(Map query, String auth);
+typedef Handler = Future<Answer> Function(Map query, String auth);
 
 final handles = <String, Handler>{
   "/openScreen": openScreen,

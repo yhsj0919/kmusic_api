@@ -10,6 +10,7 @@ import 'package:kmusic_api/utils/answer.dart';
 import 'dart:async';
 
 import 'package:kmusic_api_example/net_repository.dart';
+import 'package:kmusic_api_example/qq_repository.dart';
 
 import 'baidu_repository.dart';
 
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = '';
   NetRepository netEase;
   BaiduRepository baiduRepository;
+  QQRepository qqRepository;
   HttpServer server;
 
   @override
@@ -37,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     // initPlatformState();
     netEase = NetRepository();
     baiduRepository = BaiduRepository();
+    qqRepository = QQRepository();
   }
 
   Future<void> initPlatformState() async {
@@ -101,7 +104,22 @@ class _MyAppState extends State<MyApp> {
     }).catchError((e) {
       setState(() {
         _platformVersion = e.toString();
+        print(_platformVersion);
+      });
+    });
+  }
 
+  Future<void> qq() async {
+    qqRepository.mvUrl().then((value) {
+      print(">>>>>>>>>>>>>>>>>");
+      setState(() {
+        _platformVersion = value.toString();
+        print(_platformVersion);
+
+      });
+    }).catchError((e) {
+      setState(() {
+        _platformVersion = e.toString();
         print(_platformVersion);
       });
     });
@@ -116,7 +134,16 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text('Running on: $_platformVersion\n'),
+            Text('结果:'),
+            Container(
+              height: 300,
+              child: SingleChildScrollView(
+                child: Text('$_platformVersion'),
+              ),
+            ),
+            Container(
+              height: 16,
+            ),
             Text('服务状态: ${server?.address?.host ?? ''}:${server?.port ?? ''}'),
             TextButton(
               onPressed: () {
@@ -141,6 +168,12 @@ class _MyAppState extends State<MyApp> {
                 baidu();
               },
               child: Text('百度测试'),
+            ),
+            TextButton(
+              onPressed: () {
+                qq();
+              },
+              child: Text('qq测试'),
             ),
             TextButton(
               onPressed: () async {
