@@ -21,6 +21,7 @@ final handles = <String, Handler>{
   "/song/info": songInfo,
   "/song/lyric": songLyric,
   "/song/mv": songMv,
+  "/song/listen": songListen,
   "/song/playList": songPlayList,
   "/song/comment": songComment,
   "/mv/info": mvInfo,

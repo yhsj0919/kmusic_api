@@ -94,6 +94,9 @@ class QQRepository {
   Future<dynamic> songMv() {
     return _doRequest('/song/mv', params: {"songmid": "0039MnYb0qxYhV"});
   }
+  Future<dynamic> songListen() {
+    return _doRequest('/song/listen', params: {"songmid": "0039MnYb0qxYhV"});
+  }
 
   Future<dynamic> songPlayList() {
     return _doRequest('/song/playList', params: {"songid": 97773});

@@ -43,6 +43,25 @@ Handler songLyric = (Map query, cookie) {
     cookies: cookie,
   );
 };
+
+/*
+* 歌曲信息
+* 参数为歌曲Id，不是Mid
+*/
+Handler songLyricNew = (Map query, cookie) {
+  final data = {
+    "nobase64": 1, //是否base64显示
+    "format": 'json',
+    "musicid": query['songid'],
+  };
+  return request(
+    'GET',
+    "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg",
+    data,
+    cookies: cookie,
+  );
+};
+
 /*
  * 相关MV
  */
@@ -95,7 +114,7 @@ Handler songPlayList = (Map query, cookie) {
   );
 };
 /*
-* 歌曲评论
+* 歌曲评论，mv评论也是这个，pid不一样
 * 参数为歌曲Id，不是Mid
 * 分页从0开始
 * */
@@ -112,6 +131,40 @@ Handler songComment = (Map query, cookie) {
   return request(
     'GET',
     "https://c.y.qq.com/base/fcgi-bin/fcg_global_comment_h5.fcg",
+    data,
+    cookies: cookie,
+  );
+};
+
+/*
+ * 暂时只能获取非VIP的，req/freeflowsip+req_0/midurlinfo
+ */
+Handler songListen = (Map query, cookie) {
+  final data = {
+    "data": json.encode({
+      "req": {
+        "module": "CDN.SrfCdnDispatchServer",
+        "method": "GetCdnDispatch",
+        "param": {"guid": "3982823384", "calltype": 0, "userip": ""}
+      },
+      "req_0": {
+        "module": "vkey.GetVkeyServer",
+        "method": "CgiGetVkey",
+        "param": {
+          "guid": "3982823384",
+          "songmid": ["${query['songmid']}"],
+          "songtype": [0],
+          "uin": "0",
+          "loginflag": 1,
+          "platform": "20"
+        }
+      },
+      "comm": {"uin": 0, "format": "json", "ct": 24, "cv": 0}
+    })
+  };
+  return request(
+    'GET',
+    "https://u.y.qq.com/cgi-bin/musicu.fcg",
     data,
     cookies: cookie,
   );

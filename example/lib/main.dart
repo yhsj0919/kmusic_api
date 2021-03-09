@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> qq() async {
-    qqRepository.mvUrl().then((value) {
+    qqRepository.songListen().then((value) {
       print(">>>>>>>>>>>>>>>>>");
       setState(() {
         _platformVersion = value.toString();

@@ -1,5 +1,8 @@
 part of '../module.dart';
 
+/*
+ *mv信息，更多推荐
+ */
 Handler mvInfo = (Map query, cookie) {
   final data = {
     "data": json.encode({
