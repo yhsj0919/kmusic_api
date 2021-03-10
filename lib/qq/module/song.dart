@@ -145,21 +145,42 @@ Handler songListen = (Map query, cookie) {
       "req": {
         "module": "CDN.SrfCdnDispatchServer",
         "method": "GetCdnDispatch",
-        "param": {"guid": "3982823384", "calltype": 0, "userip": ""}
+        "param": {"guid": "3982823384"}
       },
+      //普通音乐获取播放地址
       "req_0": {
-        "module": "vkey.GetVkeyServer",
         "method": "CgiGetVkey",
+        "module": "vkey.GetVkeyServer",
         "param": {
           "guid": "3982823384",
-          "songmid": ["${query['songmid']}"],
+          "songmid": ["002usg9o4GTAKf"],
           "songtype": [0],
           "uin": "0",
           "loginflag": 1,
           "platform": "20"
         }
       },
-      "comm": {"uin": 0, "format": "json", "ct": 24, "cv": 0}
+      //vip获取试听地址、普通加密音乐
+      //RS02为收费音乐固定开头，格式MP3
+      //O6M0为普通音乐固定开头，格式mgg，这个参数暂时有问题，可能没办法播放
+      "queryvkey": {
+        "method": "CgiGetEVkey",
+        "module": "vkey.GetEVkeyServer",
+        "param": {
+          "guid": "3982823384",
+          "filename": [
+            //file下media_mid
+            "RS02004I6V6C3OjmqV.mp3",
+          ],
+          "songmid": [
+            "002usg9o4GTAKf",
+          ],
+          "songtype": [
+            1,
+          ],
+          "uin": "0"
+        }
+      }
     })
   };
   return request(
@@ -167,5 +188,10 @@ Handler songListen = (Map query, cookie) {
     "https://u.y.qq.com/cgi-bin/musicu.fcg",
     data,
     cookies: cookie,
-  );
+  ).then((value) {
+    print(value.body['req']["data"]['freeflowsip'][0] + value.body['queryvkey']['data']["midurlinfo"][0]['purl'] + '&fromtag=77');
+    print(value.body['req']["data"]['freeflowsip'][0] + value.body['req_0']['data']["midurlinfo"][0]['purl'] + '&fromtag=77');
+
+    return value;
+  });
 };

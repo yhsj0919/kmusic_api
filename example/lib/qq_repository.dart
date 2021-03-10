@@ -112,4 +112,11 @@ class QQRepository {
   Future<dynamic> mvUrl() {
     return _doRequest('/mv/url', params: {"songid": 97773});
   }
+
+  Future<dynamic> toplistInfo() {
+    return _doRequest('/toplist/info', params: {"songid": 97773});
+  }
+  Future<dynamic> toplistDetail() {
+    return _doRequest('/toplist/detail', params: {"songid": 97773});
+  }
 }

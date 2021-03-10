@@ -3,11 +3,15 @@ import 'dart:io';
 import 'package:kmusic_api/qq/util/qq_request.dart';
 import 'package:kmusic_api/utils/answer.dart';
 
+part 'module/album.dart';
+
 part 'module/mv.dart';
 
 part 'module/singer.dart';
 
 part 'module/song.dart';
+
+part 'module/toplist.dart';
 
 typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
 
@@ -26,4 +30,6 @@ final handles = <String, Handler>{
   "/song/comment": songComment,
   "/mv/info": mvInfo,
   "/mv/url": mvUrl,
+  "/toplist/info": toplistInfo,
+  "/toplist/detail": toplistDetail,
 };
