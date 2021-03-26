@@ -13,9 +13,11 @@ dependencies:
     sdk: flutter
   async: ^2.5.0
 #  path: ^1.8.0
-  pedantic: ^1.10.0
+  pedantic: ^1.11.0
   encrypt: ^4.1.0
-  xml2json: ^4.4.0
+  xml2json: ^5.0.0
+#  puppeteer: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:

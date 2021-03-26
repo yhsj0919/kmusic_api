@@ -12,7 +12,7 @@ Handler songInfo = (Map query, cookie) {
         "method": "get_song_detail_yqq",
         "param": {
           "song_type": 0,
-          "song_mid": "0039MnYb0qxYhV",
+          "song_mid": query['singermid'],
           "song_id": 97773,
         }
       }
@@ -191,6 +191,54 @@ Handler songListen = (Map query, cookie) {
   ).then((value) {
     print(value.body['req']["data"]['freeflowsip'][0] + value.body['queryvkey']['data']["midurlinfo"][0]['purl'] + '&fromtag=77');
     print(value.body['req']["data"]['freeflowsip'][0] + value.body['req_0']['data']["midurlinfo"][0]['purl'] + '&fromtag=77');
+
+    return value;
+  });
+};
+
+/*
+ * 歌曲下载
+ */
+Handler songDownload = (Map query, cookie) {
+  final data = {
+    "data": json.encode({
+      "req": {
+        "module": "CDN.SrfCdnDispatchServer",
+        "method": "GetCdnDispatch",
+        "param": {"guid": "3982823384"}
+      },
+      "comm": {
+        "ct": "19",
+        "cv": "1803",
+        "guid": "BAA33EB707EDB4E5998AC716FC667CE5",
+        "uin": "0",
+      },
+      "queryvkey": {
+        "method": "CgiGetEDownUrl",
+        "module": "vkey.GetEDownUrlServer",
+        "param": {
+          "checklimit": 1,
+          "ctx": 1,
+          "downloadfrom": 0,
+          //M5000低品质
+          //M8000高品质
+          //只支持非会员下载的歌曲
+          "filename": ["M500002202B43Cq4V4.mp3"],
+          "guid": "BAA33EB707EDB4E5998AC716FC667CE5",
+          "songmid": ["0039MnYb0qxYhV"],
+          "songtype": [1],
+          "uin": "0"
+        }
+      }
+    })
+  };
+  return request(
+    'GET',
+    "https://u.y.qq.com/cgi-bin/musicu.fcg",
+    data,
+    cookies: cookie,
+  ).then((value) {
+    print(value.body['req']["data"]['freeflowsip'][0] + value.body['queryvkey']['data']["midurlinfo"][0]['purl'] + '&fromtag=77');
 
     return value;
   });

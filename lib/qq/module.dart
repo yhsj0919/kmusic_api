@@ -7,6 +7,8 @@ part 'module/album.dart';
 
 part 'module/mv.dart';
 
+part 'module/playlist.dart';
+
 part 'module/singer.dart';
 
 part 'module/song.dart';
@@ -26,10 +28,12 @@ final handles = <String, Handler>{
   "/song/lyric": songLyric,
   "/song/mv": songMv,
   "/song/listen": songListen,
+  "/song/download": songDownload,
   "/song/playList": songPlayList,
   "/song/comment": songComment,
   "/mv/info": mvInfo,
   "/mv/url": mvUrl,
   "/toplist/info": toplistInfo,
   "/toplist/detail": toplistDetail,
+  "/playlist": playlistByTag,
 };

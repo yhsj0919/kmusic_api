@@ -84,7 +84,7 @@ class QQRepository {
   }
 
   Future<dynamic> songInfo() {
-    return _doRequest('/song/info', params: {"singermid": "0025NhlN2yWrP4"});
+    return _doRequest('/song/info', params: {"singermid": "0039MnYb0qxYhV"});
   }
 
   Future<dynamic> songLyric() {
@@ -96,6 +96,10 @@ class QQRepository {
   }
   Future<dynamic> songListen() {
     return _doRequest('/song/listen', params: {"songmid": "0039MnYb0qxYhV"});
+  }
+
+  Future<dynamic> songDownload() {
+    return _doRequest('/song/download', params: {"songmid": "0039MnYb0qxYhV"});
   }
 
   Future<dynamic> songPlayList() {
@@ -118,5 +122,9 @@ class QQRepository {
   }
   Future<dynamic> toplistDetail() {
     return _doRequest('/toplist/detail', params: {"songid": 97773});
+  }
+
+  Future<dynamic> playlist() {
+    return _doRequest('/playlist', params: {"songid": 97773});
   }
 }
