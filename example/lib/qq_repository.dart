@@ -127,4 +127,7 @@ class QQRepository {
   Future<dynamic> playlist() {
     return _doRequest('/playlist', params: {"songid": 97773});
   }
+  Future<dynamic> radiolist() {
+    return _doRequest('/radiolist', params: {});
+  }
 }

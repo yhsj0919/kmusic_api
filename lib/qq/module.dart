@@ -9,6 +9,8 @@ part 'module/mv.dart';
 
 part 'module/playlist.dart';
 
+part 'module/radio.dart';
+
 part 'module/singer.dart';
 
 part 'module/song.dart';
@@ -36,4 +38,5 @@ final handles = <String, Handler>{
   "/toplist/info": toplistInfo,
   "/toplist/detail": toplistDetail,
   "/playlist": playlistByTag,
+  "/radiolist": radiolist,
 };

@@ -1,5 +1,8 @@
 part of '../module.dart';
 
+/*
+ * 全部歌单
+ */
 Handler playlist = (Map query, cookie) {
   final page = query['page'] ?? 1;
   final size = query['size'] ?? 60;
@@ -38,6 +41,9 @@ Handler playlist = (Map query, cookie) {
   );
 };
 
+/*
+ * 根据Tag获取歌单
+ */
 Handler playlistByTag = (Map query, cookie) {
   final page = query['page'] ?? 1;
   final size = query['size'] ?? 60;
@@ -70,6 +76,9 @@ Handler playlistByTag = (Map query, cookie) {
   );
 };
 
+/*
+ *歌单详情
+ */
 Handler playlistDetail = (Map query, cookie) {
   final page = query['page'] ?? 1;
   final size = query['size'] ?? 60;
