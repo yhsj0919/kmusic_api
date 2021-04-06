@@ -53,7 +53,7 @@ Handler changeAccountInfo = (Map query, auth) {
   );
 };
 
-/* 
+/*
   *账户歌曲列表(喜欢的歌曲？)
  */
 Handler accountSongList = (Map query, auth) {
@@ -69,7 +69,7 @@ Handler accountSongList = (Map query, auth) {
   );
 };
 
-/* 
+/*
   *账户收藏等信息
  */
 Handler accountAmount = (Map query, auth) {
@@ -78,6 +78,38 @@ Handler accountAmount = (Map query, auth) {
   return request(
     'GET',
     "https://api-qianqian.taihe.com/v1/account/amount",
+    data,
+    authorization: auth,
+  );
+};
+
+/*
+ *已购专辑
+ */
+Handler accountPurchaseAlbum = (Map query, auth) {
+  final data = LinkedHashMap();
+  data["pageNo"] = query['page'] ?? 1;
+  data["pageSize"] = query['size'] ?? 20;
+
+  return request(
+    'GET',
+    "https://api-qianqian.taihe.com/v1/account/purchase/album",
+    data,
+    authorization: auth,
+  );
+};
+
+/*
+ *已购单曲
+ */
+Handler accountPurchase = (Map query, auth) {
+  final data = LinkedHashMap();
+  data["pageNo"] = query['page'] ?? 1;
+  data["pageSize"] = query['size'] ?? 20;
+
+  return request(
+    'GET',
+    "https://api-qianqian.taihe.com/v1/account/purchase",
     data,
     authorization: auth,
   );

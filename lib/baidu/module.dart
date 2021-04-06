@@ -4,17 +4,30 @@ import 'package:kmusic_api/baidu/util/baidu_request.dart';
 import 'package:kmusic_api/utils/answer.dart';
 
 part 'module/account.dart';
+
 part 'module/ad.dart';
+
 part 'module/album.dart';
+
 part 'module/artist.dart';
+
 part 'module/bd.dart';
+
 part 'module/favorite.dart';
+
 part 'module/index.dart';
+
 part 'module/oauth.dart';
+
 part 'module/search.dart';
+
 part 'module/song.dart';
+
 part 'module/trackList.dart';
+
 part 'module/user.dart';
+
+part 'module/video.dart';
 
 typedef Handler = Future<Answer> Function(Map query, String auth);
 
@@ -44,14 +57,13 @@ final handles = <String, Handler>{
   "/account/info/change": changeAccountInfo,
   "/account/songlist": accountSongList,
   "/account/amount": accountAmount,
+  "/account/purchase": accountPurchase,
+  "/account/purchase/album": accountPurchaseAlbum,
   "/signin": userSignin,
-  "/favorite/song": favoriteSong,
-  "/favorite/song/create": favoriteSongCreate,
-  "/favorite/song/delete": favoriteSongDelete,
-  "/favorite/tracklist": favoriteTrackList,
-  "/favorite/tracklist/create": favoriteTrackListCreate,
-  "/favorite/tracklist/delete": favoriteTrackListDelete,
-  "/favorite/artist": favoriteArtist,
-  "/favorite/artist/create": favoriteArtistCreate,
-  "/favorite/artist/delete": favoriteArtistDelete,
+  "/favorite": favorite,
+  "/favorite/delete": favoriteDelete,
+  "/favorite/list": favoriteList,
+  "/video/list": videoList,
+  "/video/info": videoInfo,
+  "/video/recommend": videoRecommend,
 };

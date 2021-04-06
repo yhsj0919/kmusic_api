@@ -41,4 +41,8 @@ class BaiduRepository {
   Future<dynamic> test() {
     return _doRequest('/song/info', params: {"tsId": 'T10053430210'});
   }
+
+  Future<dynamic> videoList() {
+    return _doRequest('/video/list', params: {});
+  }
 }

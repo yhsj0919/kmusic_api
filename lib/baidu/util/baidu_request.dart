@@ -15,7 +15,7 @@ String paramsSign(String params) {
   return md5.convert(utf8.encode("$params$secret")).toString();
 }
 
-Future<dynamic> request(
+Future<Answer> request(
   String method,
   String url,
   LinkedHashMap data, {
@@ -24,8 +24,7 @@ Future<dynamic> request(
   final headers = {
     "app-version": "v8.2.3.1",
     "from": "android",
-    "user-agent":
-        "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; MI 5 Build/OPR1.170623.032) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
+    "user-agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; MI 5 Build/OPR1.170623.032) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
   };
 
   if (authorization.isNotEmpty) {
@@ -49,13 +48,12 @@ Future<dynamic> request(
   return httpRequest(url, headers, data, method).then((response) async {
     var ans = Answer(cookie: response.cookies);
 
-    final content =
-        await response.cast<List<int>>().transform(utf8.decoder).join();
+    final content = await response.cast<List<int>>().transform(utf8.decoder).join();
+    print(content);
     final body = json.decode(content);
     ans = ans.copy(status: response.statusCode, body: body);
 
-    ans = ans.copy(
-        status: ans.status > 100 && ans.status < 600 ? ans.status : 400);
+    ans = ans.copy(status: ans.status > 100 && ans.status < 600 ? ans.status : 400);
     return ans;
   }).catchError((e, s) {
     debugPrint(e.toString());

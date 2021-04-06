@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> baidu() async {
-    baiduRepository.test().then((value) {
+    baiduRepository.videoList().then((value) {
       print(">>>>>>>>>>>>>>>>>");
       setState(() {
         _platformVersion = value.toString();
