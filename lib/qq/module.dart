@@ -38,5 +38,6 @@ final handles = <String, Handler>{
   "/toplist/info": toplistInfo,
   "/toplist/detail": toplistDetail,
   "/playlist": playlistByTag,
-  "/radio/list": radiolist,
+  "/radio/list": radioList,
+  "/radio/detail": radioDetail,
 };

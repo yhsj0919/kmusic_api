@@ -10,45 +10,87 @@ import 'util/net_request.dart';
 import '../utils/utils.dart';
 
 part 'module/album.dart';
+
 part 'module/artist.dart';
+
 part 'module/banner.dart';
+
 part 'module/batch.dart';
+
 part 'module/calendar.dart';
+
 part 'module/captcha.dart';
+
 part 'module/check_music.dart';
+
 part 'module/comment.dart';
+
 part 'module/countries.dart';
+
 part 'module/daily_signin.dart';
+
 part 'module/digitalAlbum.dart';
+
 part 'module/dj.dart';
+
 part 'module/event.dart';
+
 part 'module/fm.dart';
+
 part 'module/history.dart';
+
 part 'module/homepage.dart';
+
 part 'module/hot.dart';
+
 part 'module/like.dart';
+
+part 'module/listen.dart';
+
 part 'module/login.dart';
+
 part 'module/lyric.dart';
+
 part 'module/msg.dart';
+
 part 'module/mv.dart';
+
 part 'module/personal.dart';
+
 part 'module/playlist.dart';
+
 part 'module/playmode.dart';
+
 part 'module/recommend.dart';
+
 part 'module/register.dart';
+
 part 'module/related.dart';
+
 part 'module/resource_like.dart';
+
 part 'module/scrobble.dart';
+
 part 'module/search.dart';
+
 part 'module/send.dart';
+
 part 'module/setting.dart';
+
 part 'module/share.dart';
+
 part 'module/simi.dart';
+
 part 'module/song.dart';
+
 part 'module/top.dart';
+
 part 'module/user.dart';
+
 part 'module/video.dart';
+
 part 'module/weblog.dart';
+
 part 'module/yunbei.dart';
 
 typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
@@ -151,6 +193,8 @@ final handles = <String, Handler>{
   //喜欢音乐
   "/like": like,
   "/likelist": likelist,
+  //一起听状态
+  "listen/together/status": listenTogetherStatus,
   //登录
   "/login/cellphone": loginCellphone,
   "/login/qr/check": loginQrCheck,
@@ -285,6 +329,7 @@ final handles = <String, Handler>{
   "/user/replacephone": userReplaceCellphone,
   "/user/subcount": userSubcount,
   "/user/update": userUpdate,
+  "/user/comment/history": userCommentHistory,
   //视频
   "/video/detail/info": videoDetailInfo,
   "/video/detail": videoDetail,

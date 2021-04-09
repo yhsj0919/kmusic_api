@@ -33,8 +33,7 @@ Handler userBindingCellphone = (query, cookie) {
     'phone': query['phone'],
     'countrycode': query['countrycode'] ?? '86',
     'captcha': query['captcha'],
-    'password':
-        Encrypted(md5.convert(utf8.encode(query['password'])).bytes).base16,
+    'password': Encrypted(md5.convert(utf8.encode(query['password'])).bytes).base16,
   };
 
   return request(
@@ -144,12 +143,7 @@ Handler userEvent = (query, cookie) {
   return request(
     'POST',
     'https://music.163.com/api/event/get/${query['uid']}',
-    {
-      'getcounts': true,
-      'limit': query['limit'] ?? 30,
-      'time': query['lasttime'] ?? -1,
-      'total': false
-    },
+    {'getcounts': true, 'limit': query['limit'] ?? 30, 'time': query['lasttime'] ?? -1, 'total': false},
     crypto: Crypto.weapi,
     cookies: cookie,
   );
@@ -190,11 +184,7 @@ Handler userFollows = (query, cookie) {
   return request(
     'POST',
     'https://music.163.com/weapi/user/getfollows/${query["uid"]}',
-    {
-      'limit': query['limit'] ?? 30,
-      'offset': query['offset'] ?? 0,
-      'order': true
-    },
+    {'limit': query['limit'] ?? 30, 'offset': query['offset'] ?? 0, 'order': true},
     crypto: Crypto.weapi,
     cookies: cookie,
   );
@@ -283,6 +273,25 @@ Handler userUpdate = (query, cookie) {
       'nickname': query['nickname'],
       'province': query['province'],
       'signature': query['signature']
+    },
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
+
+// 用户评论历史
+Handler userCommentHistory = (query, cookie) {
+  cookie.add(Cookie("os", "ios"));
+  cookie.add(Cookie("appver", "8.1.20"));
+  return request(
+    'POST',
+    'https://music.163.com/api/comment/user/comment/history',
+    {
+      'compose_reminder': "true",
+      'compose_hot_comment': "true",
+      'limit': query['limit'] ?? 10,
+      'user_id': query['uid'],
+      'time': query['time'] ?? 0,
     },
     crypto: Crypto.weapi,
     cookies: cookie,

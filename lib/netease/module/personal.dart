@@ -35,6 +35,7 @@ Handler personalizedMv = (query, cookie) {
 
 // 推荐新歌
 Handler personalizedNewsong = (query, cookie) {
+  cookie.add(Cookie("os", "pc"));
   final data = {
     'type': 'recommend',
     'limit': query['limit'] ?? 10,
@@ -42,7 +43,7 @@ Handler personalizedNewsong = (query, cookie) {
   };
   return request(
     'POST',
-    'https://music.163.com/weapi/personalized/newsong',
+    'https://music.163.com/api/personalized/newsong',
     data,
     crypto: Crypto.weapi,
     cookies: cookie,

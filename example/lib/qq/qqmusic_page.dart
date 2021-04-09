@@ -42,7 +42,7 @@ class _QQMusicPageState extends State<QQMusicPage> with AutomaticKeepAliveClient
               ListTile(
                 title: Text('电台列表'),
                 onTap: () {
-                  qqRepository.radiolist().then(onData).catchError(onError);
+                  qqRepository.radioList().then(onData).catchError(onError);
                 },
               ),
             ],

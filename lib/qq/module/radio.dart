@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 电台列表
  */
-Handler radiolist = (Map query, cookie) {
+Handler radioList = (Map query, cookie) {
   final data = {
     "format": 'json',
   };
