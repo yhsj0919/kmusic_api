@@ -8,13 +8,13 @@ part of '../module.dart';
 */
 Handler search = (Map query, auth) {
   final data = LinkedHashMap();
-  if (query['type'] == 0) {
+  if (query['type'] != 0) {
+    data['pageNo'] = query['page'] ?? 1;
+    data['pageSize'] = query['size'] ?? 20;
     data['timestamp'] = DateTime.now().millisecondsSinceEpoch;
     data['type'] = query['type'];
     data['word'] = query['word'];
   } else {
-    data['pageNo'] = query['page'];
-    data['pageSize'] = query['size'];
     data['timestamp'] = DateTime.now().millisecondsSinceEpoch;
     data['type'] = query['type'];
     data['word'] = query['word'];

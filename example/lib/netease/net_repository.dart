@@ -53,6 +53,7 @@ class NetRepository {
     } else if (map['code'] == _NEED_LOGIN) {
       return Future.error('需要登陆才能访问哦~');
     } else if (map['code'] != _SUCCESS) {
+      print(map.toString());
       return Future.error(map['msg'] ?? '请求失败了~');
     }
     return Future.value(map);
@@ -65,8 +66,7 @@ class NetRepository {
 
   ///手机号登录
   Future<dynamic> loginByPhone(String phone, String pwd) async {
-    return _doRequest('/login/cellphone',
-        params: {'phone': phone, 'password': pwd});
+    return _doRequest('/login/cellphone', params: {'phone': phone, 'password': pwd});
   }
 
   Future<dynamic> login(String email, String pwd) async {
@@ -93,8 +93,7 @@ class NetRepository {
 
   ///创建歌单
   Future<dynamic> createPlaylist(String name, bool isPrivate) {
-    return _doRequest('/playlist/create',
-        params: {'name': name, if (isPrivate) 'privacy': 10});
+    return _doRequest('/playlist/create', params: {'name': name, if (isPrivate) 'privacy': 10});
   }
 
   ///删除歌单

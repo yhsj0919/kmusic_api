@@ -45,4 +45,8 @@ class BaiduRepository {
   Future<dynamic> videoList() {
     return _doRequest('/video/list', params: {});
   }
+
+  Future<dynamic> search() {
+    return _doRequest('/search', params: {'word':'薛之谦','type':'1'});
+  }
 }
