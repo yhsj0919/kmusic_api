@@ -5,6 +5,8 @@ import 'package:kmusic_api/utils/answer.dart';
 
 part 'module/album.dart';
 
+part 'module/home.dart';
+
 part 'module/mv.dart';
 
 part 'module/playlist.dart';
@@ -20,6 +22,7 @@ part 'module/toplist.dart';
 typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
 
 final handles = <String, Handler>{
+  "/home": home,
   "/singer/list": singerList,
   "/singer/info": singerInfo,
   "/singer/song": singerSong,
@@ -33,6 +36,7 @@ final handles = <String, Handler>{
   "/song/download": songDownload,
   "/song/playList": songPlayList,
   "/song/comment": songComment,
+  "/mv/rec": mvRec,
   "/mv/info": mvInfo,
   "/mv/url": mvUrl,
   "/toplist/info": toplistInfo,

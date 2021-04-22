@@ -40,13 +40,35 @@ class _QQMusicPageState extends State<QQMusicPage> with AutomaticKeepAliveClient
             shrinkWrap: true,
             children: [
               ListTile(
+                title: Text('首页'),
+                onTap: () {
+                  qqRepository.home().then(onData).catchError(onError);
+                },
+              ),
+            ],
+          ),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              ListTile(
                 title: Text('电台列表'),
                 onTap: () {
                   qqRepository.radioList().then(onData).catchError(onError);
                 },
               ),
             ],
-          )
+          ),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                title: Text('MV推荐'),
+                onTap: () {
+                  qqRepository.mvRec().then(onData).catchError(onError);
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

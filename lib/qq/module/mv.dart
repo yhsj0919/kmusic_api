@@ -1,6 +1,44 @@
 part of '../module.dart';
 
 /*
+ * MV推荐
+ */
+Handler mvRec = (Map query, cookie) {
+  final page = query['page'] ?? 1;
+  final size = query['size'] ?? 20;
+  final sin = (page - 1) * size;
+
+  final data = {
+    "data": json.encode({
+      "rec": {"module": "MvService.MvInfoProServer", "method": "GetRecMv", "param": {}},
+      "new": {
+        "module": "MvService.MvInfoProServer",
+        "method": "GetNewMv",
+        "param": {"style": 1, "tag": 0, "size": 10, "start": 0}
+      },
+      "hot": {
+        "module": "MvService.MvInfoProServer",
+        "method": "GetHotMv",
+        "param": {"style": 1, "tag": 16, "size": 10, "start": 0}
+      },
+      "collection": {"module": "video.VideoLogicServer", "method": "get_video_collection_main", "param": {}},
+      "discovery": {
+        "module": "video.VideoDiscoveryServer",
+        "method": "get_discovery_video",
+        "param": {"page": 1}
+      },
+      "comm": {"g_tk": 5381, "uin": 0, "format": "json", "ct": 20, "cv": 1807, "platform": "wk_v17"}
+    })
+  };
+  return request(
+    'GET',
+    "https://u.y.qq.com/cgi-bin/musicu.fcg",
+    data,
+    cookies: cookie,
+  );
+};
+
+/*
  * 全部MV
  * order 1，最新，0最热
  */

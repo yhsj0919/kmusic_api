@@ -130,4 +130,11 @@ class QQRepository {
   Future<dynamic> radioList() {
     return _doRequest('/radio/list', params: {});
   }
+  Future<dynamic> home() {
+    return _doRequest('/home', params: {});
+  }
+
+  Future<dynamic> mvRec() {
+    return _doRequest('/mv/rec', params: {});
+  }
 }
