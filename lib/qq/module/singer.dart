@@ -30,7 +30,7 @@ Handler singerList = (Map query, cookie) {
 */
 Handler singerInfo = (Map query, cookie) {
   final data = {
-    'singermid': query['singermid'],
+    'singermid': query['singerMid'],
     'utf8': 1,
     'outCharset': 'utf-8',
     'format': 'xml',
@@ -55,7 +55,7 @@ Handler singerSong = (Map query, cookie) {
       "singerSongList": {
         "module": "musichall.song_list_server",
         "method": "GetSingerSongList",
-        "param": {"order": 1, "singerMid": query["singermid"], "begin": (query['page'] - 1) * 20, "num": 20}
+        "param": {"order": 1, "singerMid": query["singerMid"], "begin": (query['page'] - 1) * 20, "num": 20}
       }
     })
   };
@@ -78,12 +78,12 @@ Handler singerAlbum = (Map query, cookie) {
         "method": "GetAlbumList",
         "module": "music.musichallAlbum.AlbumListServer",
         "param": {
-          "singerMid": query["singermid"],
+          "singerMid": query["singerMid"],
           "order": 0,
           "begin": ((query['page'] ?? 1) - 1) * 20,
           "num": 20,
           "songNumTag": 0,
-          "singerID": query['singerid'] ?? 0,
+          "singerID": query['singerId'] ?? 0,
         }
       }
     })
@@ -104,7 +104,7 @@ Handler singerMV = (Map query, cookie) {
     'format': 'json',
     'platform': 'yqq.json',
     'needNewCode': 0,
-    'singermid': query['singermid'],
+    'singermid': query['singerMid'],
     'outCharset': 'utf-8',
     'order': 'listen', //listen,time两种排序
     "begin": ((query['page'] ?? 1) - 1) * 20,
@@ -131,9 +131,9 @@ Handler singerSimilarSinger = (Map query, cookie) {
         "method": "GetSimilarSingerList",
         "module": "music.SimilarSingerSvr",
         "param": {
-          "singerMid": query["singermid"],
+          "singerMid": query["singerMid"],
           "num": 5,
-          "singerId": query['singerid'] ?? 0,
+          "singerId": query['singerId'] ?? 0,
         }
       }
     })

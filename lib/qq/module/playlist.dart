@@ -90,7 +90,7 @@ Handler playlistDetail = (Map query, cookie) {
         "module": "srf_diss_info.DissInfoServer",
         "method": "CgiGetDiss",
         "param": {
-          "disstid": 3584864556,
+          "disstid": query['disstid'],
           "userinfo": 1,
           "tag": 1,
         }

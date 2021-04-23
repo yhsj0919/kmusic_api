@@ -35,7 +35,7 @@ Handler radioDetail = (Map query, cookie) {
       "songlist": {
         "module": "pf.radiosvr",
         "method": "GetRadiosonglist",
-        "param": {"id": 199, "firstplay": 1, "num": 10}
+        "param": {"id": query['id'], "firstplay": 1, "num": 10}
       },
       "radiolist": {
         "module": "pf.radiosvr",

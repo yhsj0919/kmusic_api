@@ -77,7 +77,7 @@ Handler mvInfo = (Map query, cookie) {
         "module": "video.VideoDataServer",
         "method": "get_video_info_batch",
         "param": {
-          "vidlist": ["w0026q7f01a"],
+          "vidlist": [query['vid']],
           "required": [
             "vid",
             "type",
@@ -100,7 +100,7 @@ Handler mvInfo = (Map query, cookie) {
         "module": "video.VideoLogicServer",
         "method": "rec_video_byvid",
         "param": {
-          "vid": "w0026q7f01a",
+          "vid": query['vid'],
           "required": [
             "vid",
             "type",
@@ -146,7 +146,7 @@ Handler mvUrl = (Map query, cookie) {
         "module": "gosrf.Stream.MvUrlProxy",
         "method": "GetMvUrls",
         "param": {
-          "vids": ["w0026q7f01a"],
+          "vids": [query['vid']],
           "request_typet": 10001,
           "addrtype": 3,
           "format": 264

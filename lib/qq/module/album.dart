@@ -30,7 +30,7 @@ Handler newAlbum = (Map query, cookie) {
     cookies: cookie,
   );
 };
-
+///专辑歌曲列表
 Handler albumSongList = (Map query, cookie) {
   final num = query['num'] ?? 20;
   final page = query['page'] ?? 1;
@@ -42,7 +42,7 @@ Handler albumSongList = (Map query, cookie) {
       "albumSonglist": {
         "method": "GetAlbumSongList",
         "param": {
-          "albumMid": "002U17Aa0K2dUD",
+          "albumMid": query["albumMid"],
           "albumID": 0,
           "begin": start,
           "num": num,
@@ -59,7 +59,7 @@ Handler albumSongList = (Map query, cookie) {
     cookies: cookie,
   );
 };
-
+///专辑信息
 Handler albumInfo = (Map query, cookie) {
   final num = query['num'] ?? 60;
   final page = query['page'] ?? 1;
@@ -72,7 +72,7 @@ Handler albumInfo = (Map query, cookie) {
         "module": "music.musichallAlbum.OtherAlbumList",
         "method": "OtherAlbumList",
         "param": {
-          "albumMid": "002U17Aa0K2dUD",
+          "albumMid": query["albumMid"],
           "order": 0,
           "num": 6
         }
@@ -82,7 +82,7 @@ Handler albumInfo = (Map query, cookie) {
         "module": "music.musichallAlbum.AlbumInfoServer",
         "method": "GetAlbumDetail",
         "param": {
-          "albumMid": "002U17Aa0K2dUD"
+          "albumMid": query["albumMid"]
         }
       },
       //专辑歌曲
@@ -90,7 +90,7 @@ Handler albumInfo = (Map query, cookie) {
         "module": "music.musichallAlbum.AlbumSongList",
         "method": "GetAlbumSongList",
         "param": {
-          "albumMid": "002U17Aa0K2dUD",
+          "albumMid": query["albumMid"],
           "begin": start,
           "num": num,
           "order": 2
@@ -101,13 +101,13 @@ Handler albumInfo = (Map query, cookie) {
         "module": "music.musicasset.AlbumFavRead",
         "method": "IsAlbumFan",
         "param": {
-          "v_albumMid": ["002U17Aa0K2dUD"]
+          "v_albumMid": [query["albumMid"]]
         }
       },
       "req_4": {
         "method": "QueryAlbumDetail",
         "param": {
-          "albummid": "002U17Aa0K2dUD"
+          "albummid": query["albumMid"]
         },
         "module": "mall.MusicMallSvr"
       },

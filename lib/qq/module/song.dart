@@ -12,7 +12,7 @@ Handler songInfo = (Map query, cookie) {
         "method": "get_song_detail_yqq",
         "param": {
           "song_type": 0,
-          "song_mid": query['singermid'],
+          "song_mid": query['singerMid'],
           "song_id": 97773,
         }
       }
@@ -34,7 +34,7 @@ Handler songLyric = (Map query, cookie) {
   final data = {
     "nobase64": 1,
     "format": 'json',
-    "musicid": query['songid'],
+    "musicid": query['songId'],
   };
   return request(
     'GET',
@@ -52,7 +52,7 @@ Handler songLyricNew = (Map query, cookie) {
   final data = {
     "nobase64": 1, //是否base64显示
     "format": 'json',
-    "musicid": query['songid'],
+    "musicid": query['songId'],
   };
   return request(
     'GET',
@@ -73,7 +73,7 @@ Handler songMv = (Map query, cookie) {
         "module": "MvService.MvInfoProServer",
         "method": "GetMvBySongid",
         "param": {
-          "mids": ["${query['songmid']}"],
+          "mids": ["${query['songMid']}"],
         }
       }
     })
@@ -98,7 +98,7 @@ Handler songPlayList = (Map query, cookie) {
         "module": "music.mb_gedan_recommend_svr",
         "method": "get_related_gedan",
         "param": {
-          "song_id": query['songid'],
+          "song_id": query['songId'],
           "song_type": 1,
           "sin": 0,
           "last_id": 0,
@@ -121,11 +121,11 @@ Handler songPlayList = (Map query, cookie) {
 Handler songComment = (Map query, cookie) {
   final data = {
     "biztype": 1,
-    "topid": query['songid'],
+    "topid": query['songId'],
     "cmd": 8,
     "pagenum": query['page'] ?? 0,
     "pagesize": 25,
-    "lasthotcommentid": query['lasthotcommentid'] ?? '',
+    "lasthotcommentid": query['lastHotCommentId'] ?? '',
     "domain": 'qq.com',
   };
   return request(
@@ -153,7 +153,7 @@ Handler songListen = (Map query, cookie) {
         "module": "vkey.GetVkeyServer",
         "param": {
           "guid": "3982823384",
-          "songmid": ["002usg9o4GTAKf"],
+          "songmid":["${query["songMid"]}"],
           "songtype": [0],
           "uin": "0",
           "loginflag": 1,
@@ -170,11 +170,9 @@ Handler songListen = (Map query, cookie) {
           "guid": "3982823384",
           "filename": [
             //file下media_mid
-            "RS02004I6V6C3OjmqV.mp3",
+            "${query["mediaMid"]}.mp3",
           ],
-          "songmid": [
-            "002usg9o4GTAKf",
-          ],
+          "songmid":["${query["songMid"]}"],
           "songtype": [
             1,
           ],
@@ -223,9 +221,9 @@ Handler songDownload = (Map query, cookie) {
           //M5000低品质
           //M8000高品质
           //只支持非会员下载的歌曲
-          "filename": ["M500002202B43Cq4V4.mp3"],
+          "filename": ["${query["mediaMid"]}.mp3"],
           "guid": "BAA33EB707EDB4E5998AC716FC667CE5",
-          "songmid": ["0039MnYb0qxYhV"],
+          "songmid": ["${query["songMid"]}"],
           "songtype": [1],
           "uin": "0"
         }
