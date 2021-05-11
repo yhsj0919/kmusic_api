@@ -13,6 +13,8 @@ part 'module/playlist.dart';
 
 part 'module/radio.dart';
 
+part 'module/search.dart';
+
 part 'module/singer.dart';
 
 part 'module/song.dart';
@@ -22,6 +24,9 @@ part 'module/toplist.dart';
 typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
 
 final handles = <String, Handler>{
+  "/album/new": newAlbum,
+  "/album/song/list": albumSongList,
+  "/album/info": albumInfo,
   "/home": home,
   "/singer/list": singerList,
   "/singer/info": singerInfo,
@@ -44,4 +49,6 @@ final handles = <String, Handler>{
   "/playlist": playlistByTag,
   "/radio/list": radioList,
   "/radio/detail": radioDetail,
+  "/search/suggest": searchSuggest,
+  "/search": search
 };

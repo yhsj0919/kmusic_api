@@ -1,7 +1,7 @@
 part of '../module.dart';
 
 // 默认搜索关键词
-Handler searchDefaultkeyword = (query, cookie) {
+Handler searchDefaultKeyword = (query, cookie) {
   return eapiRequest(
     'https://interface3.music.163.com/eapi/search/defaultkeyword/get',
     '/api/search/defaultkeyword/get',

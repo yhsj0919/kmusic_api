@@ -268,7 +268,7 @@ final handles = <String, Handler>{
   "/resource/like": resourceLike,
   "/scrobble": scrobble,
   //搜索
-  "/search/default": searchDefaultkeyword,
+  "/search/default": searchDefaultKeyword,
   "/search/hot/detail": searchHotDetail,
   "/search/hot": searchHot,
   "/search/multimatch": searchMultimatch,

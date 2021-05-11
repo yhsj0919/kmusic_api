@@ -110,7 +110,7 @@ class _ServerPageState extends State<ServerPage> with AutomaticKeepAliveClientMi
         return const Answer();
       });
     } else {
-      answer = Answer().copy(body: {'code': 500, 'msg': '仅支持“/netease”、“/baidu”、“qq”开头的接口'});
+      answer = Answer().copy(body: {'code': 500, 'msg': '仅支持“/netease”、“/baidu”、“/qq”开头的接口'});
     }
 
     request.response.statusCode = answer.status;

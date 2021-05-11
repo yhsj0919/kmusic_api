@@ -138,6 +138,7 @@ Handler songComment = (Map query, cookie) {
 
 /*
  * 暂时只能获取非VIP的，req/freeflowsip+req_0/midurlinfo
+ * https://res.wx.qq.com/voice/getvoice?mediaid=MzI3NjYzODY0Nl8xMDAwMDAyMDI=
  */
 Handler songListen = (Map query, cookie) {
   final data = {
@@ -153,7 +154,7 @@ Handler songListen = (Map query, cookie) {
         "module": "vkey.GetVkeyServer",
         "param": {
           "guid": "3982823384",
-          "songmid":["${query["songMid"]}"],
+          "songmid": ["${query["songMid"]}"],
           "songtype": [0],
           "uin": "0",
           "loginflag": 1,
@@ -172,7 +173,7 @@ Handler songListen = (Map query, cookie) {
             //file下media_mid
             "${query["mediaMid"]}.mp3",
           ],
-          "songmid":["${query["songMid"]}"],
+          "songmid": ["${query["songMid"]}"],
           "songtype": [
             1,
           ],

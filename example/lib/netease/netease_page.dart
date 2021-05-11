@@ -50,7 +50,8 @@ class _NetEasePageState extends State<NetEasePage> with AutomaticKeepAliveClient
                 onTap: () {
                   netEase.loginStatus().then(onData).catchError(onError);
                 },
-              ),  ListTile(
+              ),
+              ListTile(
                 title: Text('歌曲地址'),
                 onTap: () {
                   netEase.songurl('1498342485').then(onData).catchError(onError);

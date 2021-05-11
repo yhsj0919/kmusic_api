@@ -112,3 +112,38 @@ Handler playlistDetail = (Map query, cookie) {
     cookies: cookie,
   );
 };
+
+/*
+ *歌单所有分类
+ */
+Handler playlistTag = (Map query, cookie) {
+  final page = query['page'] ?? 1;
+  final size = query['size'] ?? 60;
+  final sin = (page - 1) * size;
+
+  final data = {
+    "data": json.encode({
+      "req_0": {
+        "method": "get_all_categories",
+        "param": {
+          "qq": ""
+        },
+        "module": "playlist.PlaylistAllCategoriesServer"
+      },
+      "comm": {
+        "g_tk": 5381,
+        "uin": 0,
+        "format": "json",
+        "ct": 20,
+        "cv": 1807,
+        "platform": "wk_v17"
+      }
+    })
+  };
+  return request(
+    'GET',
+    "https://u.y.qq.com/cgi-bin/musicu.fcg",
+    data,
+    cookies: cookie,
+  );
+};

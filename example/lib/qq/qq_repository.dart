@@ -94,6 +94,7 @@ class QQRepository {
   Future<dynamic> songMv() {
     return _doRequest('/song/mv', params: {"songmid": "0039MnYb0qxYhV"});
   }
+
   Future<dynamic> songListen() {
     return _doRequest('/song/listen', params: {"songmid": "0039MnYb0qxYhV"});
   }
@@ -113,6 +114,7 @@ class QQRepository {
   Future<dynamic> mvInfo() {
     return _doRequest('/mv/info', params: {"songid": 97773});
   }
+
   Future<dynamic> mvUrl() {
     return _doRequest('/mv/url', params: {"songid": 97773});
   }
@@ -120,6 +122,7 @@ class QQRepository {
   Future<dynamic> toplistInfo() {
     return _doRequest('/toplist/info', params: {"songid": 97773});
   }
+
   Future<dynamic> toplistDetail() {
     return _doRequest('/toplist/detail', params: {"songid": 97773});
   }
@@ -127,14 +130,24 @@ class QQRepository {
   Future<dynamic> playlist() {
     return _doRequest('/playlist', params: {"songid": 97773});
   }
+
   Future<dynamic> radioList() {
     return _doRequest('/radio/list', params: {});
   }
+
   Future<dynamic> home() {
     return _doRequest('/home', params: {});
   }
 
   Future<dynamic> mvRec() {
     return _doRequest('/mv/rec', params: {});
+  }
+
+  Future<dynamic> searchSuggest() {
+    return _doRequest('/search/suggest', params: {"key": "周杰伦"});
+  }
+
+  Future<dynamic> search() {
+    return _doRequest('/search', params: {"key": "周杰伦", "type": 0});
   }
 }
