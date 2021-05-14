@@ -52,7 +52,7 @@ Future<Answer> request(
 }) {
   final headers = _buildHeader(url, ua, method, cookies);
 
-  if (method == "GET") {
+  if (method == "GET" && data.isNotEmpty) {
     url = url + "?${toParamsString(data)}";
     data = {};
   }
@@ -61,7 +61,7 @@ Future<Answer> request(
     var ans = Answer(cookie: response.cookies);
 
     final content = await response.cast<List<int>>().transform(utf8.decoder).join();
-    print('\n'+content);
+    print('\n' + content);
 
     var body = {};
     if (contentType == 'json') {

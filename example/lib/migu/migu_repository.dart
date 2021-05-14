@@ -50,7 +50,8 @@ class MiGuRepository {
     final map = answer.body;
     if (map == null) {
       return Future.error('请求失败了');
-    } /*else if (map['errmsg'].toString().contains('请登陆')) {
+    }
+    /*else if (map['errmsg'].toString().contains('请登陆')) {
       return Future.error('需要登陆才能访问哦~');
     } else if (map['data'] != null) {
       return Future.error(map['errmsg'] ?? '请求失败了~');
@@ -60,5 +61,52 @@ class MiGuRepository {
 
   Future<dynamic> album() {
     return _doRequest('/album', params: {});
+  }
+
+  Future<dynamic> playListHotTag() {
+    return _doRequest('/playList/hotTag', params: {});
+  }
+
+  Future<dynamic> playListRec() {
+    return _doRequest('/playList/rec', params: {});
+  }
+
+  Future<dynamic> playListPlayNum() {
+    return _doRequest('/playList/playNum', params: {
+      'contentIds': ["196764163", "193392029"],
+      'contentType': ["2021", "2021"],
+    });
+  }
+
+  Future<dynamic> playList() {
+    return _doRequest('/playList', params: {
+      'page': '1',
+      'tagId': '1003449727',
+    });
+  }
+
+  Future<dynamic> playListTagList() {
+    return _doRequest('/playList/tagList', params: {});
+  }
+
+  Future<dynamic> playListInfo() {
+    return _doRequest('/playList/info', params: {
+      'id': '181694965',
+      'type': '2021',
+    });
+  }
+
+  Future<dynamic> playListSong() {
+    return _doRequest('/playList/song', params: {
+      'id': '181694965',
+    });
+  }
+
+  Future<dynamic> playUrl() {
+    return _doRequest('/song/url', params: {
+      // 'albumId': '1002508351',
+      'songId': '1002508489',
+      'toneFlag': 'PQ',
+    });
   }
 }

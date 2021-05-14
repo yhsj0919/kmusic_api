@@ -37,16 +37,57 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
               child: Text(result, style: TextStyle(fontSize: 16)),
             ),
           ),
-          ListView(
-            shrinkWrap: true,
-            children: [
-              ListTile(
-                title: Text('新碟上架'),
-                onTap: () {
-                  miguRepository.album().then(onData).catchError(onError);
-                },
-              ),
-            ],
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  title: Text('新碟上架'),
+                  onTap: () {
+                    miguRepository.album().then(onData).catchError(onError);
+                  },
+                ),
+                ListTile(
+                    title: Text('歌单热门标签'),
+                    onTap: () {
+                      miguRepository.playListHotTag().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('歌单热门推荐(歌单最顶上的几个)'),
+                    onTap: () {
+                      miguRepository.playListRec().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('歌单播放量'),
+                    onTap: () {
+                      miguRepository.playListPlayNum().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('歌单(根据标签ID获取)'),
+                    onTap: () {
+                      miguRepository.playList().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('歌单标签'),
+                    onTap: () {
+                      miguRepository.playListTagList().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('歌单信息'),
+                    onTap: () {
+                      miguRepository.playListInfo().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('歌单歌曲'),
+                    onTap: () {
+                      miguRepository.playListSong().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('播放地址'),
+                    onTap: () {
+                      miguRepository.playUrl().then(onData).catchError(onError);
+                    }),
+              ],
+            ),
           ),
         ],
       ),

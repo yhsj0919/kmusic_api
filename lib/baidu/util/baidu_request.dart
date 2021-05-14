@@ -39,7 +39,7 @@ Future<Answer> request(
   if (method == "POST") {
     url = "$url?sign=$sign&timestamp=$timestamp";
   }
-  if (method == "GET") {
+  if (method == "GET" && data.isNotEmpty) {
     data["sign"] = sign;
     url = url + "?${toParamsString(data)}";
     data = LinkedHashMap();

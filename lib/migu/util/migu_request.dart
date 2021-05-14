@@ -39,7 +39,7 @@ String _chooseUserAgent({String ua}) {
   } else {
     index = (r.nextDouble() * (userAgentList.length - 1)).floor();
   }
-  return  userAgentList[index];
+  return userAgentList[index];
 }
 
 Future<Answer> request(
@@ -52,7 +52,7 @@ Future<Answer> request(
 }) {
   final headers = _buildHeader(url, ua, method, cookies);
 
-  if (method == "GET") {
+  if (method == "GET" && data.isNotEmpty) {
     url = url + "?${toParamsString(data)}";
     data = {};
   }
@@ -61,7 +61,7 @@ Future<Answer> request(
     var ans = Answer(cookie: response.cookies);
 
     final content = await response.cast<List<int>>().transform(utf8.decoder).join();
-    print('\n'+content);
+    print('\n' + content);
 
     var body = {};
     if (contentType == 'json') {
@@ -94,6 +94,10 @@ Map<String, String> _buildHeader(String url, String ua, String method, List<Cook
   if (url.contains('m.music.migu.cn')) {
     headers['Referer'] = 'https://m.music.migu.cn/';
   }
+  if (url.contains('app.c.nf.migu.cn')) {
+    headers['Referer'] = 'https://app.c.nf.migu.cn/';
+  }
+  headers['channel'] = '0146921';
   headers['Cookie'] = cookies.join("; ");
   return headers;
 }

@@ -14,6 +14,6 @@ Handler album = (Map query, cookie) {
     'GET',
     "http://m.music.migu.cn/migu/remoting/cms_list_tag",
     data,
-    cookies: [],
+    cookies: cookie,
   );
 };
