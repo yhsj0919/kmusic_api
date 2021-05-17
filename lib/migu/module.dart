@@ -7,7 +7,11 @@ part 'module/album.dart';
 
 part 'module/playList.dart';
 
+part 'module/singer.dart';
+
 part 'module/song.dart';
+
+part 'module/topList.dart';
 
 typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
 
@@ -21,4 +25,6 @@ final handles = <String, Handler>{
   "/playList/info": playListInfo,
   "/playList/song": playListSong,
   "/song/url": playUrl,
+  "/topList": topList,
+  "/topList/detail": topListDetail,
 };

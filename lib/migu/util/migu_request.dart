@@ -98,6 +98,14 @@ Map<String, String> _buildHeader(String url, String ua, String method, List<Cook
     headers['Referer'] = 'https://app.c.nf.migu.cn/';
   }
   headers['channel'] = '0146921';
+
+  // headers['signVersion'] = 'V004';
+  // headers['sign'] = '704DD435119DDCA8512D25FEA92E1BF1';
+  // headers['timestamp'] = '${DateTime.now().millisecondsSinceEpoch}';
+  // headers['ua'] = 'Android_migu';
+  // headers['aversionid'] = 'DFDFD08F97A8A28B6291899D89819872999CD0D399A1AA8C69C48FD1B87C9872C6C8B88FDDECEE896893889D848198739C9C888F';
+
+
   headers['Cookie'] = cookies.join("; ");
   return headers;
 }

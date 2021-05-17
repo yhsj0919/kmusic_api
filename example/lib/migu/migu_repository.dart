@@ -109,4 +109,12 @@ class MiGuRepository {
       'toneFlag': 'PQ',
     });
   }
+
+  Future<dynamic> topList() {
+    return _doRequest('/topList', params: {});
+  }
+
+  Future<dynamic> topListDetail() {
+    return _doRequest('/topList/detail', params: {});
+  }
 }

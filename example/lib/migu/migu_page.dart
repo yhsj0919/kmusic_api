@@ -7,7 +7,8 @@ class MiGuPage extends StatefulWidget {
   _MiGuPageState createState() => _MiGuPageState();
 }
 
-class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin {
+class _MiGuPageState extends State<MiGuPage>
+    with AutomaticKeepAliveClientMixin {
   MiGuRepository miguRepository;
   String result = "";
 
@@ -49,42 +50,76 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                 ListTile(
                     title: Text('歌单热门标签'),
                     onTap: () {
-                      miguRepository.playListHotTag().then(onData).catchError(onError);
+                      miguRepository
+                          .playListHotTag()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单热门推荐(歌单最顶上的几个)'),
                     onTap: () {
-                      miguRepository.playListRec().then(onData).catchError(onError);
+                      miguRepository
+                          .playListRec()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单播放量'),
                     onTap: () {
-                      miguRepository.playListPlayNum().then(onData).catchError(onError);
+                      miguRepository
+                          .playListPlayNum()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单(根据标签ID获取)'),
                     onTap: () {
-                      miguRepository.playList().then(onData).catchError(onError);
+                      miguRepository
+                          .playList()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单标签'),
                     onTap: () {
-                      miguRepository.playListTagList().then(onData).catchError(onError);
+                      miguRepository
+                          .playListTagList()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单信息'),
                     onTap: () {
-                      miguRepository.playListInfo().then(onData).catchError(onError);
+                      miguRepository
+                          .playListInfo()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单歌曲'),
                     onTap: () {
-                      miguRepository.playListSong().then(onData).catchError(onError);
+                      miguRepository
+                          .playListSong()
+                          .then(onData)
+                          .catchError(onError);
                     }),
                 ListTile(
                     title: Text('播放地址'),
                     onTap: () {
                       miguRepository.playUrl().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('榜单'),
+                    onTap: () {
+                      miguRepository.topList().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('榜单详情'),
+                    onTap: () {
+                      miguRepository
+                          .topListDetail()
+                          .then(onData)
+                          .catchError(onError);
                     }),
               ],
             ),
