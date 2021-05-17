@@ -39,7 +39,7 @@ Map linuxApi(Map obj) {
   final text = json.encode(obj);
   return {
     "eparams":
-        _aesEncrypt(text, AESMode.ecb, _linuxApiKey, null).base16.toUpperCase()
+        _aesEncrypt(text, AESMode.ecb, _linuxApiKey, IV.fromLength(16)).base16.toUpperCase()
   };
 }
 
@@ -51,7 +51,7 @@ Map eapi(String url, Map obj) {
   final data = '$url-36cd479b6b5-$text-36cd479b6b5-$digest';
   return {
     'params':
-        _aesEncrypt(data, AESMode.ecb, _eapiKey, null).base16.toUpperCase()
+        _aesEncrypt(data, AESMode.ecb, _eapiKey, IV.fromLength(16)).base16.toUpperCase()
   };
 }
 
