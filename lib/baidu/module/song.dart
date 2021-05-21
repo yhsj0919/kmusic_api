@@ -27,6 +27,7 @@ Handler songInfo = (Map query, auth) {
     "https://api-qianqian.taihe.com/v1/song/tracklink",
     LinkedHashMap.of({
       "TSID": query['tsId'],
+      "appid": '16073360',
       "rate": query['rate'] ?? 320,
     }),
     authorization: auth,
@@ -43,6 +44,7 @@ Handler songDownload = (Map query, auth) {
     "https://api-qianqian.taihe.com/v1/song/download",
     LinkedHashMap.of({
       "TSID": query['tsId'],
+      "appid": '16073360',
       "rate": query['rate'] ?? 320,
     }),
     authorization: auth,

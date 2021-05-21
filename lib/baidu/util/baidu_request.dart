@@ -22,7 +22,7 @@ Future<Answer> request(
   String authorization = '',
 }) async {
   final headers = {
-    "app-version": "v8.2.3.1",
+    "app-version": "v8.2.3.3",
     "from": "android",
     "user-agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; MI 5 Build/OPR1.170623.032) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
   };
@@ -31,21 +31,33 @@ Future<Answer> request(
     headers["authorization"] = "/access_token $authorization";
   }
 
-  var timestamp = DateTime.now().millisecondsSinceEpoch;
-  data["timestamp"] = "$timestamp";
+  var params = LinkedHashMap();
+  if (!data.containsKey("appid")) {
+    params['appid'] = '16073360';
+  }else{
+    data['appid'] = '16073360';
+  }
 
-  var sign = paramsSign(toParamsString(data));
+  data.forEach((key, value) {
+    params[key] = value;
+  });
+
+  var timestamp = DateTime.now().millisecondsSinceEpoch;
+  params["timestamp"] = "$timestamp";
+
+  var sign = paramsSign(toParamsString(params));
 
   if (method == "POST") {
     url = "$url?sign=$sign&timestamp=$timestamp";
   }
-  if (method == "GET" && data.isNotEmpty) {
-    data["sign"] = sign;
-    url = url + "?${toParamsString(data)}";
+  if (method == "GET" && params.isNotEmpty) {
+    params["sign"] = sign;
+    url = url + "?${toParamsString(params)}";
+    params = LinkedHashMap();
     data = LinkedHashMap();
   }
 
-  return httpRequest(url, headers, data, method).then((response) async {
+  return httpRequest(url, headers, params, method).then((response) async {
     var ans = Answer(cookie: response.cookies);
 
     final content = await response.cast<List<int>>().transform(utf8.decoder).join();

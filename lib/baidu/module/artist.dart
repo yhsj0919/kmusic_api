@@ -11,10 +11,10 @@ part of '../module.dart';
 */
 Handler artistList = (Map query, auth) {
   final data = LinkedHashMap();
-  if (query['artistGender'].toString().isNotEmpty) {
+  if (query.containsKey('artistGender')) {
     data["artistGender"] = query['artistGender'];
   }
-  if (query['artistRegion'].toString().isNotEmpty) {
+  if (query.containsKey('artistRegion')) {
     data["artistRegion"] = query['artistRegion'];
   }
 
@@ -54,6 +54,7 @@ Handler artistSong = (Map query, auth) {
     'GET',
     "https://api-qianqian.taihe.com/v1/artist/song",
     LinkedHashMap.of({
+      'appid': '16073360',
       "artistCode": query['artistCode'],
       "pageNo": query['page'] ?? 1,
       "pageSize": query['size'] ?? 20,
@@ -71,6 +72,7 @@ Handler artistAlbum = (Map query, auth) {
     'GET',
     "https://api-qianqian.taihe.com/v1/artist/album",
     LinkedHashMap.of({
+      'appid': '16073360',
       "artistCode": query['artistCode'],
       "pageNo": query['page'] ?? 1,
       "pageSize": query['size'] ?? 20,

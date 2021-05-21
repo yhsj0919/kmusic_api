@@ -66,4 +66,5 @@ final handles = <String, Handler>{
   "/video/list": videoList,
   "/video/info": videoInfo,
   "/video/recommend": videoRecommend,
+  "/video/download": videoDownload,
 };

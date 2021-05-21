@@ -10,6 +10,7 @@ Handler albumInfo = (Map query, auth) {
     "https://api-qianqian.taihe.com/v1/album/info",
     LinkedHashMap.of({
       "albumAssetCode": query['albumAssetCode'],
+      "appid": '16073360',
     }),
     authorization: auth,
   );
