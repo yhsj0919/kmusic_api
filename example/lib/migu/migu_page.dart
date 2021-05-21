@@ -114,7 +114,7 @@ class _MiGuPageState extends State<MiGuPage>
                       miguRepository.topList().then(onData).catchError(onError);
                     }),
                 ListTile(
-                    title: Text('榜单详情'),
+                    title: Text('榜单详情(接口加密,无法访问)'),
                     onTap: () {
                       miguRepository
                           .topListDetail()

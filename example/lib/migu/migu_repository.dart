@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:kmusic_api/migu_music.dart';
 import 'package:kmusic_api/utils/answer.dart';
+import 'package:kmusic_api_example/utils/cookie_storage.dart';
 
 class MiGuRepository {
   static const int _NEED_LOGIN = 301;
@@ -11,7 +12,7 @@ class MiGuRepository {
 
   MiGuRepository() {
     scheduleMicrotask(() async {
-      PersistCookieJar cookieJar = PersistCookieJar();
+      PersistCookieJar cookieJar = PersistCookieJar(storage: CookieStorage());
       _cookieJar.complete(cookieJar);
     });
   }
