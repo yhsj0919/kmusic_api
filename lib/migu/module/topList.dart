@@ -16,19 +16,16 @@ Handler topList = (Map query, cookie) {
 };
 
 /*
-* 榜单详情,这个接口暂时没法访问
+* 榜单详情
  */
 Handler topListDetail = (Map query, cookie) {
   final data = {
-    "columnId": '27553319',
-    "id": '27553319',
+    "columnId": query['columnId'],
     "needAll": '0',
-    "resourceType": '2009',
-    "templateVersion": '3',
   };
   return request(
     'GET',
-    "https://app.c.nf.migu.cn/MIGUM3.0/v1.0/template/rank-detail/release",
+    "https://app.c.nf.migu.cn/MIGUM2.0/v1.0/content/querycontentbyId.do",
     data,
     cookies: cookie,
   );

@@ -60,8 +60,39 @@ class MiGuRepository {
     return Future.value(map);
   }
 
-  Future<dynamic> album() {
-    return _doRequest('/album', params: {});
+  Future<dynamic> albumNew() {
+    return _doRequest('/album/new', params: {});
+  }
+
+  Future<dynamic> albumSong() {
+    return _doRequest('/album/song', params: {'albumId': '1136495459'});
+  }
+
+  Future<dynamic> albumInfo() {
+    return _doRequest('/album/info', params: {'albumId': '1136495459'});
+  }
+
+  Future<dynamic> mvResource() {
+    return _doRequest('/mv/resource', params: {
+      'mvId': '600906000000337596',
+    });
+  }
+
+  Future<dynamic> mvPlayUrl() {
+    return _doRequest('/mv/playUrl', params: {
+      'mvId': "600906000000337596",
+      'mvCopyrightId': "600846Y0958",
+      'format': "050012",
+      'size': "90945275",
+      'url':
+          "/PmeXt%2FJkph%2FGY9oGZIn%2BrnuIohQqAlHDNzPQW3eR0XClFjPwu50LmEzWRhw28uE7R5cJktVMTOzJXeMAMD4s6%2FHoohaZwztCZeX0%2F8V4SgKvOe9CTKEabthWaTmi1bnRY1CkU%2BF8w6Q7n9bzYo3zMsjcjimuJF%2BDSkO6UYVjmzWz97CQL6%2By771Gjr1Q0FfaBkhsIIPbf8bdbEaaJDQB2Q%3D%3D/600846Y0958033950.mp4?ec=2&flag=+&F=050012",
+    });
+  }
+
+  Future<dynamic> mvRec() {
+    return _doRequest('/mv/rec', params: {
+      'mvId': "600906000000337596",
+    });
   }
 
   Future<dynamic> playListHotTag() {
@@ -116,6 +147,32 @@ class MiGuRepository {
   }
 
   Future<dynamic> topListDetail() {
-    return _doRequest('/topList/detail', params: {});
+    return _doRequest('/topList/detail', params: {
+      "columnId": '23189800',
+    });
+  }
+
+  Future<dynamic> singerTabs() {
+    return _doRequest('/singer/tabs', params: {});
+  }
+
+  Future<dynamic> singer() {
+    return _doRequest('/singer', params: {'tab': 'tuijian-renqi'});
+  }
+
+  Future<dynamic> singerInfo() {
+    return _doRequest('/singer/info', params: {'singerId': '1212'});
+  }
+
+  Future<dynamic> singerSongs() {
+    return _doRequest('/singer/songs', params: {'singerId': '1212'});
+  }
+
+  Future<dynamic> singerAlbum() {
+    return _doRequest('/singer/album', params: {'singerId': '1212'});
+  }
+
+  Future<dynamic> singerMv() {
+    return _doRequest('/singer/mv', params: {'singerId': '1212'});
   }
 }
