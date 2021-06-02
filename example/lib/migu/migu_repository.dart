@@ -35,7 +35,7 @@ class MiGuRepository {
     jar.saveFromResponse(uri, cookies);
   }
 
-  Future<dynamic> _doRequest(String path, {Map<String, dynamic> params}) async {
+  Future<dynamic> _doRequest(String path, {Map<String, dynamic> params: const {}}) async {
     List<Cookie> cookies = await _loadCookies();
     Answer answer;
     try {
@@ -174,5 +174,17 @@ class MiGuRepository {
 
   Future<dynamic> singerMv() {
     return _doRequest('/singer/mv', params: {'singerId': '1212'});
+  }
+
+  Future<dynamic> searchHotWord() {
+    return _doRequest('/search/hotword');
+  }
+
+  Future<dynamic> search() {
+    return _doRequest('/search', params: {'keyword': '薛之谦', 'type': 7});
+  }
+
+  Future<dynamic> searchSuggest() {
+    return _doRequest('/search/suggest', params: {'keyword': '薛之谦'});
   }
 }

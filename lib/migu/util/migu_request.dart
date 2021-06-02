@@ -48,9 +48,10 @@ Future<Answer> request(
   Map data, {
   List<Cookie> cookies = const [],
   String ua,
+  Map header,
   String contentType = 'json',
 }) {
-  final headers = _buildHeader(url, ua, method, cookies);
+  final headers = _buildHeader(url, ua, method, cookies,header: header);
 
   if (method == "GET" && data.isNotEmpty) {
     url = url + "?${toParamsString(data)}";
@@ -86,7 +87,7 @@ Future<Answer> request(
   });
 }
 
-Map<String, String> _buildHeader(String url, String ua, String method, List<Cookie> cookies) {
+Map<String, String> _buildHeader(String url, String ua, String method, List<Cookie> cookies, {Map header}) {
   final headers = {'User-Agent': _chooseUserAgent(ua: ua)};
   if (method.toUpperCase() == 'POST') {
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -99,13 +100,11 @@ Map<String, String> _buildHeader(String url, String ua, String method, List<Cook
   }
   headers['channel'] = '0146921';
 
-  // headers['signVersion'] = 'V004';
-  // headers['sign'] = '704DD435119DDCA8512D25FEA92E1BF1';
-  // headers['timestamp'] = '${DateTime.now().millisecondsSinceEpoch}';
-  // headers['ua'] = 'Android_migu';
-  // headers['aversionid'] = 'DFDFD08F97A8A28B6291899D89819872999CD0D399A1AA8C69C48FD1B87C9872C6C8B88FDDECEE896893889D848198739C9C888F';
-
-
   headers['Cookie'] = cookies.join("; ");
+
+  header?.forEach((key, value) {
+    headers['$key'] = '$value';
+  });
+
   return headers;
 }

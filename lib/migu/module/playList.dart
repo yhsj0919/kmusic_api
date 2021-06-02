@@ -42,7 +42,7 @@ Handler playListPlayNum = (Map query, cookie) {
 };
 
 /*
-* 歌单播放量
+* 歌单列表
  */
 Handler playList = (Map query, cookie) {
   final data = {

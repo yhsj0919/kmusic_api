@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kmusic_api/baidu_music.dart';
+import 'package:kmusic_api/migu_music.dart';
 import 'package:kmusic_api/netease_cloud_music.dart';
 import 'package:kmusic_api/qq_music.dart';
 import 'package:kmusic_api/utils/answer.dart';
@@ -109,8 +110,14 @@ class _ServerPageState extends State<ServerPage> with AutomaticKeepAliveClientMi
         print(s.toString());
         return const Answer();
       });
+    } else if (path.startsWith("/migu")) {
+      answer = await miguApi(path.replaceAll("/migu", ""), parameter: request.uri.queryParameters, cookie: request.cookies).catchError((e, s) async {
+        print(e.toString());
+        print(s.toString());
+        return const Answer();
+      });
     } else {
-      answer = Answer().copy(body: {'code': 500, 'msg': '仅支持“/netease”、“/baidu”、“/qq”开头的接口'});
+      answer = Answer().copy(body: {'code': 500, 'msg': '仅支持“/netease”、“/baidu”、“/qq”、“/migu”开头的接口'});
     }
 
     request.response.statusCode = answer.status;

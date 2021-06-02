@@ -1,13 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:kmusic_api/migu/util/migu_request.dart';
 import 'package:kmusic_api/utils/answer.dart';
+import 'package:uuid/uuid.dart';
 
 part 'module/album.dart';
 
 part 'module/mv.dart';
 
 part 'module/playList.dart';
+
+part 'module/search.dart';
 
 part 'module/singer.dart';
 
@@ -31,6 +36,9 @@ final handles = <String, Handler>{
   "/playList/tagList": playListTagList,
   "/playList/info": playListInfo,
   "/playList/song": playListSong,
+  "/search": search,
+  "/search/hotword": searchHotword,
+  "/search/suggest": searchSuggest,
   "/singer": singer,
   "/singer/tabs": singerTabs,
   "/singer/info": singerInfo,
