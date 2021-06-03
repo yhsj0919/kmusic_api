@@ -21,7 +21,7 @@ Future<Answer> cloudMusicApi(
   // assert(handles.containsKey(path), "此 api url 未被定义, 请检查: $path ");
   if (!handles.containsKey(path)) {
     return Answer()
-        .copy(body: {'code': 500, 'msg': "此 api url 未被定义, 请检查: $path "});
+        .copy(body: {'code': 500, 'msg': "此 api url 未被定义, 请检查: $path ",'path':handles.keys.toList()});
   }
   final Handler handle = handles[path];
 
