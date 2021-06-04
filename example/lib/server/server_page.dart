@@ -15,7 +15,6 @@ class _ServerPageState extends State<ServerPage> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     return Padding(
       padding: EdgeInsets.all(16),
       child: Column(
