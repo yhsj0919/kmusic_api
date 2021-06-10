@@ -39,6 +39,7 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
           ),
           Expanded(
             child: ListView(
+              padding: EdgeInsets.only(bottom: 40),
               children: [
                 ListTile(
                   title: Text('新碟上架'),

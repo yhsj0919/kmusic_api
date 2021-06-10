@@ -40,6 +40,7 @@ class _BaiduMusicPageState extends State<BaiduMusicPage> with AutomaticKeepAlive
           ),
           Expanded(
             child: ListView(
+              padding: EdgeInsets.only(bottom: 40),
               children: [
                 ListTile(
                   title: Text('开屏广告(可能为空)'),

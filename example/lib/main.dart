@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/home_page.dart';
+import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/utils/sp.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: PlayerPage(child: HomePage()),
       theme: ThemeData(
         primaryColor: Colors.white,
       ),

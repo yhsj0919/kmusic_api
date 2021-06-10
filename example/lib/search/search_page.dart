@@ -95,18 +95,22 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "搜索发现",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Text(
+            "搜索发现",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ).paddingSymmetric(horizontal: 16, vertical: 8),
+        ),
         Wrap(
           spacing: 10,
-          runSpacing: 10,
+          runSpacing: 4,
           children: searchController.discovery.map(discoveryButton).toList(),
-        ).marginOnly(left: 16, right: 16, bottom: 8),
+        ).paddingSymmetric(horizontal: 16, vertical: 8),
       ],
     );
   }
