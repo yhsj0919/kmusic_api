@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/home_page.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
+import 'package:kmusic_api_example/test_page.dart';
 import 'package:kmusic_api_example/utils/sp.dart';
 
 void main() {
@@ -27,6 +28,8 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: PlayerPage(child: HomePage()),
+      // home: TestPage(),
+      // home: Scaffold(body: Container(color: Colors.blue,),),
       theme: ThemeData(
         primaryColor: Colors.white,
       ),

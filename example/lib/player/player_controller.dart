@@ -27,8 +27,10 @@ class PlayerController extends GetxController {
       position.value = event.inMilliseconds;
     });
     player.current.listen((event) {
-      duration.value = event.audio.duration.inMilliseconds;
-      songInfo.value = event.audio.audio.metas;
+      if (event != null) {
+        duration.value = event.audio.duration.inMilliseconds;
+        songInfo.value = event.audio.audio.metas;
+      }
     });
   }
 
@@ -46,6 +48,7 @@ class PlayerController extends GetxController {
                   "http://d.musicapp.migu.cn/prod/file-service/file-down/8121e8df41a5c12f48b69aea89b71dab/c6ac1a8cc5242f77cae0f06302aa6430/3f09149f95923cfd31f9b558bb48c74d"), //can be MetasImage.network
             ),
           ),
+          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
           showNotification: true);
     } catch (t) {
       initPlayer = false;

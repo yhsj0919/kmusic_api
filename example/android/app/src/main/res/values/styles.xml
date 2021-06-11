@@ -4,6 +4,8 @@
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <!-- Show a splash screen on the activity. Automatically removed when
              Flutter draws its first frame -->
+        <!--在这里设置导航栏透明，不要在widget中设置-->
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
     <!-- Theme applied to the Android Window as soon as the process has started.
