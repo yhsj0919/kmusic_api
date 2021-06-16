@@ -64,18 +64,20 @@ class PlayerPage extends StatelessWidget {
 
   ///头像
   Widget head() {
-    return Container(
-      width: 56,
-      height: 56,
-      child: ClipOval(
-          child: CachedNetworkImage(
-        imageUrl: player.songInfo.value.image?.path ?? "",
-        placeholder: (context, url) => CircularProgressIndicator(),
-        errorWidget: (context, url, error) => Container(
-          color: Colors.black12,
-        ),
-      )),
-    );
+    return Hero(
+        tag: "player_head",
+        child: Container(
+          width: 56,
+          height: 56,
+          child: ClipOval(
+              child: CachedNetworkImage(
+            imageUrl: player.songInfo.value.image?.path ?? "",
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Container(
+              color: Colors.black12,
+            ),
+          )),
+        ));
   }
 
   Widget title() {
@@ -116,12 +118,16 @@ class PlayerPage extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             player.isBuffering.value == true
-                ? CircularProgressIndicator(strokeWidth: 2, backgroundColor: Colors.black12)
-                : CircularProgressIndicator(value: player.position.value / player.duration.value, strokeWidth: 1, backgroundColor: Colors.black12),
-            Icon(
-              player.playerState == PlayerState.play ? Icons.pause : Icons.play_arrow,
-              size: 25,
-            ),
+                ? Hero(tag: "player_Progress1", child: CircularProgressIndicator(strokeWidth: 2, backgroundColor: Colors.black12))
+                : Hero(
+                    tag: "player_Progress2",
+                    child: CircularProgressIndicator(value: player.position.value / player.duration.value, strokeWidth: 1, backgroundColor: Colors.black12)),
+            Hero(
+                tag: "player_play",
+                child: Icon(
+                  player.playerState == PlayerState.play ? Icons.pause : Icons.play_arrow,
+                  size: 25,
+                )),
           ],
         ),
       ),
@@ -137,7 +143,7 @@ class PlayerPage extends StatelessWidget {
       child: Container(
         width: 45,
         height: 45,
-        child: Icon(Icons.format_list_bulleted, size: 25),
+        child: Hero(tag: "player_playlist", child: Icon(Icons.format_list_bulleted, size: 25)),
       ),
     ).marginSymmetric(horizontal: 4);
   }

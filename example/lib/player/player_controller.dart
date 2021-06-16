@@ -11,6 +11,8 @@ class PlayerController extends GetxController {
   RxBool isBuffering = RxBool(false);
   Rx<Metas> songInfo = Rx(Metas());
 
+  RxString appBgImageUrl = RxString('');
+
   @override
   void onInit() {
     super.onInit();

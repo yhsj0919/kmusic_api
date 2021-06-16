@@ -1,14 +1,14 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kmusic_api_example/qq/qqmusic_page.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:get/get.dart';
+import 'package:kmusic_api_example/api_manager/api_manager.dart';
+import 'package:kmusic_api_example/player/player_controller.dart';
 import 'package:kmusic_api_example/search/search_page.dart';
-import 'package:kmusic_api_example/server/server_page.dart';
+import 'package:kmusic_api_example/widget/app_appbar.dart';
+import 'package:kmusic_api_example/widget/app_scaffold.dart';
 import 'package:kmusic_api_example/widget/blur_widget.dart';
-
-import 'baidu/baidu_music_page.dart';
-import 'migu/migu_page.dart';
-import 'netease/netease_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -18,7 +18,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  final playerController = Get.put(PlayerController());
+
   TabController tabController;
+
+  final banners = ["https://www.migu.cn/assets/pc/images/placeholder-image/banner/music1920x560.jpg", "https://ae01.alicdn.com/kf/Ua5e3b85ad5584245b06b6fbb785df2cdS.jpg"];
 
   @override
   void initState() {
@@ -28,55 +32,59 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: BlurWidget(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            titleSpacing: 0,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: const Icon(Icons.menu),
-            title: BlurWidget(
-              color: Colors.white,
-              height: 30,
-              borderWidth: 1,
-              radius: 20,
-              elevation: 0,
-              onTap: () {
+    return AppScaffold(
+      withPlayer: true,
+      appBar: AppAppBar(
+        leading: const Icon(Icons.menu),
+        title: BlurWidget(
+          color: Colors.white60,
+          height: 30,
+          radius: 20,
+          shadowColor: Colors.white60,
+          elevation: 0,
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return SearchPage();
+            }));
+          },
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return SearchPage();
+                  return ApiManagerPage();
                 }));
               },
-            ),
-            actions: [IconButton(onPressed: () {}, icon: Hero(tag: "tag", child: Icon(Icons.settings)))],
-            bottom: PreferredSize(
-              preferredSize: Size(double.infinity, 50),
-              child: TabBar(
-                isScrollable: true,
-                controller: tabController,
-                tabs: [
-                  Tab(text: '服务'),
-                  Tab(text: '网易'),
-                  Tab(text: '百度'),
-                  Tab(text: '企鹅'),
-                  Tab(text: '咪咕'),
-                ],
-              ),
-            ),
+              icon: Hero(tag: "tag", child: Icon(Icons.settings)))
+        ],
+      ),
+      body: Column(
+        children: [
+          BlurWidget(
+            radius: 10,
+            elevation: 0,
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: AspectRatio(
+                aspectRatio: 5 / 2,
+                child: Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    return CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: banners[index],
+                    );
+                  },
+                  onIndexChanged: (index) {
+                    playerController.appBgImageUrl.value = banners[index];
+                  },
+                  autoplay: true,
+                  itemCount: banners.length,
+                  // viewportFraction: 0.8,
+                  // scale: 0.9,
+                  pagination: SwiperPagination(),
+                  // control: SwiperControl(),
+                )),
           ),
-          body: TabBarView(
-            controller: tabController,
-            children: [
-              ServerPage(),
-              NetEasePage(),
-              BaiduMusicPage(),
-              QQMusicPage(),
-              MiGuPage(),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }

@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PlayerPage(child: HomePage()),
+      home: HomePage(),
       // home: TestPage(),
       // home: Scaffold(body: Container(color: Colors.blue,),),
       theme: ThemeData(
