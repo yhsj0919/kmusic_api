@@ -42,6 +42,12 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
               padding: EdgeInsets.only(bottom: 40),
               children: [
                 ListTile(
+                  title: Text('Banner'),
+                  onTap: () {
+                    miguRepository.Banner().then(onData).catchError(onError);
+                  },
+                ),
+                ListTile(
                   title: Text('新碟上架'),
                   onTap: () {
                     miguRepository.albumNew().then(onData).catchError(onError);

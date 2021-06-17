@@ -6,9 +6,9 @@ part of '../module.dart';
 Handler albumNew = (Map query, cookie) {
   final data = {
     "pageSize": 10,
-    "nid": 23831003,
+    "nid": 23854016,
     "pageNo": 0,
-    "type": 2006,
+    "type": 2003,
   };
   return request(
     'GET',

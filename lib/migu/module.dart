@@ -8,6 +8,8 @@ import 'package:uuid/uuid.dart';
 
 part 'module/album.dart';
 
+part 'module/banner.dart';
+
 part 'module/mv.dart';
 
 part 'module/playList.dart';
@@ -26,6 +28,7 @@ final handles = <String, Handler>{
   "/album/new": albumNew,
   "/album/song": albumSong,
   "/album/info": albumInfo,
+  "/banner": banner,
   "/mv/resource": mvResource,
   "/mv/playUrl": mvPlayUrl,
   "/mv/rec": mvRec,
