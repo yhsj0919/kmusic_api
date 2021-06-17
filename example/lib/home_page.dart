@@ -32,60 +32,68 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      withPlayer: true,
-      appBar: AppAppBar(
-        leading: const Icon(Icons.menu),
-        title: BlurWidget(
-          color: Colors.white60,
-          height: 30,
-          radius: 20,
-          shadowColor: Colors.white60,
-          elevation: 0,
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return SearchPage();
-            }));
-          },
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
+    return Obx(() => AppScaffold(
+          withPlayer: true,
+          imageUrl: playerController.appBgImageUrl.value,
+          opacity: playerController.opacity.value,
+          appBar: AppAppBar(
+            leading: const Icon(Icons.menu),
+            title: BlurWidget(
+              color: Colors.white60,
+              height: 30,
+              radius: 20,
+              shadowColor: Colors.white60,
+              elevation: 0,
+              onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return ApiManagerPage();
+                  return SearchPage();
                 }));
               },
-              icon: Hero(tag: "tag", child: Icon(Icons.settings)))
-        ],
-      ),
-      body: Column(
-        children: [
-          BlurWidget(
-            radius: 10,
-            elevation: 0,
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: AspectRatio(
-                aspectRatio: 5 / 2,
-                child: Swiper(
-                  itemBuilder: (BuildContext context, int index) {
-                    return CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: banners[index],
-                    );
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      return ApiManagerPage();
+                    }));
                   },
-                  onIndexChanged: (index) {
-                    playerController.appBgImageUrl.value = banners[index];
-                  },
-                  autoplay: true,
-                  itemCount: banners.length,
-                  // viewportFraction: 0.8,
-                  // scale: 0.9,
-                  pagination: SwiperPagination(),
-                  // control: SwiperControl(),
-                )),
+                  icon: Hero(tag: "tag", child: Icon(Icons.settings)))
+            ],
           ),
-        ],
-      ),
-    );
+          body: Column(
+            children: [
+              BlurWidget(
+                radius: 10,
+                elevation: 0,
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: AspectRatio(
+                    aspectRatio: 5 / 2,
+                    child: Swiper(
+                      // duration: 3000,
+                      // autoplayDelay: 200,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: banners[index],
+                        );
+                      },
+                      onIndexChanged: (index) {
+                        playerController.opacity.value = 0.4;
+                        Future.delayed(Duration(milliseconds: 500)).then((value) {
+                          playerController.opacity.value = 0.8;
+                          playerController.appBgImageUrl.value = banners[index];
+                        });
+                      },
+                      autoplay: true,
+                      itemCount: banners.length,
+                      // viewportFraction: 0.8,
+                      // scale: 0.9,
+                      pagination: SwiperPagination(),
+                      // control: SwiperControl(),
+                    )),
+              ),
+            ],
+          ),
+        ));
   }
 }

@@ -8,10 +8,12 @@ import 'blur_widget.dart';
 
 class AppScaffold extends StatefulWidget {
   final Widget body;
+  final double opacity;
   final PreferredSizeWidget appBar;
   final bool withPlayer;
+  final String imageUrl;
 
-  AppScaffold({@required this.body, this.appBar, this.withPlayer});
+  AppScaffold({@required this.body, this.appBar, this.withPlayer, this.imageUrl, this.opacity});
 
   @override
   _AppScaffoldState createState() => _AppScaffoldState();
@@ -24,19 +26,19 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     final body = Stack(
       children: [
-        Obx(
-          () => AnimatedOpacity(
-            // 使用一个AnimatedOpacity Widget
-            opacity: playerController.appBgImageUrl.value==''?0:1,
-            duration: Duration(seconds: 1), //过渡时间：1
-            child: CachedNetworkImage(
-              width: Get.width,
-              height: Get.height,
-              imageUrl: playerController.appBgImageUrl.value,
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
+        widget.imageUrl == null || widget.imageUrl.isBlank
+            ? Container()
+            : AnimatedOpacity(
+                // 使用一个AnimatedOpacity Widget
+                opacity: widget.opacity,
+                duration: Duration(milliseconds: 500), //过渡时间：1
+                child: CachedNetworkImage(
+                  width: Get.width,
+                  height: Get.height,
+                  imageUrl: widget.imageUrl,
+                  fit: BoxFit.fill,
+                ),
+              ),
         BlurWidget(
             color: Colors.white70,
             blur: 50,

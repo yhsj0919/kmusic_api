@@ -12,6 +12,7 @@ class PlayerController extends GetxController {
   Rx<Metas> songInfo = Rx(Metas());
 
   RxString appBgImageUrl = RxString('');
+  RxDouble opacity = RxDouble(0);
 
   @override
   void onInit() {
