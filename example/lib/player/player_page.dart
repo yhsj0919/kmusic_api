@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 import 'package:kmusic_api_example/widget/blur_widget.dart';
-import 'package:kmusic_api_example/widget/weslide/we_slide.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayerPage extends StatelessWidget {
   Widget child;
@@ -17,28 +17,19 @@ class PlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double _panelMaxSize = MediaQuery.of(context).size.height / 5 * 3;
     return Scaffold(
-      body: WeSlide(
-        backgroundColor: Colors.white,
-        panelMinSize: 56,
-        panelMaxSize: _panelMaxSize,
+      body: SlidingUpPanel(
+        color: Colors.transparent,
         body: child,
+        minHeight: 70,
+        maxHeight: _panelMaxSize,
         panel: BlurWidget(
+          radius: 30,
           blur: 5,
           // color: Colors.white,
           child: Center(child: Text("这里空空如也😉")),
         ),
-        panelHeader: playerBar(),
-        bodyBorderRadiusBegin: 0,
-        bodyBorderRadiusEnd: 40,
-        panelBorderRadiusBegin: 0,
-        panelBorderRadiusEnd: 28,
-        blur: true,
-        transformScale: true,
-        overlay: false,
-        transformScaleBegin: 1,
-        transformScaleEnd: 0.98,
-        hidePanelHeader: false,
-        blurColor: Colors.black,
+        header: playerBar(),
+        backdropEnabled: true,
       ),
     );
   }
@@ -46,38 +37,40 @@ class PlayerPage extends StatelessWidget {
   Widget playerBar() {
     return Obx(
       () => Container(
-          alignment: Alignment.center,
-          height: 56,
-          child: Container(
-            width: Get.width - 20,
-            child: Row(
-              children: [
-                head(),
-                title(),
-                play(),
-                playlist(),
-              ],
-            ),
-          )),
+        alignment: Alignment.center,
+        height: 70,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        width: Get.width,
+        child: Row(
+          children: [
+            head(),
+            title(),
+            play(),
+            playlist(),
+          ],
+        ),
+      ),
     );
   }
 
   ///头像
   Widget head() {
     return Hero(
-        tag: "player_head",
-        child: Container(
-          width: 56,
-          height: 56,
-          child: ClipOval(
-              child: CachedNetworkImage(
-            imageUrl: player.songInfo.value.image?.path ?? "",
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Container(
-              color: Colors.black12,
-            ),
-          )),
-        ));
+      tag: "player_head",
+      child: Container(
+        width: 50,
+        height: 50,
+        child: ClipOval(
+          child: player.songInfo.value.image?.path == null || player.songInfo.value.image?.path?.isBlank == true
+              ? Container(color: Colors.black12)
+              : CachedNetworkImage(
+                  imageUrl: player.songInfo.value.image?.path ?? "",
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Container(color: Colors.black12),
+                ),
+        ),
+      ),
+    );
   }
 
   Widget title() {

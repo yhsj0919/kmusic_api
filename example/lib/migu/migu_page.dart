@@ -44,7 +44,7 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                 ListTile(
                   title: Text('Banner'),
                   onTap: () {
-                    miguRepository.Banner().then(onData).catchError(onError);
+                    miguRepository.banner().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(

@@ -60,7 +60,7 @@ class MiGuRepository {
     return Future.value(map);
   }
 
-  Future<dynamic> Banner() {
+  Future<dynamic> banner() {
     return _doRequest('/banner', params: {});
   }
 

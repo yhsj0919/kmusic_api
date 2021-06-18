@@ -21,7 +21,7 @@ Handler banner = (Map query, cookie) {
     body['results'] = (body["results"] as List)
         .map((e) => {
               "title": e["linkData"]["linkDes"].toString().replaceAll("《", "").replaceAll("》", ""),
-              "PicUrl": e["linkData"]["linkPicUrl"],
+              "picUrl": e["linkData"]["linkPicUrl"],
               "type": e["linkData"]["linkTitle"].toString().replaceAll(e["linkData"]["linkDes"].toString(), ""),
               "id": e["linkData"]["linkUrl"].toString().replaceAll("https://m.music.migu.cn/v3/music/song/", ""),
             })

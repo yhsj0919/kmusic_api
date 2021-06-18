@@ -31,7 +31,7 @@ class _AppScaffoldState extends State<AppScaffold> {
             : AnimatedOpacity(
                 // 使用一个AnimatedOpacity Widget
                 opacity: widget.opacity,
-                duration: Duration(milliseconds: 500), //过渡时间：1
+                duration: Duration(milliseconds: 400), //过渡时间：1
                 child: CachedNetworkImage(
                   width: Get.width,
                   height: Get.height,
