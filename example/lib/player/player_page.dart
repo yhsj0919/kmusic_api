@@ -24,7 +24,7 @@ class PlayerPage extends StatelessWidget {
         maxHeight: _panelMaxSize,
         panel: BlurWidget(
           radius: 30,
-          blur: 5,
+          blur: 15,
           // color: Colors.white,
           child: Center(child: Text("这里空空如也😉")),
         ),
