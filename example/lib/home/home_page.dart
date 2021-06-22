@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -226,6 +228,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       padding: EdgeInsets.only(bottom: 80),
       itemBuilder: (context, index) {
         return ListTile(
+          onTap: () {
+            Get.printError(info:json.encode(homeController.songs[index]));
+
+            homeController.play(homeController.songs[index]);
+          },
           leading: BlurWidget(
             width: 50,
             height: 50,

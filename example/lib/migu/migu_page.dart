@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import 'migu_repository.dart';
 
@@ -34,8 +38,15 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: SingleChildScrollView(
-              child: Text(result, style: TextStyle(fontSize: 16)),
-            ),
+                child: GestureDetector(
+              child: Text(
+                result,
+                style: TextStyle(fontSize: 16),
+              ),
+              onLongPress: () {
+                Clipboard.setData(new ClipboardData(text: result));
+              },
+            )),
           ),
           Expanded(
             child: ListView(
@@ -149,7 +160,7 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                 ListTile(
                     title: Text('播放地址'),
                     onTap: () {
-                      miguRepository.playUrl().then(onData).catchError(onError);
+                      miguRepository.playUrl("1002508489").then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('榜单'),
@@ -219,8 +230,8 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
 
   void onData(value) {
     setState(() {
-      result = value.toString();
-      print(result);
+      result = json.encode(value);
+      Get.printError(info: result);
     });
   }
 

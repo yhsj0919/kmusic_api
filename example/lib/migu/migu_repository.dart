@@ -162,10 +162,10 @@ class MiGuRepository {
     return _doRequest('/song/new', params: {});
   }
 
-  Future<dynamic> playUrl() {
+  Future<dynamic> playUrl(String songId) {
     return _doRequest('/song/url', params: {
       // 'albumId': '1002508351',
-      'songId': '1002508489',
+      'songId': songId,
       'toneFlag': 'PQ',
     });
   }

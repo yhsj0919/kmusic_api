@@ -79,4 +79,8 @@ class HomeController extends GetxController {
       }).toList());
     });
   }
+
+  Future<void> play(songId) async {
+    await playerController.play(songId);
+  }
 }
