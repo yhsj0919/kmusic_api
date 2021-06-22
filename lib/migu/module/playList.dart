@@ -1,6 +1,19 @@
 part of '../module.dart';
 
 /*
+* 新专辑、新碟
+ */
+Handler playListNewWeb = (Map query, cookie) {
+  final data = {};
+  return request(
+    'GET',
+    "https://m.music.migu.cn/migu/remoting/client_play_list_tag",
+    data,
+    cookies: cookie,
+  );
+};
+
+/*
 * 歌单热门标签
  */
 Handler playListHotTag = (Map query, cookie) {

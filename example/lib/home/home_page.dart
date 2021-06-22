@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               Row(
                 children: [
                   Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.list_alt, size: 35, color: Color(0xffec3258)), Text("歌单")])),
-                  Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.bar_chart, size: 35, color: Color(0xffec3258)), Text("排行")])),
+                  Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.bar_chart, size: 35, color: Color(0xffec3258)), Text("榜单")])),
                   Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.album, size: 35, color: Color(0xffec3258)), Text("新碟")])),
                   Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.person, size: 35, color: Color(0xffec3258)), Text("歌手")])),
                 ],
@@ -60,17 +60,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 title: Text('歌单推荐', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              Container(height: 100),
+              playList(),
               ListTile(
                 title: Text('新碟上架', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              Container(height: 100),
+              album(),
               ListTile(
                 title: Text('新歌速递', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              Container(height: 300),
+              song(),
             ],
           ),
         ),
@@ -133,6 +133,121 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 color: Colors.black12,
               ),
       ),
+    );
+  }
+
+  Widget playList() {
+    return Container(
+      height: 124,
+      child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          itemCount: homeController.playList.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {},
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  BlurWidget(
+                    width: 80,
+                    height: 80,
+                    elevation: 0,
+                    radius: 10,
+                    child: CachedNetworkImage(
+                      imageUrl: homeController.playList[index]['image'],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 4),
+                    width: 80,
+                    alignment: Alignment.center,
+                    child: Text(
+                      homeController.playList[index]['playlistName'],
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12),
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ).marginSymmetric(horizontal: 8),
+            );
+          }),
+    );
+  }
+
+  Widget album() {
+    return Container(
+      height: 106,
+      child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          itemCount: homeController.albums.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {},
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  BlurWidget(
+                    width: 80,
+                    height: 80,
+                    elevation: 0,
+                    radius: 50,
+                    child: CachedNetworkImage(
+                      imageUrl: homeController.albums[index]['albumsSmallUrl'],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 4),
+                    width: 80,
+                    alignment: Alignment.center,
+                    child: Text(
+                      homeController.albums[index]['albumName'],
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12),
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ).marginSymmetric(horizontal: 8),
+            );
+          }),
+    );
+  }
+
+  Widget song() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: homeController.songs.length,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.only(bottom: 80),
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: BlurWidget(
+            width: 50,
+            height: 50,
+            elevation: 0,
+            radius: 10,
+            child: CachedNetworkImage(
+              imageUrl: homeController.songs[index]['picS'],
+            ),
+          ),
+          title: Text(
+            homeController.songs[index]['songName'],
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          subtitle: Text(
+            (homeController.songs[index]['singerName'] as List).join(","),
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12),
+            maxLines: 1,
+          ),
+        );
+      },
     );
   }
 }

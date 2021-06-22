@@ -48,6 +48,19 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                   },
                 ),
                 ListTile(
+                  title: Text('新碟上架Web'),
+                  onTap: () {
+                    miguRepository.albumNewWeb().then(onData).catchError(onError);
+                  },
+                ),
+                ListTile(
+                  title: Text('新碟类型'),
+                  onTap: () {
+                    miguRepository.albumNewType().then(onData).catchError(onError);
+                    miguRepository.albumNewType().then(onData).catchError(onError);
+                  },
+                ),
+                ListTile(
                   title: Text('新碟上架'),
                   onTap: () {
                     miguRepository.albumNew().then(onData).catchError(onError);
@@ -84,6 +97,11 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                   },
                 ),
                 ListTile(
+                    title: Text('歌单推荐(web)'),
+                    onTap: () {
+                      miguRepository.playListNewWeb().then(onData).catchError(onError);
+                    }),
+                ListTile(
                     title: Text('歌单热门标签'),
                     onTap: () {
                       miguRepository.playListHotTag().then(onData).catchError(onError);
@@ -117,6 +135,16 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                     title: Text('歌单歌曲'),
                     onTap: () {
                       miguRepository.playListSong().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('新歌类型'),
+                    onTap: () {
+                      miguRepository.songNewType().then(onData).catchError(onError);
+                    }),
+                ListTile(
+                    title: Text('新歌列表'),
+                    onTap: () {
+                      miguRepository.songNew().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('播放地址'),

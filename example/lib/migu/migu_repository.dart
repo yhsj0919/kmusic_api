@@ -64,6 +64,14 @@ class MiGuRepository {
     return _doRequest('/banner', params: {});
   }
 
+  Future<dynamic> albumNewWeb() {
+    return _doRequest('/album/new/web', params: {});
+  }
+
+  Future<dynamic> albumNewType() {
+    return _doRequest('/album/new/type', params: {});
+  }
+
   Future<dynamic> albumNew() {
     return _doRequest('/album/new', params: {});
   }
@@ -97,6 +105,10 @@ class MiGuRepository {
     return _doRequest('/mv/rec', params: {
       'mvId': "600906000000337596",
     });
+  }
+
+  Future<dynamic> playListNewWeb() {
+    return _doRequest('/playList/new/web', params: {});
   }
 
   Future<dynamic> playListHotTag() {
@@ -136,6 +148,18 @@ class MiGuRepository {
     return _doRequest('/playList/song', params: {
       'id': '181694965',
     });
+  }
+
+  Future<dynamic> songNewWeb() {
+    return _doRequest('/song/new/web', params: {});
+  }
+
+  Future<dynamic> songNewType() {
+    return _doRequest('/song/new/type', params: {});
+  }
+
+  Future<dynamic> songNew() {
+    return _doRequest('/song/new', params: {});
   }
 
   Future<dynamic> playUrl() {
