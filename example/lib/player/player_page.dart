@@ -19,14 +19,15 @@ class PlayerPage extends StatelessWidget {
     return Scaffold(
       body: SlidingUpPanel(
         color: Colors.transparent,
+        controller: player.panelController,
         body: child,
         minHeight: 70,
         maxHeight: _panelMaxSize,
-        panel: BlurWidget(
+        panelBuilder: (ScrollController sc) => BlurWidget(
+          color: Colors.white60,
           radius: 30,
-          blur: 15,
-          // color: Colors.white,
-          child: Center(child: Text("这里空空如也😉")),
+          blur: 10,
+          child: playlist(sc),
         ),
         header: playerBar(),
         backdropEnabled: true,
@@ -46,7 +47,7 @@ class PlayerPage extends StatelessWidget {
             head(),
             title(),
             play(),
-            playlist(),
+            playlistButton(),
           ],
         ),
       ),
@@ -75,23 +76,11 @@ class PlayerPage extends StatelessWidget {
 
   Widget title() {
     return Expanded(
-      child: PageView.builder(
-        physics: BouncingScrollPhysics(),
-        controller: PageController(
-          initialPage: 0,
-          viewportFraction: 1,
-          keepPage: true,
-        ),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            alignment: Alignment.centerLeft,
-            child: Text(player.songInfo.value.title == null ? "暂无歌曲" : "${player.songInfo.value.title} - ${player.songInfo.value.artist}"),
-          );
-        },
-      ),
-    );
+        child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      alignment: Alignment.centerLeft,
+      child: Text(player.songInfo.value.title == null ? "暂无歌曲" : "${player.songInfo.value.title} - ${player.songInfo.value.artist}"),
+    ));
   }
 
   Widget play() {
@@ -127,17 +116,46 @@ class PlayerPage extends StatelessWidget {
     ).marginSymmetric(horizontal: 4);
   }
 
-  Widget playlist() {
+  Widget playlistButton() {
     return InkWell(
       customBorder: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
-      onTap: () {},
+      onTap: () {
+        if (player.panelController.isPanelClosed) {
+          player.panelController.open();
+        } else {
+          player.panelController.close();
+        }
+      },
       child: Container(
         width: 45,
         height: 45,
         child: Hero(tag: "player_playlist", child: Icon(Icons.format_list_bulleted, size: 25)),
       ),
     ).marginSymmetric(horizontal: 4);
+  }
+
+  Widget playlist(ScrollController sc) {
+    return ListView.builder(
+        controller: sc,
+        physics: BouncingScrollPhysics(),
+        itemCount: player.playList.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              player.play(player.playList[index]);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Text(
+                player.playList[index]["songName"],
+                style: TextStyle(fontSize: 14),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          );
+        }).marginOnly(top: 50);
   }
 }

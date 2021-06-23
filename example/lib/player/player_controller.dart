@@ -1,10 +1,14 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayerController extends GetxController {
   final player = AssetsAudioPlayer();
   var initPlayer = false;
+
+  PanelController panelController = new PanelController();
 
   MiGuRepository miguRepository;
 
@@ -17,11 +21,14 @@ class PlayerController extends GetxController {
   RxString appBgImageUrl = RxString('');
   RxDouble opacity = RxDouble(0);
 
-  RxList<Map<String, String>> playList = RxList();
+  RxList<Map<String, dynamic>> playList = RxList();
+
+  // RxInt playIndex = RxInt(-1);
 
   @override
   void onInit() {
     super.onInit();
+
     miguRepository = MiGuRepository();
 
     player.playerState.listen((event) {
@@ -45,6 +52,7 @@ class PlayerController extends GetxController {
   }
 
   Future<void> play(song) async {
+    playList.addIf(!playList.contains(song), song);
     await miguRepository.playUrl(song['songId']).then((value) {
       final play = value['data'];
       final playSong = value['data']["song"];
