@@ -122,10 +122,10 @@ class PlayerPage extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       onTap: () {
-        if (player.panelController.isPanelClosed) {
-          player.panelController.open();
-        } else {
+        if (player.panelController.isPanelOpen) {
           player.panelController.close();
+        } else {
+          player.panelController.open();
         }
       },
       child: Container(
