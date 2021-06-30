@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -12,7 +13,7 @@ import '../../qq_music.dart';
 
 enum Crypto { linuxapi, weapi }
 
-String _chooseUserAgent({String ua}) {
+String _chooseUserAgent({String? ua}) {
   const userAgentList = [
     'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
     'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
@@ -47,13 +48,13 @@ Future<Answer> request(
   String url,
   Map data, {
   List<Cookie> cookies = const [],
-  String ua,
+  String? ua,
   String contentType = 'json',
 }) {
   final headers = _buildHeader(url, ua, method, cookies);
 
   if (method == "GET" && data.isNotEmpty) {
-    url = url + "?${toParamsString(data)}";
+    url = url + "?${toParamsString(LinkedHashMap.from(data))}";
     data = {};
   }
 
@@ -86,7 +87,7 @@ Future<Answer> request(
   });
 }
 
-Map<String, String> _buildHeader(String url, String ua, String method, List<Cookie> cookies) {
+Map<String, String> _buildHeader(String url, String? ua, String method, List<Cookie> cookies) {
   final headers = {'User-Agent': _chooseUserAgent(ua: ua)};
   if (method.toUpperCase() == 'POST') {
     headers['Content-Type'] = 'application/x-www-form-urlencoded';

@@ -7,7 +7,7 @@ import 'package:kmusic_api_example/widget/blur_widget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayerPage extends StatelessWidget {
-  Widget child;
+  Widget? child;
 
   PlayerPage({@required this.child});
 
@@ -77,10 +77,27 @@ class PlayerPage extends StatelessWidget {
   Widget title() {
     return Expanded(
         child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      alignment: Alignment.centerLeft,
-      child: Text(player.songInfo.value.title == null ? "暂无歌曲" : "${player.songInfo.value.title} - ${player.songInfo.value.artist}"),
-    ));
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  player.songInfo.value.title == null ? "暂无歌曲" : "${player.songInfo.value.title}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 16),
+                ),
+                Container(height: 4),
+                Text(
+                  "${player.songInfo.value.artist ?? ""}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: Color(0xff666666)),
+                ),
+              ],
+            )));
   }
 
   Widget play() {
@@ -117,18 +134,15 @@ class PlayerPage extends StatelessWidget {
   }
 
   Widget playlistButton() {
-    return InkWell(
-      customBorder: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-      ),
-      onTap: () {
+    return IconButton(
+      onPressed: () {
         if (player.panelController.isPanelOpen) {
           player.panelController.close();
         } else {
           player.panelController.open();
         }
       },
-      child: Container(
+      icon: Container(
         width: 45,
         height: 45,
         child: Hero(tag: "player_playlist", child: Icon(Icons.format_list_bulleted, size: 25)),

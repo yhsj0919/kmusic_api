@@ -7,7 +7,7 @@ class NetEasePage extends StatefulWidget {
 }
 
 class _NetEasePageState extends State<NetEasePage> with AutomaticKeepAliveClientMixin {
-  NetRepository netEase;
+  NetRepository? netEase;
   String result = "";
 
   @override
@@ -42,19 +42,19 @@ class _NetEasePageState extends State<NetEasePage> with AutomaticKeepAliveClient
               ListTile(
                 title: Text('登录'),
                 onTap: () {
-                  netEase.loginByPhone("18612345678", '123456').then(onData).catchError(onError);
+                  netEase?.loginByPhone("18612345678", '123456').then(onData).catchError(onError);
                 },
               ),
               ListTile(
                 title: Text('状态'),
                 onTap: () {
-                  netEase.loginStatus().then(onData).catchError(onError);
+                  netEase?.loginStatus().then(onData).catchError(onError);
                 },
               ),
               ListTile(
                 title: Text('歌曲地址'),
                 onTap: () {
-                  netEase.songurl('1498342485').then(onData).catchError(onError);
+                  netEase?.songurl('1498342485').then(onData).catchError(onError);
                 },
               ),
             ],

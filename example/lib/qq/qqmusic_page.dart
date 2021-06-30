@@ -7,7 +7,7 @@ class QQMusicPage extends StatefulWidget {
 }
 
 class _QQMusicPageState extends State<QQMusicPage> with AutomaticKeepAliveClientMixin {
-  QQRepository qqRepository;
+  QQRepository? qqRepository;
   String result = "";
 
   @override
@@ -42,31 +42,31 @@ class _QQMusicPageState extends State<QQMusicPage> with AutomaticKeepAliveClient
               ListTile(
                 title: Text('首页'),
                 onTap: () {
-                  qqRepository.home().then(onData).catchError(onError);
+                  qqRepository?.home().then(onData).catchError(onError);
                 },
               ),
               ListTile(
                 title: Text('电台列表'),
                 onTap: () {
-                  qqRepository.radioList().then(onData).catchError(onError);
+                  qqRepository?.radioList().then(onData).catchError(onError);
                 },
               ),
               ListTile(
                 title: Text('MV推荐'),
                 onTap: () {
-                  qqRepository.mvRec().then(onData).catchError(onError);
+                  qqRepository?.mvRec().then(onData).catchError(onError);
                 },
               ),
               ListTile(
                 title: Text('搜索建议(周杰伦)'),
                 onTap: () {
-                  qqRepository.searchSuggest().then(onData).catchError(onError);
+                  qqRepository?.searchSuggest().then(onData).catchError(onError);
                 },
               ),
               ListTile(
                 title: Text('搜索(周杰伦)'),
                 onTap: () {
-                  qqRepository.search().then(onData).catchError(onError);
+                  qqRepository?.search().then(onData).catchError(onError);
                 },
               ),
             ],

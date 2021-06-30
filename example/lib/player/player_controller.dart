@@ -10,7 +10,7 @@ class PlayerController extends GetxController {
 
   PanelController panelController = new PanelController();
 
-  MiGuRepository miguRepository;
+  MiGuRepository? miguRepository;
 
   RxInt duration = RxInt(1);
   RxInt position = RxInt(0);
@@ -53,7 +53,7 @@ class PlayerController extends GetxController {
 
   Future<void> play(song) async {
     playList.addIf(!playList.contains(song), song);
-    await miguRepository.playUrl(song['songId']).then((value) {
+    await miguRepository?.playUrl(song['songId']).then((value) {
       final play = value['data'];
       final playSong = value['data']["song"];
       openFile(

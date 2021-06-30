@@ -26,29 +26,29 @@ class QQRepository {
     return jar.loadForRequest(uri);
   }
 
-  _saveCookies(List<Cookie> cookies) async {
+  _saveCookies(List<Cookie>? cookies) async {
     var jar = await _cookieJar.future;
-    if (jar == null) {
+    if (jar == null || cookies == null) {
       return;
     }
     final uri = Uri.parse('https://y.qq.com');
     jar.saveFromResponse(uri, cookies);
   }
 
-  Future<dynamic> _doRequest(String path, {Map<String, dynamic> params}) async {
+  Future<dynamic> _doRequest(String path, {Map<String, dynamic>? params}) async {
     List<Cookie> cookies = await _loadCookies();
-    Answer answer;
+    Answer? answer;
     try {
       answer = await qqMusicApi(path, parameter: params, cookie: cookies);
     } catch (e, stacktrace) {
       Future.error('request error:$e', stacktrace);
     }
 
-    if (answer.status == HttpStatus.ok) {
-      _saveCookies(answer.cookie);
+    if (answer?.status == HttpStatus.ok) {
+      _saveCookies(answer?.cookie);
     }
 
-    final map = answer.body;
+    final map = answer?.body;
     if (map == null) {
       return Future.error('请求失败了');
     } else if (map['errmsg'].toString().contains('请登陆')) {

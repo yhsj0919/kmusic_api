@@ -19,7 +19,7 @@ Future<Answer> request(
   String method,
   String url,
   LinkedHashMap data, {
-  String authorization = '',
+  String? authorization = '',
 }) async {
   final headers = {
     "app-version": "v8.2.3.3",
@@ -27,14 +27,14 @@ Future<Answer> request(
     "user-agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; MI 5 Build/OPR1.170623.032) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
   };
 
-  if (authorization.isNotEmpty) {
+  if (authorization?.isNotEmpty == true) {
     headers["authorization"] = "/access_token $authorization";
   }
 
   var params = LinkedHashMap();
   if (!data.containsKey("appid")) {
     params['appid'] = '16073360';
-  }else{
+  } else {
     data['appid'] = '16073360';
   }
 

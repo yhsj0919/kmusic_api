@@ -7,7 +7,7 @@ class Sp {
   static Sp _instance = new Sp._();
 
   factory Sp() => _instance;
-  static GetStorage _prefs;
+  static GetStorage? _prefs;
 
   Sp._();
 
@@ -19,15 +19,15 @@ class Sp {
     });
   }
 
-  Future<void> set(String key, dynamic jsonVal) {
-    return _prefs.write(key, jsonVal);
+  Future<void>? set(String key, dynamic jsonVal) {
+    return _prefs?.write(key, jsonVal);
   }
 
   T get<T>(String key) {
-    return _prefs.read(key);
+    return _prefs?.read(key);
   }
 
-  Future<bool> remove(String key) {
-    return _prefs.remove(key);
+  Future<void>? remove(String key) {
+    return _prefs?.remove(key);
   }
 }

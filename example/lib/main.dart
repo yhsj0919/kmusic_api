@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/home/home_page.dart';
-import 'package:kmusic_api_example/player/player_page.dart';
-import 'package:kmusic_api_example/test_page.dart';
 import 'package:kmusic_api_example/utils/sp.dart';
 
 void main() {

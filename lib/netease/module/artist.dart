@@ -5,11 +5,7 @@ Handler artistAlbum = (Map query, List<Cookie> cookie) {
   return request(
     'POST',
     "https://music.163.com/weapi/artist/albums/${query['id']}",
-    {
-      'limit': query['limit'] ?? 30,
-      'offset': query['offset'] ?? 0,
-      'total': true
-    },
+    {'limit': query['limit'] ?? 30, 'offset': query['offset'] ?? 0, 'total': true},
     cookies: cookie,
     crypto: Crypto.weapi,
   );
@@ -35,7 +31,7 @@ Handler artistDetail = (query, cookie) => request(
 
 //歌手分类
 
-/* 
+/*
   initial 取值 a-z/A-Z
   type 取值
   1:男歌手
@@ -55,8 +51,7 @@ Handler artistList = (Map query, List<Cookie> cookie) {
       'POST',
       'https://music.163.com/api/v1/artist/list',
       {
-        'initial':
-            (query['initial'] as String)?.toUpperCase()?.codeUnitAt(0) ?? '',
+        'initial': (query['initial'] as String).toUpperCase().codeUnitAt(0),
         'offset': query['offset'] ?? 0,
         'limit': query['limit'] ?? 30,
         'total': true,
@@ -69,16 +64,8 @@ Handler artistList = (Map query, List<Cookie> cookie) {
 
 // 歌手相关MV
 Handler artistMv = (query, cookie) => request(
-    'POST',
-    'https://music.163.com/weapi/artist/mvs',
-    {
-      'artistId': query['id'],
-      'limit': query['limit'],
-      'offset': query['offset'],
-      'total': true
-    },
-    crypto: Crypto.weapi,
-    cookies: cookie);
+    'POST', 'https://music.163.com/weapi/artist/mvs', {'artistId': query['id'], 'limit': query['limit'], 'offset': query['offset'], 'total': true},
+    crypto: Crypto.weapi, cookies: cookie);
 
 // 歌手新MV
 Handler artistNewMv = (Map query, List<Cookie> cookie) {
@@ -174,7 +161,5 @@ Handler artistTopSong = (Map query, List<Cookie> cookie) {
 
 // 歌手单曲
 Handler artists = (Map query, List<Cookie> cookie) {
-  return request(
-      'POST', 'https://music.163.com/weapi/v1/artist/${query["id"]}', {},
-      cookies: cookie, crypto: Crypto.weapi);
+  return request('POST', 'https://music.163.com/weapi/v1/artist/${query["id"]}', {}, cookies: cookie, crypto: Crypto.weapi);
 };

@@ -3,23 +3,23 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class BlurWidget extends StatefulWidget {
-  final Widget child;
-  final EdgeInsetsGeometry margin;
-  final double width;
-  final double minWidth;
-  final double height;
-  final double minHeight;
+  final Widget? child;
+  final EdgeInsetsGeometry? margin;
+  final double? width;
+  final double? minWidth;
+  final double? height;
+  final double? minHeight;
   final double radius;
   final Color color;
   final double elevation;
-  final Alignment alignment;
+  final Alignment? alignment;
   final double blur;
-  final Color shadowColor;
+  final Color? shadowColor;
   final Color splashColor;
-  final ShapeBorder shape;
-  final GestureTapCallback onTap;
-  final double borderWidth;
-  final EdgeInsetsGeometry padding;
+  final ShapeBorder? shape;
+  final GestureTapCallback? onTap;
+  final double? borderWidth;
+  final EdgeInsetsGeometry? padding;
 
   BlurWidget(
       {this.child,
@@ -41,7 +41,7 @@ class BlurWidget extends StatefulWidget {
       this.border,
       this.onTap});
 
-  final  BoxBorder border;
+  final BoxBorder? border;
 
   @override
   _BlurWidgetState createState() => _BlurWidgetState();
@@ -57,11 +57,11 @@ class _BlurWidgetState extends State<BlurWidget> {
         minWidth: widget.minWidth ?? 0,
         minHeight: widget.minHeight ?? 0,
       ),
-      width: widget.width != null ? (widget.width ?? 0) - (widget?.margin?.horizontal ?? 0) : null,
-      height: widget.height != null ? (widget.height ?? 0) - (widget?.margin?.vertical ?? 0) : null,
+      width: widget.width != null ? (widget.width ?? 0) - (widget.margin?.horizontal ?? 0) : null,
+      height: widget.height != null ? (widget.height ?? 0) - (widget.margin?.vertical ?? 0) : null,
       decoration: BoxDecoration(
         borderRadius: widget.border == null ? BorderRadius.all(Radius.circular(widget.radius)) : null,
-        border: widget.border ?? Border.all(color: widget.borderWidth == 0 ? Colors.transparent : Color(0xffcccccc), width: widget.borderWidth),
+        border: widget.border ?? Border.all(color: widget.borderWidth == 0 ? Colors.transparent : Color(0xffcccccc), width: widget.borderWidth ?? 0),
         boxShadow: [
           BoxShadow(
               color: widget.shadowColor ?? Colors.black12,

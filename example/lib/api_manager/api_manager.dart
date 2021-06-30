@@ -8,14 +8,14 @@ import 'package:kmusic_api_example/widget/app_appbar.dart';
 import 'package:kmusic_api_example/widget/app_scaffold.dart';
 
 class ApiManagerPage extends StatefulWidget {
-  const ApiManagerPage({Key key}) : super(key: key);
+  const ApiManagerPage({Key? key}) : super(key: key);
 
   @override
   _ApiManagerPageState createState() => _ApiManagerPageState();
 }
 
 class _ApiManagerPageState extends State<ApiManagerPage> with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {

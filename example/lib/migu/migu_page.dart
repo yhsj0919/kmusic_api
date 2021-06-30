@@ -12,7 +12,7 @@ class MiGuPage extends StatefulWidget {
 }
 
 class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin {
-  MiGuRepository miguRepository;
+  MiGuRepository? miguRepository;
   String result = "";
 
   @override
@@ -55,167 +55,167 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                 ListTile(
                   title: Text('Banner'),
                   onTap: () {
-                    miguRepository.banner().then(onData).catchError(onError);
+                    miguRepository?.banner().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('新碟上架Web'),
                   onTap: () {
-                    miguRepository.albumNewWeb().then(onData).catchError(onError);
+                    miguRepository?.albumNewWeb().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('新碟类型'),
                   onTap: () {
-                    miguRepository.albumNewType().then(onData).catchError(onError);
-                    miguRepository.albumNewType().then(onData).catchError(onError);
+                    miguRepository?.albumNewType().then(onData).catchError(onError);
+                    miguRepository?.albumNewType().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('新碟上架'),
                   onTap: () {
-                    miguRepository.albumNew().then(onData).catchError(onError);
+                    miguRepository?.albumNew().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('专辑歌曲'),
                   onTap: () {
-                    miguRepository.albumSong().then(onData).catchError(onError);
+                    miguRepository?.albumSong().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('专辑信息'),
                   onTap: () {
-                    miguRepository.albumInfo().then(onData).catchError(onError);
+                    miguRepository?.albumInfo().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('MV信息'),
                   onTap: () {
-                    miguRepository.mvResource().then(onData).catchError(onError);
+                    miguRepository?.mvResource().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('MV播放地址'),
                   onTap: () {
-                    miguRepository.mvPlayUrl().then(onData).catchError(onError);
+                    miguRepository?.mvPlayUrl().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('MV推荐'),
                   onTap: () {
-                    miguRepository.mvRec().then(onData).catchError(onError);
+                    miguRepository?.mvRec().then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                     title: Text('歌单推荐(web)'),
                     onTap: () {
-                      miguRepository.playListNewWeb().then(onData).catchError(onError);
+                      miguRepository?.playListNewWeb().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单热门标签'),
                     onTap: () {
-                      miguRepository.playListHotTag().then(onData).catchError(onError);
+                      miguRepository?.playListHotTag().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单热门推荐(歌单最顶上的几个)'),
                     onTap: () {
-                      miguRepository.playListRec().then(onData).catchError(onError);
+                      miguRepository?.playListRec().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单播放量'),
                     onTap: () {
-                      miguRepository.playListPlayNum().then(onData).catchError(onError);
+                      miguRepository?.playListPlayNum().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单(根据标签ID获取)'),
                     onTap: () {
-                      miguRepository.playList().then(onData).catchError(onError);
+                      miguRepository?.playList().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单标签'),
                     onTap: () {
-                      miguRepository.playListTagList().then(onData).catchError(onError);
+                      miguRepository?.playListTagList().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单信息'),
                     onTap: () {
-                      miguRepository.playListInfo().then(onData).catchError(onError);
+                      miguRepository?.playListInfo().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单歌曲'),
                     onTap: () {
-                      miguRepository.playListSong().then(onData).catchError(onError);
+                      miguRepository?.playListSong().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('新歌类型'),
                     onTap: () {
-                      miguRepository.songNewType().then(onData).catchError(onError);
+                      miguRepository?.songNewType().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('新歌列表'),
                     onTap: () {
-                      miguRepository.songNew().then(onData).catchError(onError);
+                      miguRepository?.songNew().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('播放地址'),
                     onTap: () {
-                      miguRepository.playUrl("1002508489").then(onData).catchError(onError);
+                      miguRepository?.playUrl("1002508489").then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('榜单'),
                     onTap: () {
-                      miguRepository.topList().then(onData).catchError(onError);
+                      miguRepository?.topList().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('榜单详情'),
                     onTap: () {
-                      miguRepository.topListDetail().then(onData).catchError(onError);
+                      miguRepository?.topListDetail().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌手Tabs'),
                     onTap: () {
-                      miguRepository.singerTabs().then(onData).catchError(onError);
+                      miguRepository?.singerTabs().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌手'),
                     onTap: () {
-                      miguRepository.singer().then(onData).catchError(onError);
+                      miguRepository?.singer().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌手信息'),
                     onTap: () {
-                      miguRepository.singerInfo().then(onData).catchError(onError);
+                      miguRepository?.singerInfo().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌手单曲'),
                     onTap: () {
-                      miguRepository.singerSongs().then(onData).catchError(onError);
+                      miguRepository?.singerSongs().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌手专辑'),
                     onTap: () {
-                      miguRepository.singerAlbum().then(onData).catchError(onError);
+                      miguRepository?.singerAlbum().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌手Mv'),
                     onTap: () {
-                      miguRepository.singerMv().then(onData).catchError(onError);
+                      miguRepository?.singerMv().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('搜索热词'),
                     onTap: () {
-                      miguRepository.searchHotWord().then(onData).catchError(onError);
+                      miguRepository?.searchHotWord().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('搜索'),
                     onTap: () {
-                      miguRepository.search().then(onData).catchError(onError);
+                      miguRepository?.search().then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('搜索建议'),
                     onTap: () {
-                      miguRepository.searchSuggest().then(onData).catchError(onError);
+                      miguRepository?.searchSuggest().then(onData).catchError(onError);
                     }),
               ],
             ),

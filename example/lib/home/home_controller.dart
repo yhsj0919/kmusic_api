@@ -6,7 +6,7 @@ import 'package:kmusic_api_example/player/player_controller.dart';
 
 class HomeController extends GetxController {
   final playerController = Get.put(PlayerController());
-  MiGuRepository miguRepository;
+  MiGuRepository? miguRepository;
   RxList<Map<String, dynamic>> banners = RxList<Map<String, dynamic>>();
   RxList<Map<String, dynamic>> playList = RxList<Map<String, dynamic>>();
   RxList<Map<String, dynamic>> albums = RxList<Map<String, dynamic>>();
@@ -26,7 +26,7 @@ class HomeController extends GetxController {
    * Banner
    */
   void getBanner() {
-    miguRepository.banner().then((value) {
+    miguRepository?.banner().then((value) {
       banners.clear();
       banners.addAll(value['results']);
       if (banners.isNotEmpty) {
@@ -39,7 +39,7 @@ class HomeController extends GetxController {
    * 歌单推荐
    */
   void getPlayList() {
-    miguRepository.playListNewWeb().then((value) {
+    miguRepository?.playListNewWeb().then((value) {
       playList.clear();
 
       var list = value['msg'] as List;
@@ -54,7 +54,7 @@ class HomeController extends GetxController {
    * 专辑
    */
   void getAlbum() {
-    miguRepository.albumNewWeb().then((value) {
+    miguRepository?.albumNewWeb().then((value) {
       albums.clear();
 
       var list = value['result']['results'] as List;
@@ -69,7 +69,7 @@ class HomeController extends GetxController {
    * 新歌
    */
   void getSong() {
-    miguRepository.songNewWeb().then((value) {
+    miguRepository?.songNewWeb().then((value) {
       songs.clear();
 
       var list = value['result']['results'] as List;

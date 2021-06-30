@@ -16,7 +16,7 @@ import 'netease_cloud_music.dart';
 
 class KMusic {
 
- static HttpServer _server;
+ static HttpServer? _server;
 
   static Future startServer({address = "0.0.0.0", int port = 3000}) {
     return HttpServer.bind(address, port, shared: true).then((tmpServer) {
@@ -29,14 +29,14 @@ class KMusic {
     });
   }
 
-  static Future stopServer(){
-   return _server?.close()?.then((value) {
+  static Future? stopServer(){
+   return _server?.close().then((value) {
      _server = null;
     });
   }
 
  static String ip()  {
-   return _server?.address?.host??"0.0.0.0";
+   return _server?.address.host??"0.0.0.0";
  }
 
  static String  port(){

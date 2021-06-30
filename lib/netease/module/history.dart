@@ -6,7 +6,7 @@ Handler historyRecommendSongsDetail = (query, cookie) {
   return request(
     'POST',
     'https://music.163.com/api/discovery/recommend/songs/history/detail',
-    {"data": query['data' ?? '']},
+    {"data": query['data']},
     crypto: Crypto.weapi,
     cookies: cookie,
   );

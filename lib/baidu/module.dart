@@ -29,7 +29,7 @@ part 'module/user.dart';
 
 part 'module/video.dart';
 
-typedef Handler = Future<Answer> Function(Map query, String auth);
+typedef Handler = Future<Answer> Function(Map query, String? auth);
 
 final handles = <String, Handler>{
   "/openScreen": openScreen,

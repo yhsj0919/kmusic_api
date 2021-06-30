@@ -43,7 +43,7 @@ class _ServerPageState extends State<ServerPage> with AutomaticKeepAliveClientMi
             margin: EdgeInsets.only(top: 16, bottom: 16),
             child: TextButton(
               onPressed: () async {
-              KMusic.startServer(address: '0.0.0.0', port: 3001)?.then((value){
+              KMusic.startServer(address: '0.0.0.0', port: 3001).then((value){
                 setState(() {});
               });
               },

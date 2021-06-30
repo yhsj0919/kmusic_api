@@ -4,7 +4,7 @@ import 'package:kmusic_api_example/search/search_controller.dart';
 import 'package:kmusic_api_example/widget/blur_widget.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();

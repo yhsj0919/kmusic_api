@@ -6,8 +6,7 @@ Handler registerCellphone = (query, cookie) {
   final data = {
     'captcha': query['captcha'],
     'phone': query['phone'],
-    'password':
-        Encrypted(md5.convert(utf8.encode(query['password'])).bytes).base16,
+    'password': Encrypted(Uint8List.fromList(md5.convert(utf8.encode(query['password'])).bytes)).base16,
     'nickname': query['nickname'],
     'countrycode': query['countrycode'] ?? '86'
   };

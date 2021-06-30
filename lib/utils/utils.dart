@@ -5,8 +5,8 @@ bool toBoolean(val) {
   return val == 'true' || val == '1';
 }
 
-String toParamsString(LinkedHashMap params) {
-  return params.entries.map((e) => "${e.key}=${e.value}").join("&");
+String toParamsString(LinkedHashMap? params) {
+  return params?.entries.map((e) => "${e.key}=${e.value}").join("&")??"";
 }
 
 //删除一些转义字符，这个主要用于qqMusic

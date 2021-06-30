@@ -26,9 +26,9 @@ class MiGuRepository {
     return jar.loadForRequest(uri);
   }
 
-  _saveCookies(List<Cookie> cookies) async {
+  _saveCookies(List<Cookie>? cookies) async {
     var jar = await _cookieJar.future;
-    if (jar == null) {
+    if (jar == null || cookies == null) {
       return;
     }
     final uri = Uri.parse('https://m.music.migu.cn');
@@ -37,18 +37,18 @@ class MiGuRepository {
 
   Future<dynamic> _doRequest(String path, {Map<String, dynamic> params: const {}}) async {
     List<Cookie> cookies = await _loadCookies();
-    Answer answer;
+    Answer? answer;
     try {
       answer = await miguApi(path, parameter: params, cookie: cookies);
     } catch (e, stacktrace) {
       Future.error('request error:$e', stacktrace);
     }
 
-    if (answer.status == HttpStatus.ok) {
-      _saveCookies(answer.cookie);
+    if (answer?.status == HttpStatus.ok) {
+      _saveCookies(answer?.cookie);
     }
 
-    final map = answer.body;
+    final map = answer?.body;
     if (map == null) {
       return Future.error('请求失败了');
     }

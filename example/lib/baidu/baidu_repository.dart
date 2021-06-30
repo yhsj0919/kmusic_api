@@ -13,9 +13,9 @@ class BaiduRepository {
 
   _saveAuth(String auth) async {}
 
-  Future<dynamic> _doRequest(String path, {Map<String, dynamic> params}) async {
+  Future<dynamic> _doRequest(String path, {Map<String, dynamic>? params}) async {
     String auth = await _loadAuth();
-    Answer answer;
+    Answer? answer;
     try {
       answer = await baiduMusicApi(path, parameter: params, auth: auth);
     } catch (e, stacktrace) {
@@ -26,7 +26,7 @@ class BaiduRepository {
     //   _saveCookies("answer.cookie");
     // }
 
-    final map = answer.body;
+    final map = answer?.body;
     if (map == null) {
       return Future.error('请求失败了');
     } else if (map['errmsg'].toString().contains('请登陆')) {
