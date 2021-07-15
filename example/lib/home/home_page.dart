@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:flutter_banner/flutter_banner.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/api_manager/api_manager.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
@@ -100,41 +100,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       radius: 10,
       elevation: 0,
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: AspectRatio(
-        aspectRatio: 750 / 346,
-        child: homeController.banners.isNotEmpty
-            ? Swiper(
-                duration: 500,
-                autoplayDelay: 3000,
-                itemBuilder: (BuildContext context, int index) {
-                  return CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: homeController.banners[index]['picUrl'],
-                  );
-                },
-                onIndexChanged: (index) {
-                  playerController.opacity.value = 0.2;
-                  Future.delayed(Duration(milliseconds: 500)).then((value) {
-                    playerController.opacity.value = 0.8;
-                    playerController.appBgImageUrl.value = homeController.banners[index]['picUrl'];
-                  });
-                },
-                autoplay: true,
-                itemCount: homeController.banners.length,
-                // viewportFraction: 0.8,
-                // scale: 0.9,
-                pagination: SwiperPagination(
-                    builder: DotSwiperPaginationBuilder(
-                  activeColor: Colors.red,
-                  size: 5,
-                  activeSize: 5,
-                )),
-                // control: SwiperControl(),
-              )
-            : Container(
-                color: Colors.black12,
-              ),
-      ),
+      child: homeController.banners.isNotEmpty
+          ? KBanner(
+              aspectRatio: 750 / 346,
+              banners: homeController.banners,
+              itemBuilder: (context, value) {
+                return CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: value['picUrl'],
+                );
+              },
+              onPageChanged: (value) {
+                playerController.opacity.value = 0.2;
+                Future.delayed(Duration(milliseconds: 500)).then((_) {
+                  playerController.opacity.value = 0.8;
+                  playerController.appBgImageUrl.value = value?['picUrl'];
+                });
+              },
+            )
+          : Container(
+              color: Colors.black12,
+            ),
     );
   }
 
@@ -229,7 +215,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       itemBuilder: (context, index) {
         return ListTile(
           onTap: () {
-            Get.printError(info:json.encode(homeController.songs[index]));
+            Get.printError(info: json.encode(homeController.songs[index]));
 
             homeController.play(homeController.songs[index]);
           },
