@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,32 +9,70 @@ import 'package:kmusic_api_example/widget/blur_widget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayerPage extends StatelessWidget {
-  Widget? child;
+  final Widget body;
+  final PreferredSizeWidget? appBar;
+  final RxDouble? opacity;
+  final bool withPlayer;
+  final RxString? imageUrl;
 
-  PlayerPage({@required this.child});
+  PlayerPage({required this.body, this.appBar, this.opacity, this.withPlayer = true, this.imageUrl});
 
   final player = Get.put(PlayerController());
 
   @override
   Widget build(BuildContext context) {
     final double _panelMaxSize = MediaQuery.of(context).size.height / 5 * 3;
-    return Scaffold(
-      body: SlidingUpPanel(
-        color: Colors.transparent,
-        controller: player.panelController,
-        body: child,
-        minHeight: 70,
-        maxHeight: _panelMaxSize,
-        panelBuilder: (ScrollController sc) => BlurWidget(
-          color: Colors.white60,
-          radius: 30,
-          blur: 10,
-          child: playlist(sc),
+    return Material(
+        child: Stack(
+      children: [
+        Container(color: Colors.white),
+        Obx(
+          () => imageUrl == null || imageUrl?.value == ""
+              ? Container()
+              : AnimatedOpacity(
+                  // 使用一个AnimatedOpacity Widget
+                  opacity: opacity?.value ?? 0.8,
+                  duration: Duration(milliseconds: 400), //过渡时间：1
+                  child: CachedNetworkImage(
+                    width: Get.width,
+                    height: Get.height,
+                    imageUrl: imageUrl!.value,
+                    fit: BoxFit.fill,
+                  ),
+                ),
         ),
-        header: playerBar(),
-        backdropEnabled: true,
-      ),
-    );
+        BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 50,
+            sigmaY: 50,
+          ),
+          child: withPlayer
+              ? SlidingUpPanel(
+                  color: Colors.transparent,
+                  controller: player.panelController,
+                  body: Scaffold(backgroundColor: Color(0xccffffff), appBar: appBar, body: body),
+                  minHeight: 70,
+                  maxHeight: _panelMaxSize,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  panelBuilder: (ScrollController sc) => ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: 10,
+                          sigmaY: 10,
+                        ),
+                        child: Container(
+                          color: Colors.white60,
+                          child: playlist(sc),
+                        ),
+                      )),
+                  header: playerBar(),
+                  backdropEnabled: true,
+                )
+              : Scaffold(appBar: appBar, body: body),
+        ),
+      ],
+    ));
   }
 
   Widget playerBar() {
@@ -62,7 +102,7 @@ class PlayerPage extends StatelessWidget {
         width: 50,
         height: 50,
         child: ClipOval(
-          child: player.songInfo.value.image?.path == null || player.songInfo.value.image?.path?.isBlank == true
+          child: player.songInfo.value.image?.path == null || player.songInfo.value.image?.path.isBlank == true
               ? Container(color: Colors.black12)
               : CachedNetworkImage(
                   imageUrl: player.songInfo.value.image?.path ?? "",
@@ -117,7 +157,7 @@ class PlayerPage extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             player.isBuffering.value == true
-                ? Hero(tag: "player_Progress1", child: CircularProgressIndicator(strokeWidth: 2, backgroundColor: Colors.black12))
+                ? Hero(tag: "player_Progress1", child: const CircularProgressIndicator(strokeWidth: 2, backgroundColor: Colors.black12))
                 : Hero(
                     tag: "player_Progress2",
                     child: CircularProgressIndicator(value: player.position.value / player.duration.value, strokeWidth: 1, backgroundColor: Colors.black12)),

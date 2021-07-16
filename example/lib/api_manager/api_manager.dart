@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kmusic_api_example/baidu/baidu_music_page.dart';
 import 'package:kmusic_api_example/migu/migu_page.dart';
 import 'package:kmusic_api_example/netease/netease_page.dart';
+import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/qq/qqmusic_page.dart';
 import 'package:kmusic_api_example/server/server_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
-import 'package:kmusic_api_example/widget/app_scaffold.dart';
 
 class ApiManagerPage extends StatefulWidget {
   const ApiManagerPage({Key? key}) : super(key: key);
@@ -25,8 +25,8 @@ class _ApiManagerPageState extends State<ApiManagerPage> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      withPlayer: true,
+    return PlayerPage(
+        withPlayer: true,
         appBar: AppAppBar(
           title: Text("API测试"),
           centerTitle: true,

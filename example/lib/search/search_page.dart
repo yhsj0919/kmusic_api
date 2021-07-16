@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/search/search_controller.dart';
 import 'package:kmusic_api_example/widget/blur_widget.dart';
 
@@ -15,42 +16,36 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: BlurWidget(
-        child: Scaffold(
+    return PlayerPage(
+        appBar: AppBar(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            titleSpacing: 0,
-            title: TextField(
-              textInputAction: TextInputAction.search,
-              onSubmitted: (value) {
-                print("$value");
-              },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "请输入关键字",
-                prefixIcon: Hero(tag: "tag", child: Icon(Icons.search)),
-                suffixIcon: Icon(Icons.clear),
-              ),
-            ),
-          ),
-          body: Obx(
-            () => SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  discovery(),
-                  hotWord(),
-                ],
-              ),
+          elevation: 0,
+          titleSpacing: 0,
+          title: TextField(
+            textInputAction: TextInputAction.search,
+            onSubmitted: (value) {
+              print("$value");
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: "请输入关键字",
+              prefixIcon: Hero(tag: "tag", child: Icon(Icons.search)),
+              suffixIcon: Icon(Icons.clear),
             ),
           ),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 70),
+          physics: BouncingScrollPhysics(),
+          child: Obx(
+            () => Column(
+              children: [
+                discovery(),
+                hotWord(),
+              ],
+            ),
+          ),
+        ));
   }
 
   ///热门搜索

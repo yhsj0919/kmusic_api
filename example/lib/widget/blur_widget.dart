@@ -15,9 +15,9 @@ class BlurWidget extends StatefulWidget {
   final Alignment? alignment;
   final double blur;
   final Color? shadowColor;
-  final Color splashColor;
-  final ShapeBorder? shape;
-  final GestureTapCallback? onTap;
+
+  // final Color splashColor;
+  // final ShapeBorder? shape;
   final double? borderWidth;
   final EdgeInsetsGeometry? padding;
 
@@ -32,14 +32,11 @@ class BlurWidget extends StatefulWidget {
       this.padding,
       this.elevation: 4,
       this.shadowColor,
-      this.splashColor: Colors.white,
       this.radius: 0,
       this.alignment,
-      this.shape,
       this.borderWidth: 0,
       this.color: Colors.white70,
-      this.border,
-      this.onTap});
+      this.border});
 
   final BoxBorder? border;
 
@@ -53,24 +50,8 @@ class _BlurWidgetState extends State<BlurWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-        minWidth: widget.minWidth ?? 0,
-        minHeight: widget.minHeight ?? 0,
-      ),
       width: widget.width != null ? (widget.width ?? 0) - (widget.margin?.horizontal ?? 0) : null,
       height: widget.height != null ? (widget.height ?? 0) - (widget.margin?.vertical ?? 0) : null,
-      decoration: BoxDecoration(
-        borderRadius: widget.border == null ? BorderRadius.all(Radius.circular(widget.radius)) : null,
-        border: widget.border ?? Border.all(color: widget.borderWidth == 0 ? Colors.transparent : Color(0xffcccccc), width: widget.borderWidth ?? 0),
-        boxShadow: [
-          BoxShadow(
-              color: widget.shadowColor ?? Colors.black12,
-              offset: widget.elevation > 0 ? Offset(2, 4) : Offset.zero, //阴影xy轴偏移量
-              blurRadius: widget.elevation * 2, //阴影模糊程度
-              spreadRadius: widget.elevation //阴影扩散程度
-              ),
-        ],
-      ),
       margin: widget.margin,
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
@@ -79,26 +60,7 @@ class _BlurWidgetState extends State<BlurWidget> {
             sigmaX: widget.blur,
             sigmaY: widget.blur,
           ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              focusNode: focusNode,
-              splashColor: widget.shadowColor ?? widget.splashColor,
-              focusColor: widget.shadowColor?.withAlpha(55),
-              onHover: (hover) {
-                setState(() {
-                  hover ? focusNode.requestFocus() : focusNode.unfocus();
-                });
-              },
-              onTap: widget.onTap,
-              child: Container(
-                alignment: widget.alignment,
-                color: widget.color,
-                padding: widget.padding,
-                child: widget.child,
-              ),
-            ),
-          ),
+          child: widget.child,
         ),
       ),
     );

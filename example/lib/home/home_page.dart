@@ -7,9 +7,9 @@ import 'package:flutter_banner/flutter_banner.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/api_manager/api_manager.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
+import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/search/search_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
-import 'package:kmusic_api_example/widget/app_scaffold.dart';
 import 'package:kmusic_api_example/widget/blur_widget.dart';
 
 import 'home_controller.dart';
@@ -27,29 +27,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => AppScaffold(
-        withPlayer: true,
-        imageUrl: playerController.appBgImageUrl.value,
-        opacity: playerController.opacity.value,
-        appBar: AppAppBar(
-          leading: const Icon(Icons.menu),
-          title: search(),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                    return ApiManagerPage();
-                  }));
-                },
-                icon: Hero(tag: "tag", child: Icon(Icons.settings)))
-          ],
-        ),
-        body: SingleChildScrollView(
+    return PlayerPage(
+      withPlayer: true,
+      imageUrl: playerController.appBgImageUrl,
+      opacity: playerController.opacity,
+      appBar: AppAppBar(
+        leading: const Icon(Icons.menu),
+        title: search(),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return ApiManagerPage();
+                }));
+              },
+              icon: Hero(tag: "tag", child: Icon(Icons.settings)))
+        ],
+      ),
+      body: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 70),
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-              banner(),
+              Obx(() => banner()),
               Row(
                 children: [
                   Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.list_alt, size: 35, color: Color(0xffec3258)), Text("歌单")])),
@@ -62,31 +62,34 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 title: Text('歌单推荐', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              playList(),
+              Obx(() => playList()),
               ListTile(
                 title: Text('新碟上架', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              album(),
+              Obx(() => album()),
               ListTile(
                 title: Text('新歌速递', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              song(),
+              Obx(() => song()),
             ],
-          ),
-        ),
-      ),
+          )),
     );
   }
 
   Widget search() {
-    return BlurWidget(
-      color: Colors.white60,
-      height: 30,
-      radius: 20,
-      shadowColor: Colors.white60,
-      elevation: 0,
+    return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+      child: Container(
+        width: double.infinity,
+        height: 30,
+        decoration: BoxDecoration(
+          color: Color(0xC000000),
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          border: Border.all(color: Color(0xC000000), width: 1),
+        ),
+      ),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return SearchPage();
@@ -96,10 +99,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Widget banner() {
-    return BlurWidget(
-      radius: 10,
-      elevation: 0,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       child: homeController.banners.isNotEmpty
           ? KBanner(
               aspectRatio: 750 / 346,
@@ -121,6 +122,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           : Container(
               color: Colors.black12,
             ),
+    ).marginSymmetric(
+      horizontal: 16,
+      vertical: 8,
     );
   }
 
@@ -138,13 +142,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  BlurWidget(
-                    width: 80,
-                    height: 80,
-                    elevation: 0,
-                    radius: 10,
-                    child: CachedNetworkImage(
-                      imageUrl: homeController.playList[index]['image'],
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      child: CachedNetworkImage(
+                        imageUrl: homeController.playList[index]['image'],
+                      ),
                     ),
                   ),
                   Container(
@@ -176,16 +181,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {},
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  BlurWidget(
-                    width: 80,
-                    height: 80,
-                    elevation: 0,
-                    radius: 50,
-                    child: CachedNetworkImage(
-                      imageUrl: homeController.albums[index]['albumsSmallUrl'],
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      child: CachedNetworkImage(
+                        imageUrl: homeController.albums[index]['albumsSmallUrl'],
+                      ),
                     ),
                   ),
                   Container(
@@ -211,21 +218,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       shrinkWrap: true,
       itemCount: homeController.songs.length,
       physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(bottom: 80),
       itemBuilder: (context, index) {
         return ListTile(
           onTap: () {
             Get.printError(info: json.encode(homeController.songs[index]));
-
             homeController.play(homeController.songs[index]);
           },
-          leading: BlurWidget(
-            width: 50,
-            height: 50,
-            elevation: 0,
-            radius: 10,
-            child: CachedNetworkImage(
-              imageUrl: homeController.songs[index]['picS'],
+          leading: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: Container(
+              width: 50,
+              height: 50,
+              child: CachedNetworkImage(
+                imageUrl: homeController.songs[index]['picS'],
+              ),
             ),
           ),
           title: Text(
