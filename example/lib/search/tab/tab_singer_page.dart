@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 
-class TabAlbumPage extends StatelessWidget {
-  TabAlbumPage({Key? key}) : super(key: key);
-  final TabAlbumController _controller = Get.put(TabAlbumController());
+class TabSingerPage extends StatelessWidget {
+  TabSingerPage({Key? key}) : super(key: key);
+  final TabSingerController _controller = Get.put(TabSingerController());
 
   @override
   Widget build(BuildContext context) {
     return _controller.obx((state) {
-      final datas = (state?["albumResultData"]?["result"] ?? []) as List;
+      final datas = (state?["singerResultData"]?["result"] ?? []) as List;
 
       return SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 70),
@@ -26,12 +26,12 @@ class TabAlbumPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
                         child: Container(
                           width: 50,
                           height: 50,
                           child: CachedNetworkImage(
-                            imageUrl: (datas[index]["imgItems"] as List).last["img"],
+                            imageUrl: (datas[index]["singerPicUrl"] as List).last["img"],
                           ),
                         ),
                       ),
@@ -43,20 +43,26 @@ class TabAlbumPage extends StatelessWidget {
                       ),
                       subtitle: Row(
                         children: [
-                          Flexible(
-                              child: Text(
-                            "${datas[index]["singer"]}",
+                          Text(
+                            "单曲: ${datas[index]["songCount"]}",
                             maxLines: 1,
                             style: Theme.of(context).textTheme.caption,
                             overflow: TextOverflow.ellipsis,
-                          )),
+                          ),
                           Container(width: 8),
                           Text(
-                            "${datas[index]["desc"]}",
+                            "专辑: ${datas[index]["albumCount"]}",
                             maxLines: 1,
                             style: Theme.of(context).textTheme.caption,
                             overflow: TextOverflow.ellipsis,
-                          )
+                          ),
+                          Container(width: 8),
+                          Text(
+                            "视频: ${datas[index]["mvCount"]}",
+                            maxLines: 1,
+                            style: Theme.of(context).textTheme.caption,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
                       ),
                       trailing: Icon(Icons.keyboard_arrow_right),
@@ -68,11 +74,11 @@ class TabAlbumPage extends StatelessWidget {
   }
 }
 
-class TabAlbumController extends GetxController with StateMixin<dynamic> {
+class TabSingerController extends GetxController with StateMixin<dynamic> {
   final migu = MiGuRepository();
 
   //搜索
-  void search(String keyword, {int type = 1}) {
+  void search(String keyword, {int type = 5}) {
     change([], status: RxStatus.loading());
     if (keyword.isNotEmpty) {
       migu.search(keyword, type: type).then((value) {

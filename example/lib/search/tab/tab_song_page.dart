@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
+import 'package:kmusic_api_example/player/player_controller.dart';
 
 class TabSongPage extends StatelessWidget {
   TabSongPage({Key? key}) : super(key: key);
   final TabSongController _controller = Get.put(TabSongController());
+  final playerController = Get.put(PlayerController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,9 @@ class TabSongPage extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ListTile(
+                      onTap: () {
+                        playerController.play(datas[index]);
+                      },
                       title: Text(
                         datas[index]["name"],
                         maxLines: 1,

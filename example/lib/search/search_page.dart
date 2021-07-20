@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/search/search_controller.dart';
 import 'package:kmusic_api_example/search/tab/tab_album_page.dart';
+import 'package:kmusic_api_example/search/tab/tab_playlist_page.dart';
+import 'package:kmusic_api_example/search/tab/tab_singer_page.dart';
 import 'package:kmusic_api_example/search/tab/tab_song_page.dart';
 import 'package:kmusic_api_example/search/tab/tab_video_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
@@ -20,9 +22,18 @@ class _SearchPageState extends State<SearchPage> {
   TextEditingController textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    textController.addListener(() {
+      if (textController.text.isEmpty) {
+        searchController.showResult.value = false;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PlayerPage(
-      withPlayer: false,
       appBar: AppAppBar(
         backgroundColor: Colors.transparent,
         title: searchBar(),
@@ -49,13 +60,13 @@ class _SearchPageState extends State<SearchPage> {
   //搜索详情页
   Widget searchPage() {
     return DefaultTabController(
-      length: 6,
+      length: 5,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TabBar(
             isScrollable: true,
-            tabs: [Tab(text: "单曲"), Tab(text: "专辑"), Tab(text: "视频"), Tab(text: "歌单"), Tab(text: "歌词"), Tab(text: "歌手")],
+            tabs: [Tab(text: "单曲"), Tab(text: "专辑"), Tab(text: "视频"), Tab(text: "歌单"), Tab(text: "歌手")],
           ),
           Flexible(
             child: TabBarView(
@@ -63,9 +74,8 @@ class _SearchPageState extends State<SearchPage> {
                 TabSongPage(),
                 TabAlbumPage(),
                 TabVideoPage(),
-                TabSongPage(),
-                TabSongPage(),
-                TabSongPage(),
+                TabPlayListPage(),
+                TabSingerPage(),
               ],
             ),
           )
@@ -97,12 +107,12 @@ class _SearchPageState extends State<SearchPage> {
       // onSelected: (dynamic item) {
       //   searchController.search("${item["suggestrecWord"]}");
       // },
-      onChanged: (value) {
-        printInfo(info: ">>>>>>>>>>>>>>>>>>>>>");
-        if (value.isEmpty) {
-          searchController.showResult.value = false;
-        }
-      },
+      // onChanged: (value) {
+      //   printInfo(info: ">>>>>>>>>>>>>>>>>>>>>");
+      //   if (value.isEmpty) {
+      //
+      //   }
+      // },
     );
   }
 

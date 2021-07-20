@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/search/tab/tab_album_page.dart';
+import 'package:kmusic_api_example/search/tab/tab_playlist_page.dart';
+import 'package:kmusic_api_example/search/tab/tab_singer_page.dart';
 import 'package:kmusic_api_example/search/tab/tab_song_page.dart';
 import 'package:kmusic_api_example/search/tab/tab_video_page.dart';
 
@@ -10,6 +12,8 @@ class SearchController extends GetxController {
   final TabSongController _songController = Get.put(TabSongController());
   final TabAlbumController _albumController = Get.put(TabAlbumController());
   final TabVideoController _videoController = Get.put(TabVideoController());
+  final TabPlayListController _playlistController = Get.put(TabPlayListController());
+  final TabSingerController _singerController = Get.put(TabSingerController());
 
   final RxList hotwords = RxList();
   final RxList discovery = RxList();
@@ -48,6 +52,8 @@ class SearchController extends GetxController {
       _songController.search(keyword);
       _albumController.search(keyword);
       _videoController.search(keyword);
+      _playlistController.search(keyword);
+      _singerController.search(keyword);
     } else {}
   }
 }

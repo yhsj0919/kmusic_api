@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,14 +56,16 @@ class PlayerController extends GetxController {
   Future<void> play(song) async {
     playList.addIf(!playList.contains(song), song);
     await miguRepository?.playUrl(song['songId']).then((value) {
+      printInfo(info: json.encode(value));
+
       final play = value['data'];
       final playSong = value['data']["song"];
       openFile(
         (play["url"] ?? song['listenUrl']).toString().replaceAll("MP3_128_16_Stero", "MP3_320_16_Stero"),
-        song["songName"],
-        (song["singerName"] as List).join(","),
+        playSong["songName"],
+        (playSong["singerList"] as List).map((e) => e["name"]).join(","),
         playSong == null ? "" : playSong["album"],
-        song["picS"],
+        "http://d.musicapp.migu.cn" + playSong["img1"],
       );
     });
   }
