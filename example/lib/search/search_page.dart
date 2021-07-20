@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/search/search_controller.dart';
+import 'package:kmusic_api_example/widget/app_appbar.dart';
+import 'package:kmusic_api_example/widget/auto_complete_text_field.dart';
 import 'package:kmusic_api_example/widget/blur_widget.dart';
 
 class SearchPage extends StatefulWidget {
@@ -17,21 +19,30 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return PlayerPage(
-        appBar: AppBar(
+        appBar: AppAppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          titleSpacing: 0,
-          title: TextField(
+          title: AutoCompleteTextField<String>(
             textInputAction: TextInputAction.search,
             onSubmitted: (value) {
               print("$value");
             },
+            leftOffset: -35,
+            rightOffset: 10,
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "请输入关键字",
               prefixIcon: Hero(tag: "tag", child: Icon(Icons.search)),
               suffixIcon: Icon(Icons.clear),
             ),
+            optionsBuilder: (String pattern) {
+              return Future.value(["aa", "bb"]);
+            },
+            optionsViewBuilder:
+                <String>(BuildContext context, String itemData) {
+              return Container(
+                child: Text("$itemData"),
+              );
+            },
           ),
         ),
         body: SingleChildScrollView(
@@ -76,7 +87,8 @@ class _SearchPageState extends State<SearchPage> {
       onTap: () {},
       title: Text(
         "${index + 1}   " + searchController.hotwords[index]['word'],
-        style: TextStyle(fontSize: 14, color: index < 3 ? Colors.black : Color(0xff666666)),
+        style: TextStyle(
+            fontSize: 14, color: index < 3 ? Colors.black : Color(0xff666666)),
       ),
       trailing: Text(
         searchController.hotwords[index]['note'],

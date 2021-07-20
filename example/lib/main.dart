@@ -9,8 +9,10 @@ import 'package:kmusic_api_example/utils/sp.dart';
 void main() {
   Sp.init();
   runApp(MyApp());
+
   if (Platform.isAndroid) {
-    final SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    final SystemUiOverlayStyle systemUiOverlayStyle =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
