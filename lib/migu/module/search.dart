@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 搜索热词
  */
-Handler searchHotword = (Map query, cookie) {
+Handler searchHotword = (Map query, cookie) async {
   final data = {};
   return request(
     'GET',
@@ -16,7 +16,7 @@ Handler searchHotword = (Map query, cookie) {
 /*
 * 搜索
  */
-Handler search = (Map query, cookie) {
+Handler search = (Map query, cookie) async {
   final searchSwitch = [
     {"song": 1, "tagSong": 1, "bestShow": 1},
     {"album": 1},
@@ -82,7 +82,7 @@ Handler search = (Map query, cookie) {
 /*
 * 搜索建议
  */
-Handler searchSuggest = (Map query, cookie) {
+Handler searchSuggest = (Map query, cookie) async {
   final keyword = query['keyword'];
   final data = {
     'pageSize': query['size'] ?? 10,

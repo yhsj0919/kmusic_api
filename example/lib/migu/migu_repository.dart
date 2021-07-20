@@ -208,11 +208,11 @@ class MiGuRepository {
     return _doRequest('/search/hotword');
   }
 
-  Future<dynamic> search() {
-    return _doRequest('/search', params: {'keyword': '薛之谦', 'type': 7});
+  Future<dynamic> search(String keyword, {int type = 0}) {
+    return _doRequest('/search', params: {'keyword': keyword, 'type': type});
   }
 
-  Future<dynamic> searchSuggest() {
-    return _doRequest('/search/suggest', params: {'keyword': '薛之谦'});
+  Future<dynamic> searchSuggest(String keyword) {
+    return _doRequest('/search/suggest', params: {'keyword': keyword});
   }
 }

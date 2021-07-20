@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 新专辑、新碟
  */
-Handler albumNewWeb = (Map query, cookie) {
+Handler albumNewWeb = (Map query, cookie) async {
   final data = {
     "pageSize": 10,
     "nid": 23854016,
@@ -21,7 +21,7 @@ Handler albumNewWeb = (Map query, cookie) {
 /*
  * 新专辑类型
  */
-Handler albumNewType = (Map query, cookie) {
+Handler albumNewType = (Map query, cookie) async {
   final data = {
     "templateVersion": 7,
   };
@@ -48,9 +48,9 @@ Handler albumNewType = (Map query, cookie) {
 /*
  * 全部专辑
  */
-Handler albumNew = (Map query, cookie) {
+Handler albumNew = (Map query, cookie) async {
   final data = {
-    "columnId": query['query']??15279065,
+    "columnId": query['query'] ?? 15279065,
     "count": query['size'] ?? 20,
     "start": query['page'] ?? 1,
     "templateVersion": 7,
@@ -66,7 +66,7 @@ Handler albumNew = (Map query, cookie) {
 /*
 * 专辑歌曲
  */
-Handler albumSong = (Map query, cookie) {
+Handler albumSong = (Map query, cookie) async {
   final data = {
     "albumId": query['albumId'],
     "pageNo": 1,
@@ -82,7 +82,7 @@ Handler albumSong = (Map query, cookie) {
 /*
 * 专辑歌曲
  */
-Handler albumInfo = (Map query, cookie) {
+Handler albumInfo = (Map query, cookie) async {
   final data = {
     "albumId": query['albumId'],
   };

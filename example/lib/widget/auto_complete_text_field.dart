@@ -1,22 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-typedef OptionsBuilder<T extends Object> = Future<Iterable<T>> Function(
-    String pattern);
-typedef OptionsViewBuilder<T extends Object> = Widget Function<T>(
-    BuildContext context, T itemData);
-typedef OnSelected<T extends Object> = void Function<T>(T value);
-typedef OptionToString<T extends Object> = String Function(T option);
+typedef OptionsBuilder<T> = Future<Iterable<T>> Function(String pattern);
+typedef OptionsViewBuilder<T> = Widget Function(BuildContext context, T itemData);
+typedef OnSelected<T> = void Function(T value);
+typedef OptionToString<T> = String Function(T option);
 
-class AutoCompleteTextField<T extends Object> extends StatefulWidget {
+class AutoCompleteTextField<T> extends StatefulWidget {
   final InputDecoration? decoration;
 
   final TextStyle? textStyle;
   final int debounceTime;
   final OptionsBuilder<T> optionsBuilder;
-  final OptionsViewBuilder<T> optionsViewBuilder;
+  final OptionsViewBuilder optionsViewBuilder;
   final OptionToString<T> displayStringForOption;
-  final OnSelected<T>? onSelected;
+  final OnSelected? onSelected;
 
   final ValueChanged<String>? onChanged;
 
@@ -55,13 +53,12 @@ class AutoCompleteTextField<T extends Object> extends StatefulWidget {
   }
 
   @override
-  _AutoCompleteTextFieldState<T> createState() =>
-      _AutoCompleteTextFieldState<T>();
+  _AutoCompleteTextFieldState<T> createState() => _AutoCompleteTextFieldState<T>();
 }
 
-class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
-    with WidgetsBindingObserver {
+class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> with WidgetsBindingObserver {
   OverlayEntry? _overlayEntry;
+  OverlayEntry? _bgEntry;
 
   Timer? timer;
 
@@ -75,6 +72,8 @@ class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
   bool _isLoading = false;
   String? _oldText = null;
 
+  VoidCallback? _textListener;
+
   @override
   void initState() {
     super.initState();
@@ -82,8 +81,16 @@ class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
     if (widget.value != null && widget.controller != null) {
       controller?.text = widget.displayStringForOption(widget.value!);
     }
-    controller?.addListener(() {
-      widget.onChanged?.call(controller?.text ?? "");
+    controller?.addListener(_textListener = () {
+      final text = controller?.text ?? "";
+      widget.onChanged?.call(text);
+
+      timer?.cancel();
+      timer = Timer(Duration(milliseconds: widget.debounceTime), () {
+        if (_oldText != text && _focusNode.hasFocus) {
+          textChanged(controller?.text ?? "");
+        }
+      });
     });
 
     WidgetsBinding.instance?.addObserver(this);
@@ -102,28 +109,26 @@ class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
     return CompositedTransformTarget(
       link: _layerLink,
       child: TextField(
-          focusNode: _focusNode,
-          onSubmitted: widget.onSubmitted,
-          textInputAction: widget.textInputAction,
-          decoration: widget.decoration?.copyWith(
-            suffix: _isLoading
-                ? Container(
-                    width: 14,
-                    height: 14,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : null,
-          ),
-          style: widget.textStyle,
-          autofocus: widget.autofocus ?? false,
-          controller: controller,
-          onChanged: (string) {
-            widget.onChanged?.call(string);
-            timer?.cancel();
-            timer = Timer(Duration(milliseconds: widget.debounceTime), () {
-              textChanged(string);
-            });
-          }),
+        focusNode: _focusNode,
+        onSubmitted: widget.onSubmitted,
+        textInputAction: widget.textInputAction,
+        decoration: widget.decoration?.copyWith(
+          suffix: _isLoading
+              ? Container(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : null,
+        ),
+        style: widget.textStyle,
+        autofocus: widget.autofocus ?? false,
+        controller: controller,
+        // onChanged: (string) {
+        //   print(">>>>>>>>>>>>>");
+        //   widget.onChanged?.call(string);
+        // }
+      ),
     );
   }
 
@@ -152,20 +157,25 @@ class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
     if (_overlayEntry != null) {
       _overlayEntry?.markNeedsBuild();
       _overlayEntry?.remove();
+      _bgEntry?.remove();
     }
 
-    if (items.length > 0) {
+    if (items.length > 0 && _focusNode.hasFocus) {
       _overlayEntry = this._createOverlay();
+      _bgEntry = this._createBgOverlay();
     }
 
-    if (_overlayEntry != null) {
+    if (_overlayEntry != null && _bgEntry != null) {
+      Overlay.of(context)?.insert(_bgEntry!);
       Overlay.of(context)?.insert(_overlayEntry!);
     }
 
     if (_overlayEntry != null && items.length == 0) {
       _overlayEntry?.markNeedsBuild();
       _overlayEntry?.remove();
+      _bgEntry?.remove();
       _overlayEntry = null;
+      _bgEntry = null;
     }
     //   this._overlayEntry.markNeedsBuild();
   }
@@ -204,8 +214,7 @@ class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
                         onTap: () {
                           if (index < items.length) {
                             widget.onSelected?.call(items[index]);
-                            controller?.text = widget.displayStringForOption
-                                .call(items[index]);
+                            controller?.text = widget.displayStringForOption.call(items[index]);
                             removeOverlay();
                             _focusNode.unfocus();
                           }
@@ -223,11 +232,27 @@ class _AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField>
     }
   }
 
+  OverlayEntry? _createBgOverlay() {
+    return OverlayEntry(builder: (_) {
+      return CompositedTransformFollower(
+        showWhenUnlinked: false,
+        targetAnchor: Alignment.bottomLeft,
+        link: this._layerLink,
+        offset: Offset(-55, 0),
+        child: Container(
+          color: Colors.transparent,
+        ),
+      );
+    });
+  }
+
   removeOverlay() {
     // items.clear();
     if (_overlayEntry != null) {
       _overlayEntry?.remove();
+      _bgEntry?.remove();
       _overlayEntry?.markNeedsBuild();
+      _overlayEntry = null;
       _overlayEntry = null;
     }
   }

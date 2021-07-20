@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/search/search_controller.dart';
+import 'package:kmusic_api_example/search/tab/tab_album_page.dart';
+import 'package:kmusic_api_example/search/tab/tab_song_page.dart';
+import 'package:kmusic_api_example/search/tab/tab_video_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
 import 'package:kmusic_api_example/widget/auto_complete_text_field.dart';
-import 'package:kmusic_api_example/widget/blur_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -15,48 +17,93 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final searchController = Get.put(SearchController());
+  TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return PlayerPage(
-        appBar: AppAppBar(
-          backgroundColor: Colors.transparent,
-          title: AutoCompleteTextField<String>(
-            textInputAction: TextInputAction.search,
-            onSubmitted: (value) {
-              print("$value");
-            },
-            leftOffset: -35,
-            rightOffset: 10,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: "请输入关键字",
-              prefixIcon: Hero(tag: "tag", child: Icon(Icons.search)),
-              suffixIcon: Icon(Icons.clear),
-            ),
-            optionsBuilder: (String pattern) {
-              return Future.value(["aa", "bb"]);
-            },
-            optionsViewBuilder:
-                <String>(BuildContext context, String itemData) {
-              return Container(
-                child: Text("$itemData"),
-              );
-            },
+      withPlayer: false,
+      appBar: AppAppBar(
+        backgroundColor: Colors.transparent,
+        title: searchBar(),
+      ),
+      body: Obx(
+        () => searchController.showResult.value
+            ? searchPage()
+            : SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 70),
+                physics: BouncingScrollPhysics(),
+                child: Obx(
+                  () => Column(
+                    children: [
+                      discovery(),
+                      hotWord(),
+                    ],
+                  ),
+                ),
+              ),
+      ),
+    );
+  }
+
+  //搜索详情页
+  Widget searchPage() {
+    return DefaultTabController(
+      length: 6,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TabBar(
+            isScrollable: true,
+            tabs: [Tab(text: "单曲"), Tab(text: "专辑"), Tab(text: "视频"), Tab(text: "歌单"), Tab(text: "歌词"), Tab(text: "歌手")],
           ),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 70),
-          physics: BouncingScrollPhysics(),
-          child: Obx(
-            () => Column(
+          Flexible(
+            child: TabBarView(
               children: [
-                discovery(),
-                hotWord(),
+                TabSongPage(),
+                TabAlbumPage(),
+                TabVideoPage(),
+                TabSongPage(),
+                TabSongPage(),
+                TabSongPage(),
               ],
             ),
-          ),
-        ));
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget searchBar() {
+    return TextField(
+      controller: textController,
+      // leftOffset: 10,
+      // rightOffset: -55,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "请输入关键字",
+        prefixIcon: Hero(tag: "tag", child: Icon(Icons.search)),
+        suffixIcon: IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              textController.text = "";
+            }),
+      ),
+      // optionsBuilder: searchController.searchSuggest,
+      textInputAction: TextInputAction.search,
+      // displayStringForOption: (dynamic item) => "${item["suggestrecWord"]}",
+      // optionsViewBuilder: (_, itemData) => ListTile(title: Text("${itemData["suggestrecWord"]}")),
+      onSubmitted: searchController.search,
+      // onSelected: (dynamic item) {
+      //   searchController.search("${item["suggestrecWord"]}");
+      // },
+      onChanged: (value) {
+        printInfo(info: ">>>>>>>>>>>>>>>>>>>>>");
+        if (value.isEmpty) {
+          searchController.showResult.value = false;
+        }
+      },
+    );
   }
 
   ///热门搜索
@@ -87,8 +134,7 @@ class _SearchPageState extends State<SearchPage> {
       onTap: () {},
       title: Text(
         "${index + 1}   " + searchController.hotwords[index]['word'],
-        style: TextStyle(
-            fontSize: 14, color: index < 3 ? Colors.black : Color(0xff666666)),
+        style: TextStyle(fontSize: 14, color: index < 3 ? Colors.black : Color(0xff666666)),
       ),
       trailing: Text(
         searchController.hotwords[index]['note'],
@@ -125,7 +171,12 @@ class _SearchPageState extends State<SearchPage> {
   ///发现内部按钮
   Widget discoveryButton(data) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        textController.text = data['word'];
+        searchController.showResult.value = true;
+
+        searchController.search("${data['word']}");
+      },
       child: Text(
         data['word'],
         style: TextStyle(fontSize: 13),
@@ -139,5 +190,11 @@ class _SearchPageState extends State<SearchPage> {
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.showResult.value = false;
   }
 }

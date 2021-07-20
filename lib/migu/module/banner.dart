@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * Banner
  */
-Handler banner = (Map query, cookie) {
+Handler banner = (Map query, cookie) async {
   final data = {
     "pageSize": 10,
     "nid": 23831003,

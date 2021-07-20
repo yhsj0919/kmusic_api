@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 新歌
  */
-Handler songNewWeb = (Map query, cookie) {
+Handler songNewWeb = (Map query, cookie) async {
   final data = {
     "pageSize": 10,
     "nid": 23853978,
@@ -20,7 +20,7 @@ Handler songNewWeb = (Map query, cookie) {
 /*
  * 新歌类型
  */
-Handler songNewType = (Map query, cookie) {
+Handler songNewType = (Map query, cookie) async {
   final data = {
     "templateVersion": 4,
   };
@@ -47,7 +47,7 @@ Handler songNewType = (Map query, cookie) {
 /*
  * 新歌
  */
-Handler songNew = (Map query, cookie) {
+Handler songNew = (Map query, cookie) async {
   final data = {
     "columnId": query['query'] ?? 15279065,
     "count": query['size'] ?? 20,
@@ -65,7 +65,7 @@ Handler songNew = (Map query, cookie) {
 /*
 * 播放地址
  */
-Handler playUrl = (Map query, cookie) {
+Handler playUrl = (Map query, cookie) async {
   final data = {
     // "albumId": query['albumId'],
     "netType": '01',

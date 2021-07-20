@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 歌手
  */
-Handler singer = (Map query, cookie) {
+Handler singer = (Map query, cookie) async {
   final data = {
     "tab": query['tab'],
   };
@@ -17,7 +17,7 @@ Handler singer = (Map query, cookie) {
 /*
 * 歌手标签
  */
-Handler singerTabs = (Map query, cookie) {
+Handler singerTabs = (Map query, cookie) async {
   return request(
     'GET',
     "https://app.c.nf.migu.cn/MIGUM3.0/bmw/singer-index/tabs/v1.0",
@@ -29,7 +29,7 @@ Handler singerTabs = (Map query, cookie) {
 /*
 * 歌手单曲
  */
-Handler singerSongs = (Map query, cookie) {
+Handler singerSongs = (Map query, cookie) async {
   final data = {
     "pageNo": query['page'] ?? 1,
     "pageSize": query['size'] ?? 50,
@@ -47,7 +47,7 @@ Handler singerSongs = (Map query, cookie) {
 /*
 * 歌手单曲
  */
-Handler singerInfo = (Map query, cookie) {
+Handler singerInfo = (Map query, cookie) async {
   final data = {
     "resourceId": query['singerId'],
     "resourceType": 2002,
@@ -63,7 +63,7 @@ Handler singerInfo = (Map query, cookie) {
 /*
 * 歌手专辑
  */
-Handler singerAlbum = (Map query, cookie) {
+Handler singerAlbum = (Map query, cookie) async {
   final data = {
     "singerId": query['singerId'],
     "templateVersion": 2,
@@ -79,7 +79,7 @@ Handler singerAlbum = (Map query, cookie) {
 /*
 * 歌手专辑
  */
-Handler singerMv = (Map query, cookie) {
+Handler singerMv = (Map query, cookie) async {
   final data = {
     "singerId": query['singerId'],
     "templateVersion": 2,

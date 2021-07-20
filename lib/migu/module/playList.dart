@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 新专辑、新碟
  */
-Handler playListNewWeb = (Map query, cookie) {
+Handler playListNewWeb = (Map query, cookie) async {
   final data = {};
   return request(
     'GET',
@@ -16,7 +16,7 @@ Handler playListNewWeb = (Map query, cookie) {
 /*
 * 歌单热门标签
  */
-Handler playListHotTag = (Map query, cookie) {
+Handler playListHotTag = (Map query, cookie) async {
   final data = {};
   return request(
     'GET',
@@ -28,7 +28,7 @@ Handler playListHotTag = (Map query, cookie) {
 /*
 * 歌单热门推荐(歌单最顶上的几个)
  */
-Handler playListRec = (Map query, cookie) {
+Handler playListRec = (Map query, cookie) async {
   final data = {};
   return request(
     'GET',
@@ -41,7 +41,7 @@ Handler playListRec = (Map query, cookie) {
 /*
 * 歌单播放量
  */
-Handler playListPlayNum = (Map query, cookie) {
+Handler playListPlayNum = (Map query, cookie) async {
   final data = {
     'id': (query['contentIds'] as List).join("|"),
     'resourceType': (query['contentType'] as List).join("|"),
@@ -57,7 +57,7 @@ Handler playListPlayNum = (Map query, cookie) {
 /*
 * 歌单列表
  */
-Handler playList = (Map query, cookie) {
+Handler playList = (Map query, cookie) async {
   final data = {
     'pageNumber': query['page'] ?? '1',
     'tagId': query['tagId'],
@@ -74,7 +74,7 @@ Handler playList = (Map query, cookie) {
 /*
 * 歌单全部标签
  */
-Handler playListTagList = (Map query, cookie) {
+Handler playListTagList = (Map query, cookie) async {
   final data = {
     'templateVersion': '1',
   };
@@ -89,7 +89,7 @@ Handler playListTagList = (Map query, cookie) {
 /*
 * 歌单信息(包含创建者信息)
  */
-Handler playListInfo = (Map query, cookie) {
+Handler playListInfo = (Map query, cookie) async {
   final data = {
     'needSimple': '00',
     'resourceId': query['id'],
@@ -106,7 +106,7 @@ Handler playListInfo = (Map query, cookie) {
 /*
 * 歌单歌曲
  */
-Handler playListSong = (Map query, cookie) {
+Handler playListSong = (Map query, cookie) async {
   final data = {
     'pageNo': query['page'] ?? 1,
     'pageSize': query['size'] ?? 50,

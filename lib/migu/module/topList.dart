@@ -3,7 +3,7 @@ part of '../module.dart';
 /*
 * 榜单
  */
-Handler topList = (Map query, cookie) {
+Handler topList = (Map query, cookie) async {
   final data = {
     "templateVersion": '11',
   };
@@ -18,7 +18,7 @@ Handler topList = (Map query, cookie) {
 /*
 * 榜单详情
  */
-Handler topListDetail = (Map query, cookie) {
+Handler topListDetail = (Map query, cookie) async {
   final data = {
     "columnId": query['columnId'],
     "needAll": '0',
