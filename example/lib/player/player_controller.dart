@@ -57,6 +57,17 @@ class PlayerController extends GetxController {
     playList.addIf(!playList.contains(song), song);
     await miguRepository?.playUrl(song['songId']).then((value) {
       printInfo(info: json.encode(value));
+      if (value["code"] == "440000") {
+        Get.snackbar(
+          "提示",
+          value["info"],
+          backgroundColor: Colors.red.withOpacity(0.2),
+          maxWidth: 500,
+          margin: EdgeInsets.symmetric(vertical: 8,horizontal: 8),
+          dismissDirection: SnackDismissDirection.HORIZONTAL
+        );
+        return;
+      }
 
       final play = value['data'];
       final playSong = value['data']["song"];

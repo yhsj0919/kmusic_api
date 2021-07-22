@@ -208,8 +208,8 @@ class MiGuRepository {
     return _doRequest('/search/hotword');
   }
 
-  Future<dynamic> search(String keyword, {int type = 0}) {
-    return _doRequest('/search', params: {'keyword': keyword, 'type': type});
+  Future<dynamic> search(String keyword, {int type = 0, int page = 1, int size = 20}) {
+    return _doRequest('/search', params: {'keyword': keyword, 'type': type, 'page': page, 'size': size});
   }
 
   Future<dynamic> searchSuggest(String keyword) {

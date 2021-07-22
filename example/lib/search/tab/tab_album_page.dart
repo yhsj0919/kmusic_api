@@ -76,7 +76,6 @@ class TabAlbumController extends GetxController with StateMixin<dynamic> {
     change([], status: RxStatus.loading());
     if (keyword.isNotEmpty) {
       migu.search(keyword, type: type).then((value) {
-        printInfo(info: json.encode(value));
         change(value, status: RxStatus.success());
       });
     } else {}

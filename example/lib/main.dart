@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       // home: Scaffold(body: Container(color: Colors.blue,),),
       theme: ThemeData(
         primaryColor: Colors.white,
+        fontFamily: "HarmonyOS_Sans_SC_Regular",
       ),
     );
   }

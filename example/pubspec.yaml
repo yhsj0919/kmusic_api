@@ -29,9 +29,9 @@ dependencies:
   #图标库
   font_awesome_flutter: ^9.1.0
 
-  assets_audio_player: ^3.0.3+3
-  get: ^4.1.4
-  cached_network_image: ^3.0.0
+  assets_audio_player: ^3.0.3+5
+  get: ^4.2.0
+  cached_network_image: ^3.1.0
   #  we_slide: ^2.1.0
   flutter_banner:
     git:
@@ -40,7 +40,7 @@ dependencies:
 
   # hive: ^1.4.4+1
   #https://github.com/bnxm/material_floating_search_bar
-  material_floating_search_bar: ^0.3.4
+#  material_floating_search_bar: ^0.3.4
 
 
 dev_dependencies:
@@ -74,6 +74,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: HarmonyOS_Sans_SC_Regular
+      fonts:
+        - asset: fonts/HarmonyOS_Sans_SC_Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

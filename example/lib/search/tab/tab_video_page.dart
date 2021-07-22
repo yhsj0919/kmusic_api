@@ -70,7 +70,7 @@ class TabVideoPage extends StatelessWidget {
                               Text(
                                 datas[index]["name"],
                                 maxLines: 2,
-                                style: Theme.of(context).textTheme.subtitle2,
+                                style: Theme.of(context).textTheme.subtitle1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Container(height: 4),
@@ -107,7 +107,6 @@ class TabVideoController extends GetxController with StateMixin<dynamic> {
     change([], status: RxStatus.loading());
     if (keyword.isNotEmpty) {
       migu.search(keyword, type: type).then((value) {
-        printInfo(info: json.encode(value));
         change(value, status: RxStatus.success());
       });
     } else {}
