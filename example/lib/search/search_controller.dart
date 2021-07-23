@@ -52,8 +52,8 @@ class SearchController extends GetxController {
     if (keyword.isNotEmpty) {
       showResult.value = true;
       _songController.search(keyword: keyword);
-      _albumController.search(keyword);
-      _videoController.search(keyword);
+      _albumController.search(keyword: keyword);
+      _videoController.search(keyword: keyword);
       _playlistController.search(keyword);
       _lyricController.search(keyword);
       _singerController.search(keyword);

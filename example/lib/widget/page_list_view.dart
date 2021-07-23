@@ -8,11 +8,12 @@ class PageListView extends StatefulWidget {
     required this.itemBuilder,
     required this.onRefresh,
     this.onLoadMore,
-    this.totalPage = 0,
-    this.thisPage = 0,
+    required this.totalCount,
+    required this.pageSize,
     this.padding,
     this.itemExtent,
-  }) : super(key: key);
+  })  : assert(pageSize > 0),
+        super(key: key);
 
   final RefreshCallback? onRefresh;
   final LoadMoreCallback? onLoadMore;
@@ -20,8 +21,8 @@ class PageListView extends StatefulWidget {
 
   final IndexedWidgetBuilder itemBuilder;
 
-  final int totalPage;
-  final int thisPage;
+  final int totalCount;
+  final int pageSize;
 
   final EdgeInsetsGeometry? padding;
   final double? itemExtent;
@@ -44,7 +45,6 @@ class _PageListViewState extends State<PageListView> {
       child: isEmpty()
           ? emptyWidget()
           : ListView.builder(
-              physics: const BouncingScrollPhysics(),
               itemCount: widget.onLoadMore == null ? widget.itemCount : widget.itemCount + 1,
               padding: widget.padding,
               itemExtent: widget.itemExtent,
@@ -53,22 +53,20 @@ class _PageListViewState extends State<PageListView> {
                 if (widget.onLoadMore == null) {
                   return widget.itemBuilder(context, index);
                 } else {
-                  return index < widget.itemCount ? widget.itemBuilder(context, index) : MoreWidget(widget.itemCount, widget.thisPage, widget.totalPage);
+                  return index < widget.itemCount ? widget.itemBuilder(context, index) : MoreWidget(widget.itemCount, widget.pageSize, widget.totalCount);
                 }
               },
             ),
     );
-    return SafeArea(
-      child: NotificationListener(
-        onNotification: (ScrollNotification note) {
-          /// 确保是垂直方向滚动，且滑动至底部
-          if (note.metrics.pixels == note.metrics.maxScrollExtent && note.metrics.axis == Axis.vertical) {
-            _loadMore();
-          }
-          return true;
-        },
-        child: child,
-      ),
+    return NotificationListener(
+      onNotification: (ScrollNotification note) {
+        /// 确保是垂直方向滚动，且滑动至底部
+        if (note.metrics.pixels == note.metrics.maxScrollExtent && note.metrics.axis == Axis.vertical) {
+          _loadMore();
+        }
+        return true;
+      },
+      child: child,
     );
   }
 
@@ -89,34 +87,36 @@ class _PageListViewState extends State<PageListView> {
     if (_isLoading) {
       return;
     }
-    if (widget.thisPage == widget.totalPage) {
+    if (widget.itemCount == widget.totalCount) {
       return;
     }
     _isLoading = true;
-    await widget.onLoadMore!(widget.thisPage + 1);
+    await widget.onLoadMore!((widget.itemCount ~/ widget.pageSize) + 1);
     _isLoading = false;
   }
 }
 
 class MoreWidget extends StatelessWidget {
-  const MoreWidget(this.itemCount, this.thisPage, this.totalPage);
+  const MoreWidget(this.itemCount, this.pageSize, this.totalCount);
 
   final int itemCount;
-  final int thisPage;
-  final int totalPage;
+  final int pageSize;
+  final int totalCount;
 
   @override
   Widget build(BuildContext context) {
+    print("当前$itemCount >>>> $totalCount");
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          if (thisPage < totalPage) const CupertinoActivityIndicator(),
+          if (itemCount < totalCount) const CupertinoActivityIndicator(),
 
           /// 只有一页的时候，就不显示FooterView了
-          Text(thisPage < totalPage ? '正在加载中...' : (thisPage >= totalPage ? '' : '没有了呦~')),
+          Text(totalCount > itemCount ? '正在加载中...' : '没有了呦~'),
         ],
       ),
     );
