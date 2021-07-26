@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -221,7 +222,7 @@ class AppAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// be the same as the app bar's overall height.
   ///
   /// A flexible space isn't actually flexible unless the [AppAppBar]'s container
-  /// changes the [AppAppBar]'s size. A [SliverAppBar] in a [CustomScrollView]
+  /// changes the [AppAppBar]'s size. A [AppSliverBar] in a [CustomScrollView]
   /// changes the [AppAppBar]'s height when scrolled.
   ///
   /// Typically a [FlexibleSpaceBar]. See [FlexibleSpaceBar] for details.
@@ -444,7 +445,7 @@ class AppAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// A value of 1.0 is fully opaque, and a value of 0.0 is fully transparent.
   ///
   /// Typically, this value is not changed from its default value (1.0). It is
-  /// used by [SliverAppBar] to animate the opacity of the toolbar when the app
+  /// used by [AppSliverBar] to animate the opacity of the toolbar when the app
   /// bar is scrolled.
   /// {@endtemplate}
   final double toolbarOpacity;
@@ -455,7 +456,7 @@ class AppAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// A value of 1.0 is fully opaque, and a value of 0.0 is fully transparent.
   ///
   /// Typically, this value is not changed from its default value (1.0). It is
-  /// used by [SliverAppBar] to animate the opacity of the toolbar when the app
+  /// used by [AppSliverBar] to animate the opacity of the toolbar when the app
   /// bar is scrolled.
   /// {@endtemplate}
   final double bottomOpacity;
@@ -1106,7 +1107,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 /// {@end-tool}
 ///
 /// {@tool dartpad --template=stateful_widget_material}
-/// This sample shows a [SliverAppBar] and it's behavior when using the
+/// This sample shows a [AppSliverBar] and it's behavior when using the
 /// [pinned], [snap] and [floating] parameters.
 ///
 /// ```dart
@@ -1236,7 +1237,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 ///
 /// See also:
 ///
-///  * [CustomScrollView], which integrates the [SliverAppBar] into its
+///  * [CustomScrollView], which integrates the [AppSliverBar] into its
 ///    scrolling.
 ///  * [AppAppBar], which is a fixed-height app bar for use in [Scaffold.appBar].
 ///  * [TabBar], which is typically placed in the [bottom] slot of the [AppAppBar]
@@ -1246,12 +1247,12 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 ///  * [FlexibleSpaceBar], which is used with [flexibleSpace] when the app bar
 ///    can expand and collapse.
 ///  * <https://material.io/design/components/app-bars-top.html>
-class SliverAppBar extends StatefulWidget {
+class AppSliverBar extends StatefulWidget {
   /// Creates a material design app bar that can be placed in a [CustomScrollView].
   ///
   /// The arguments [forceElevated], [primary], [floating], [pinned], [snap]
   /// and [automaticallyImplyLeading] must not be null.
-  const SliverAppBar({
+  const AppSliverBar({
     Key? key,
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -1445,7 +1446,7 @@ class SliverAppBar extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [SliverAppBar] for more animated examples of how this property changes the
+  ///  * [AppSliverBar] for more animated examples of how this property changes the
   ///    behavior of the app bar in combination with [pinned] and [snap].
   final bool floating;
 
@@ -1466,7 +1467,7 @@ class SliverAppBar extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [SliverAppBar] for more animated examples of how this property changes the
+  ///  * [AppSliverBar] for more animated examples of how this property changes the
   ///    behavior of the app bar in combination with [floating].
   final bool pinned;
 
@@ -1503,7 +1504,7 @@ class SliverAppBar extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [SliverAppBar] for more animated examples of how this property changes the
+  ///  * [AppSliverBar] for more animated examples of how this property changes the
   ///    behavior of the app bar in combination with [pinned] and [floating].
   final bool snap;
 
@@ -1553,12 +1554,12 @@ class SliverAppBar extends StatefulWidget {
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   @override
-  _SliverAppBarState createState() => _SliverAppBarState();
+  _AppSliverBarState createState() => _AppSliverBarState();
 }
 
 // This class is only Stateful because it owns the TickerProvider used
 // by the floating appbar snap animation (via FloatingHeaderSnapConfiguration).
-class _SliverAppBarState extends State<SliverAppBar> with TickerProviderStateMixin {
+class _AppSliverBarState extends State<AppSliverBar> with TickerProviderStateMixin {
   FloatingHeaderSnapConfiguration? _snapConfiguration;
   OverScrollHeaderStretchConfiguration? _stretchConfiguration;
   PersistentHeaderShowOnScreenConfiguration? _showOnScreenConfiguration;
@@ -1595,7 +1596,7 @@ class _SliverAppBarState extends State<SliverAppBar> with TickerProviderStateMix
   }
 
   @override
-  void didUpdateWidget(SliverAppBar oldWidget) {
+  void didUpdateWidget(AppSliverBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.snap != oldWidget.snap || widget.floating != oldWidget.floating) _updateSnapConfiguration();
     if (widget.stretch != oldWidget.stretch) _updateStretchConfiguration();

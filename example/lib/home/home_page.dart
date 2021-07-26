@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_banner/flutter_banner.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/api_manager/api_manager.dart';
+import 'package:kmusic_api_example/play_list/play_list_detail_page.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
+import 'package:kmusic_api_example/route/routes.dart';
 import 'package:kmusic_api_example/search/search_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
 
@@ -20,8 +22,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   final playerController = Get.put(PlayerController());
   final homeController = Get.put(HomeController());
 
@@ -37,8 +38,7 @@ class _HomePageState extends State<HomePage>
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return ApiManagerPage();
                 }));
               },
@@ -53,46 +53,24 @@ class _HomePageState extends State<HomePage>
               Obx(() => banner()),
               Row(
                 children: [
-                  Expanded(
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.list_alt, size: 35, color: Color(0xffec3258)),
-                    Text("歌单")
-                  ])),
-                  Expanded(
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.bar_chart, size: 35, color: Color(0xffec3258)),
-                    Text("榜单")
-                  ])),
-                  Expanded(
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.album, size: 35, color: Color(0xffec3258)),
-                    Text("新碟")
-                  ])),
-                  Expanded(
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.person, size: 35, color: Color(0xffec3258)),
-                    Text("歌手")
-                  ])),
+                  Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.list_alt, size: 35, color: Color(0xffec3258)), Text("歌单")])),
+                  Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.bar_chart, size: 35, color: Color(0xffec3258)), Text("榜单")])),
+                  Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.album, size: 35, color: Color(0xffec3258)), Text("新碟")])),
+                  Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.person, size: 35, color: Color(0xffec3258)), Text("歌手")])),
                 ],
               ).paddingSymmetric(vertical: 8),
               ListTile(
-                title: Text('歌单推荐',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                title: Text('歌单推荐', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
               Obx(() => playList()),
               ListTile(
-                title: Text('新碟上架',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                title: Text('新碟上架', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
               Obx(() => album()),
               ListTile(
-                title: Text('新歌速递',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                title: Text('新歌速递', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
               Obx(() => song()),
@@ -114,9 +92,7 @@ class _HomePageState extends State<HomePage>
         ),
       ),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return SearchPage();
-        }));
+        Get.toNamed(Routes.SEARCH);
       },
     );
   }
@@ -142,8 +118,7 @@ class _HomePageState extends State<HomePage>
                 });
               },
             )
-          : AspectRatio(
-              aspectRatio: 750 / 346, child: Container(color: Colors.black12)),
+          : AspectRatio(aspectRatio: 750 / 346, child: Container(color: Colors.black12)),
     ).marginSymmetric(
       horizontal: 16,
       vertical: 8,
@@ -160,7 +135,9 @@ class _HomePageState extends State<HomePage>
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.PLAY_LIST_DETAIL, arguments: homeController.playList[index]);
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -213,8 +190,7 @@ class _HomePageState extends State<HomePage>
                       width: 80,
                       height: 80,
                       child: CachedNetworkImage(
-                        imageUrl: homeController.albums[index]
-                            ['albumsSmallUrl'],
+                        imageUrl: homeController.albums[index]['albumsSmallUrl'],
                       ),
                     ),
                   ),

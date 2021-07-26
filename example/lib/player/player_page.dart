@@ -13,8 +13,9 @@ class PlayerPage extends StatelessWidget {
   final RxDouble? opacity;
   final bool withPlayer;
   final RxString? imageUrl;
+  final Color? color;
 
-  PlayerPage({required this.body, this.appBar, this.opacity, this.withPlayer = true, this.imageUrl});
+  PlayerPage({required this.body, this.appBar, this.opacity, this.withPlayer = true, this.imageUrl, this.color = const Color(0xb3ffffff)});
 
   final player = Get.put(PlayerController());
 
@@ -54,7 +55,7 @@ class PlayerPage extends StatelessWidget {
               ? SlidingUpPanel(
                   color: Colors.transparent,
                   controller: player.panelController,
-                  body: Scaffold(backgroundColor: Color(0xccffffff), appBar: appBar, body: body),
+                  body: Scaffold(backgroundColor: color, appBar: appBar, body: body),
                   minHeight: 70,
                   maxHeight: _panelMaxSize,
                   borderRadius: BorderRadius.all(Radius.circular(30)),

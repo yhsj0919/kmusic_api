@@ -1,9 +1,9 @@
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
+import 'package:kmusic_api_example/utils/utils.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
 
 class TabAlbumPage extends StatelessWidget {
@@ -15,8 +15,8 @@ class TabAlbumPage extends StatelessWidget {
     return _controller.obx((datas) {
       return PageListView(
         padding: EdgeInsets.only(bottom: 70),
-        totalCount: _controller.totalCount.value,
-        pageSize: 20,
+        totalPage: _controller.totalPage.value,
+        thisPage: _controller.thisPage.value,
         itemCount: datas?.length ?? 0,
         itemBuilder: (context, index) {
           return ListTile(
@@ -46,12 +46,13 @@ class TabAlbumPage extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 )),
                 Container(width: 8),
-                Text(
+                Flexible(
+                    child: Text(
                   "${datas[index]["desc"]}",
                   maxLines: 1,
                   style: Theme.of(context).textTheme.caption,
                   overflow: TextOverflow.ellipsis,
-                )
+                ))
               ],
             ),
             trailing: Icon(Icons.keyboard_arrow_right),
@@ -74,7 +75,8 @@ class TabAlbumController extends GetxController with StateMixin<dynamic> {
   String _keyword = "";
 
   List datas = [];
-  RxInt totalCount = RxInt(0);
+  RxInt totalPage = RxInt(0);
+  RxInt thisPage = RxInt(0);
 
   //搜索,破分页每次请求返回的条数可能不一样,有可能参数少了,以后再调
   Future<void> search({String keyword: "", int type = 1, int page = 1, int size = 20}) async {
@@ -87,14 +89,16 @@ class TabAlbumController extends GetxController with StateMixin<dynamic> {
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
         // printInfo(info: json.encode(value));
+        thisPage.value++;
         if (page == 1) {
           datas.clear();
+          thisPage.value = 1;
         }
         datas.addAll((value?["albumResultData"]?["result"] ?? []) as List);
-        totalCount.value = int.tryParse(value?["albumResultData"]?["totalCount"]) ?? 0;
 
-        printInfo(info: "总条数$totalCount");
-
+        totalPage.value = getPage(int.tryParse(value?["albumResultData"]?["totalCount"]) ?? 0, size);
+        printInfo(info: "总页数$totalPage");
+        printInfo(info: "总条数${int.tryParse(value?["albumResultData"]?["totalCount"]) ?? 0}");
         change(datas, status: RxStatus.success());
       });
     } else {

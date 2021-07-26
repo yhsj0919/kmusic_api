@@ -1,9 +1,9 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
+import 'package:kmusic_api_example/utils/utils.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
 
 class TabSongPage extends StatelessWidget {
@@ -16,8 +16,8 @@ class TabSongPage extends StatelessWidget {
     return _controller.obx((datas) {
       return PageListView(
         padding: EdgeInsets.only(bottom: 70),
-        totalCount: _controller.totalCount.value,
-        pageSize: 20,
+        totalPage: _controller.totalPage.value,
+        thisPage: _controller.thisPage.value,
         itemCount: datas?.length ?? 0,
         itemBuilder: (context, index) {
           return ListTile(
@@ -53,7 +53,8 @@ class TabSongController extends GetxController with StateMixin<dynamic> {
   String _keyword = "";
 
   List datas = [];
-  RxInt totalCount = RxInt(0);
+  RxInt totalPage = RxInt(0);
+  RxInt thisPage = RxInt(0);
 
   //搜索
   Future<void> search({String keyword: "", int type = 0, int page = 1, int size = 20}) async {
@@ -66,11 +67,13 @@ class TabSongController extends GetxController with StateMixin<dynamic> {
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
         // printInfo(info: json.encode(value));
+        thisPage.value++;
         if (page == 1) {
           datas.clear();
+          thisPage.value = 1;
         }
         datas.addAll((value?["songResultData"]?["result"] ?? []) as List);
-        totalCount.value = int.tryParse(value?["songResultData"]?["totalCount"]) ?? 0;
+        totalPage.value = getPage(int.tryParse(value?["songResultData"]?["totalCount"]) ?? 0, size);
         change(datas, status: RxStatus.success());
       });
     } else {

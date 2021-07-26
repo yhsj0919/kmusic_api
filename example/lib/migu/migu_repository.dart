@@ -144,9 +144,9 @@ class MiGuRepository {
     });
   }
 
-  Future<dynamic> playListSong() {
+  Future<dynamic> playListSong({required String id}) {
     return _doRequest('/playList/song', params: {
-      'id': '181694965',
+      'id': id,
     });
   }
 

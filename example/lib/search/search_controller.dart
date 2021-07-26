@@ -54,9 +54,9 @@ class SearchController extends GetxController {
       _songController.search(keyword: keyword);
       _albumController.search(keyword: keyword);
       _videoController.search(keyword: keyword);
-      _playlistController.search(keyword);
-      _lyricController.search(keyword);
-      _singerController.search(keyword);
+      _playlistController.search(keyword: keyword);
+      _lyricController.search(keyword: keyword);
+      _singerController.search(keyword: keyword);
     } else {}
   }
 }

@@ -32,7 +32,13 @@ class PlayerController extends GetxController {
     super.onInit();
 
     miguRepository = MiGuRepository();
-
+    player.onErrorDo = (err) {
+      Get.snackbar("提示", "出错了,应该执行别的操作了",
+          backgroundColor: Colors.red.withOpacity(0.2),
+          maxWidth: 500,
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          dismissDirection: SnackDismissDirection.HORIZONTAL);
+    };
     player.playerState.listen((event) {
       playerState.value = event;
     });
@@ -44,12 +50,24 @@ class PlayerController extends GetxController {
     });
     player.currentPosition.listen((event) {
       position.value = event.inMilliseconds;
+
+
     });
     player.current.listen((event) {
       if (event != null) {
         duration.value = event.audio.duration.inMilliseconds;
         songInfo.value = event.audio.audio.metas;
       }
+      printInfo(info: "${position.value} == ${duration.value}");
+
+      if (position.value == duration.value) {
+        Get.snackbar("提示", "应该播放下一首",
+            backgroundColor: Colors.red.withOpacity(0.2),
+            maxWidth: 500,
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            dismissDirection: SnackDismissDirection.HORIZONTAL);
+      }
+
     });
   }
 
@@ -58,14 +76,11 @@ class PlayerController extends GetxController {
     await miguRepository?.playUrl(song['songId']).then((value) {
       printInfo(info: json.encode(value));
       if (value["code"] == "440000") {
-        Get.snackbar(
-          "提示",
-          value["info"],
-          backgroundColor: Colors.red.withOpacity(0.2),
-          maxWidth: 500,
-          margin: EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-          dismissDirection: SnackDismissDirection.HORIZONTAL
-        );
+        Get.snackbar("提示", value["info"],
+            backgroundColor: Colors.red.withOpacity(0.2),
+            maxWidth: 500,
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            dismissDirection: SnackDismissDirection.HORIZONTAL);
         return;
       }
 
@@ -85,17 +100,35 @@ class PlayerController extends GetxController {
     initPlayer = true;
     try {
       await player.open(
-          Audio.network(
-            path,
-            metas: Metas(
-              title: title,
-              artist: artist,
-              album: album,
-              image: MetasImage.network(image),
-            ),
+        Audio.network(
+          path,
+          metas: Metas(
+            title: title,
+            artist: artist,
+            album: album,
+            image: MetasImage.network(image),
           ),
-          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-          showNotification: true);
+        ),
+        headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+        showNotification: true,
+        notificationSettings: NotificationSettings(
+          customNextAction: (player) {
+            Get.snackbar("提示", "通知栏下一首",
+                backgroundColor: Colors.red.withOpacity(0.2),
+                maxWidth: 500,
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                dismissDirection: SnackDismissDirection.HORIZONTAL);
+          },
+          customPlayPauseAction: (player) {
+            player.playOrPause();
+            Get.snackbar("提示", "通知栏播放,暂停",
+                backgroundColor: Colors.red.withOpacity(0.2),
+                maxWidth: 500,
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                dismissDirection: SnackDismissDirection.HORIZONTAL);
+          },
+        ),
+      );
     } catch (t) {
       initPlayer = false;
       //mp3 unreachable

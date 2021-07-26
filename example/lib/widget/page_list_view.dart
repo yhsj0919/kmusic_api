@@ -8,12 +8,11 @@ class PageListView extends StatefulWidget {
     required this.itemBuilder,
     required this.onRefresh,
     this.onLoadMore,
-    required this.totalCount,
-    required this.pageSize,
+    required this.totalPage,
+    required this.thisPage,
     this.padding,
     this.itemExtent,
-  })  : assert(pageSize > 0),
-        super(key: key);
+  }) : super(key: key);
 
   final RefreshCallback? onRefresh;
   final LoadMoreCallback? onLoadMore;
@@ -21,8 +20,8 @@ class PageListView extends StatefulWidget {
 
   final IndexedWidgetBuilder itemBuilder;
 
-  final int totalCount;
-  final int pageSize;
+  final int totalPage;
+  final int thisPage;
 
   final EdgeInsetsGeometry? padding;
   final double? itemExtent;
@@ -53,7 +52,7 @@ class _PageListViewState extends State<PageListView> {
                 if (widget.onLoadMore == null) {
                   return widget.itemBuilder(context, index);
                 } else {
-                  return index < widget.itemCount ? widget.itemBuilder(context, index) : MoreWidget(widget.itemCount, widget.pageSize, widget.totalCount);
+                  return index < widget.itemCount ? widget.itemBuilder(context, index) : MoreWidget(widget.itemCount, widget.thisPage, widget.totalPage);
                 }
               },
             ),
@@ -87,25 +86,25 @@ class _PageListViewState extends State<PageListView> {
     if (_isLoading) {
       return;
     }
-    if (widget.itemCount == widget.totalCount) {
+    if (widget.thisPage == widget.totalPage) {
       return;
     }
     _isLoading = true;
-    await widget.onLoadMore!((widget.itemCount ~/ widget.pageSize) + 1);
+    await widget.onLoadMore!(widget.thisPage + 1);
     _isLoading = false;
   }
 }
 
 class MoreWidget extends StatelessWidget {
-  const MoreWidget(this.itemCount, this.pageSize, this.totalCount);
+  const MoreWidget(this.itemCount, this.thisPage, this.totalPage);
 
   final int itemCount;
-  final int pageSize;
-  final int totalCount;
+  final int thisPage;
+  final int totalPage;
 
   @override
   Widget build(BuildContext context) {
-    print("当前$itemCount >>>> $totalCount");
+    print("当前$itemCount >>>> $totalPage");
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -113,10 +112,10 @@ class MoreWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          if (itemCount < totalCount) const CupertinoActivityIndicator(),
+          if (thisPage < totalPage) const CupertinoActivityIndicator(),
 
           /// 只有一页的时候，就不显示FooterView了
-          Text(totalCount > itemCount ? '正在加载中...' : '没有了呦~'),
+          Text(totalPage > thisPage ? '正在加载中...' : '没有了呦~'),
         ],
       ),
     );
