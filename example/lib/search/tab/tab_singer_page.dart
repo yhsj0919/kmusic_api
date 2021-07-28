@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/utils/utils.dart';
+import 'package:kmusic_api_example/widget/app_image.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
 
 class TabSingerPage extends StatelessWidget {
@@ -21,15 +21,11 @@ class TabSingerPage extends StatelessWidget {
         itemCount: datas?.length ?? 0,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-              child: Container(
-                width: 50,
-                height: 50,
-                child: CachedNetworkImage(
-                  imageUrl: (datas[index]["singerPicUrl"] as List).last["img"],
-                ),
-              ),
+            leading: AppImage(
+              url: (datas[index]["singerPicUrl"] as List).last["img"],
+              width: 50,
+              height: 50,
+              radius: 10,
             ),
             title: Text(
               datas[index]["name"],

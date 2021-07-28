@@ -1,9 +1,8 @@
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/utils/utils.dart';
+import 'package:kmusic_api_example/widget/app_image.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
 
 class TabPlayListPage extends StatelessWidget {
@@ -25,20 +24,12 @@ class TabPlayListPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      color: Colors.black12,
-                      width: 80,
-                      height: 80,
-                      child: CachedNetworkImage(
-                        imageUrl: datas[index]["musicListPicUrl"],
-                        fit: BoxFit.cover,
-                        errorWidget: (context, str, value) {
-                          return Container(color: Colors.black12);
-                        },
-                      ),
-                    )),
+                AppImage(
+                  url: datas[index]["musicListPicUrl"],
+                  width: 80,
+                  height: 80,
+                  radius: 10,
+                ),
                 Container(width: 8),
                 Expanded(
                     child: Column(

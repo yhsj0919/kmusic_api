@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 
-class PlayListController extends GetxController with StateMixin<dynamic> {
+class PlayListController extends GetxController {
   final playerController = Get.put(PlayerController());
   MiGuRepository? miguRepository;
   RxList<Map<String, dynamic>> songs = RxList<Map<String, dynamic>>();
@@ -25,7 +25,6 @@ class PlayListController extends GetxController with StateMixin<dynamic> {
    * 获取歌单歌曲
    */
   void getSong(String id) {
-    change([], status: RxStatus.loading());
     miguRepository?.playListSong(id: id).then((value) {
       printInfo(info: json.encode(value));
 
@@ -36,8 +35,6 @@ class PlayListController extends GetxController with StateMixin<dynamic> {
       songs.addAll(list.map((e) {
         return e as Map<String, dynamic>;
       }).toList());
-
-      change(songs, status: RxStatus.success());
     });
   }
 

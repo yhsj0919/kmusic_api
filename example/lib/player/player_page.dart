@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
+import 'package:kmusic_api_example/widget/app_image.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayerPage extends StatelessWidget {
@@ -37,11 +37,12 @@ class PlayerPage extends StatelessWidget {
                         // 使用一个AnimatedOpacity Widget
                         opacity: opacity?.value ?? 0.8,
                         duration: Duration(milliseconds: 400), //过渡时间：1
-                        child: CachedNetworkImage(
+                        child: AppImage(
+                          url: imageUrl!.value,
+                          fit: BoxFit.fill,
                           width: Get.width,
                           height: Get.height,
-                          imageUrl: imageUrl!.value,
-                          fit: BoxFit.fill,
+                          animationDuration: 0,
                         ),
                       ),
               ),
@@ -104,18 +105,11 @@ class PlayerPage extends StatelessWidget {
   Widget head() {
     return Hero(
       tag: "player_head",
-      child: Container(
+      child: AppImage(
+        radius: 50,
+        url: player.songInfo.value.image?.path ?? "",
         width: 50,
         height: 50,
-        child: ClipOval(
-          child: player.songInfo.value.image?.path == null || player.songInfo.value.image?.path.isBlank == true
-              ? Container(color: Colors.black12)
-              : CachedNetworkImage(
-                  imageUrl: player.songInfo.value.image?.path ?? "",
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Container(color: Colors.black12),
-                ),
-        ),
       ),
     );
   }

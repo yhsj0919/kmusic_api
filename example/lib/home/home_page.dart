@@ -1,17 +1,15 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_banner/flutter_banner.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/api_manager/api_manager.dart';
-import 'package:kmusic_api_example/play_list/play_list_detail_page.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/route/routes.dart';
-import 'package:kmusic_api_example/search/search_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
+import 'package:kmusic_api_example/widget/app_image.dart';
 
 import 'home_controller.dart';
 
@@ -105,10 +103,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               aspectRatio: 750 / 346,
               banners: homeController.banners,
               itemBuilder: (context, value) {
-                return CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: value['picUrl'],
-                );
+                return AppImage(url: value['picUrl']);
               },
               onPageChanged: (value) {
                 playerController.opacity.value = 0.2;
@@ -141,16 +136,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      child: CachedNetworkImage(
-                        imageUrl: homeController.playList[index]['image'],
-                      ),
-                    ),
-                  ),
+                  Hero(
+                      tag: homeController.playList[index]['image'],
+                      child: AppImage(
+                        radius: 10,
+                        width: 80,
+                        height: 80,
+                        animationDuration: 0,
+                        url: homeController.playList[index]['image'],
+                      )),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 4),
                     width: 80,
@@ -184,15 +178,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      child: CachedNetworkImage(
-                        imageUrl: homeController.albums[index]['albumsSmallUrl'],
-                      ),
-                    ),
+                  AppImage(
+                    width: 80,
+                    height: 80,
+                    radius: 10,
+                    url: homeController.albums[index]['albumsSmallUrl'],
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 4),
@@ -223,15 +213,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             Get.printError(info: json.encode(homeController.songs[index]));
             homeController.play(homeController.songs[index]);
           },
-          leading: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            child: Container(
-              width: 50,
-              height: 50,
-              child: CachedNetworkImage(
-                imageUrl: homeController.songs[index]['picS'],
-              ),
-            ),
+          leading: AppImage(
+            width: 50,
+            height: 50,
+            radius: 10,
+            url: homeController.songs[index]['picS'],
           ),
           title: Text(
             homeController.songs[index]['songName'],

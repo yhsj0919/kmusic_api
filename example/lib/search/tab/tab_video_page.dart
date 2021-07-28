@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/utils/utils.dart';
+import 'package:kmusic_api_example/widget/app_image.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
 
 class TabVideoPage extends StatelessWidget {
@@ -27,20 +27,11 @@ class TabVideoPage extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Container(
-                        color: Colors.black12,
-                        width: 160,
-                        height: 90,
-                        child: CachedNetworkImage(
-                          imageUrl: picUrl?.isNotEmpty == true ? picUrl!.last!["img"] : "",
-                          fit: BoxFit.cover,
-                          errorWidget: (_, str, value) {
-                            return Container(color: Colors.black12);
-                          },
-                        ),
-                      ),
+                    AppImage(
+                      url: picUrl?.isNotEmpty == true ? picUrl!.last!["img"] : "",
+                      width: 160,
+                      height: 90,
+                      radius: 10,
                     ),
                     Padding(
                       padding: EdgeInsets.all(2),
