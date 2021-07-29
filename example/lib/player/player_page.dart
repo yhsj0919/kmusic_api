@@ -208,7 +208,7 @@ class PlayerPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Text(
-                    player.playList[index]["songName"],
+                    player.playList[index].name ?? "",
                     style: TextStyle(fontSize: 14),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

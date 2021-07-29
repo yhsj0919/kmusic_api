@@ -10,6 +10,7 @@ import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/route/routes.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
 import 'package:kmusic_api_example/widget/app_image.dart';
+import 'package:kmusic_api_example/widget/music_widget.dart';
 
 import 'home_controller.dart';
 
@@ -137,20 +138,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Hero(
-                      tag: homeController.playList[index]['image'],
+                      tag: homeController.playList[index].img!,
                       child: AppImage(
                         radius: 10,
                         width: 80,
                         height: 80,
                         animationDuration: 0,
-                        url: homeController.playList[index]['image'],
+                        url: homeController.playList[index].img!,
                       )),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 4),
                     width: 80,
                     alignment: Alignment.center,
                     child: Text(
-                      homeController.playList[index]['playlistName'],
+                      homeController.playList[index].name!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 12),
                       maxLines: 2,
@@ -208,29 +209,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       itemCount: homeController.songs.length,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            Get.printError(info: json.encode(homeController.songs[index]));
-            homeController.play(homeController.songs[index]);
-          },
-          leading: AppImage(
-            width: 50,
-            height: 50,
-            radius: 10,
-            url: homeController.songs[index]['picS'],
-          ),
-          title: Text(
-            homeController.songs[index]['songName'],
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-          subtitle: Text(
-            (homeController.songs[index]['singerName'] as List).join(","),
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 12),
-            maxLines: 1,
-          ),
-        );
+        return songItem(
+            img: homeController.songs[index].img,
+            title: homeController.songs[index].name,
+            subtitle: homeController.songs[index].singer?.map((e) => e.name).join(","),
+            onTap: () {
+              Get.printError(info: json.encode(homeController.songs[index]));
+              homeController.play(homeController.songs[index]);
+            });
       },
     );
   }

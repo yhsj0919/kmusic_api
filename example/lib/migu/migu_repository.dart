@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:kmusic_api/migu_music.dart';
 import 'package:kmusic_api/utils/answer.dart';
+import 'package:kmusic_api_example/entity/play_list_entity.dart';
+import 'package:kmusic_api_example/entity/singer_entity.dart';
+import 'package:kmusic_api_example/entity/song_entity.dart';
 import 'package:kmusic_api_example/utils/cookie_storage.dart';
 
 class MiGuRepository {
@@ -107,8 +110,20 @@ class MiGuRepository {
     });
   }
 
-  Future<dynamic> playListNewWeb() {
-    return _doRequest('/playList/new/web', params: {});
+  Future<List<PlayListEntity>> playListNewWeb() {
+    return _doRequest('/playList/new/web', params: {}).then((value) {
+      var list = value['msg'] as List;
+
+      var resp = list.map((e) {
+        return PlayListEntity(
+          id: e["playlistId"],
+          name: e["playlistName"],
+          img: e["image"],
+        );
+      }).toList();
+
+      return Future.value(resp);
+    });
   }
 
   Future<dynamic> playListHotTag() {
@@ -144,14 +159,39 @@ class MiGuRepository {
     });
   }
 
-  Future<dynamic> playListSong({required String id}) {
-    return _doRequest('/playList/song', params: {
-      'id': id,
+  Future<List<SongEntity>> playListSong({required String id}) {
+    return _doRequest('/playList/song', params: {'id': id}).then((value) {
+      var list = value['data']['songList'] as List;
+      var resp = list.map((e) {
+        return SongEntity(
+          id: e["songId"],
+          name: e["songName"],
+          img: e["img1"],
+          singer: (e["singerList"] as List).map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
+          url: e["listenUrl"],
+        );
+      }).toList();
+
+      return Future.value(resp);
     });
   }
 
-  Future<dynamic> songNewWeb() {
-    return _doRequest('/song/new/web', params: {});
+  Future<List<SongEntity>> songNewWeb() {
+    return _doRequest('/song/new/web', params: {}).then((value) {
+      var list = value['result']['results'] as List;
+
+      var resp = list.map((e) => e['songData']).map((e) {
+        var singerId = (e["singerId"] as List);
+        var singerName = (e["singerName"] as List);
+        return SongEntity(
+            id: e["songId"],
+            img: e["picS"],
+            name: e["songName"],
+            singer: singerId.map((e) => SingerEntity(id: e, name: singerName[singerId.indexOf(e)])).toList(),
+            url: e["listenUrl"]);
+      }).toList();
+      return Future.value(resp);
+    });
   }
 
   Future<dynamic> songNewType() {
@@ -162,11 +202,29 @@ class MiGuRepository {
     return _doRequest('/song/new', params: {});
   }
 
-  Future<dynamic> playUrl(String songId) {
-    return _doRequest('/song/url', params: {
-      // 'albumId': '1002508351',
-      'songId': songId,
-      'toneFlag': 'PQ',
+  Future<SongEntity> playUrl(String songId) {
+    return _doRequest('/song/url', params: {'songId': songId, 'toneFlag': 'PQ'}).then((value) {
+      if (value["code"] != "000000") {
+        return Future.value(SongEntity(code: value["code"], msg: value["info"]));
+      }
+      final result = value['data'];
+      final playSong = result["song"];
+      var song = SongEntity(
+        code: value["code"],
+        msg: value["info"],
+        id: playSong["songId"],
+        name: playSong["songName"],
+        lrc: result["lrcUrl"],
+        url: result["url"].toString().replaceAll("MP3_128_16_Stero", "MP3_320_16_Stero"),
+        img: "http://d.musicapp.migu.cn" + playSong["img1"],
+        singer: (playSong["singerList"] as List?)?.map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
+        album: playSong["album"],
+        albumId: playSong["albumId"],
+        mvId: playSong["mvId"],
+        hasMv: playSong["mvId"] != null,
+      );
+
+      return Future.value(song);
     });
   }
 

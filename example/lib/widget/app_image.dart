@@ -25,58 +25,68 @@ class _AppImageState extends State<AppImage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 0)),
-        child: ExtendedImage.network(
-          widget.url,
-          fit: widget.fit,
-          width: widget.width,
-          height: widget.height,
-          border: Border.all(color: Colors.black12, width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 0)),
-          cache: true,
-          loadStateChanged: (ExtendedImageState state) {
-            switch (state.extendedImageLoadState) {
-              case LoadState.loading:
-                _controller.reset();
-                return Center(
-                  child: SizedBox(
-                    child: CircularProgressIndicator(
-                      color: Colors.black12,
-                      strokeWidth: 2,
-                    ),
-                    height: 40.0,
-                    width: 40.0,
-                  ),
-                );
-              case LoadState.completed:
-                _controller.forward();
-                return FadeTransition(
-                  opacity: _controller,
-                  child: ExtendedRawImage(
-                    fit: widget.fit,
-                    image: state.extendedImageInfo?.image,
-                    width: widget.width,
-                    height: widget.height,
-                  ),
-                );
-              case LoadState.failed:
-                _controller.reset();
-                state.imageProvider.evict();
-                return GestureDetector(
-                  child: Container(
-                    color: Colors.black12,
-                    child: Icon(
-                      Icons.error_outline,
-                      color: Colors.black12,
-                    ),
-                  ),
-                  onTap: () {
-                    state.reLoadImage();
-                  },
-                );
-            }
-          },
-        ));
+      borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 0)),
+      child: widget.url.isNotEmpty
+          ? ExtendedImage.network(
+              widget.url,
+              fit: widget.fit,
+              width: widget.width,
+              height: widget.height,
+              retries: 2,
+              timeLimit: Duration(seconds: 10),
+              timeRetry: Duration(seconds: 1),
+              border: Border.all(color: Colors.black12, width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 0)),
+              cache: true,
+              loadStateChanged: (ExtendedImageState state) {
+                switch (state.extendedImageLoadState) {
+                  case LoadState.loading:
+                    _controller.reset();
+                    return Center(
+                      child: SizedBox(
+                        child: CircularProgressIndicator(
+                          color: Colors.black12,
+                          strokeWidth: 2,
+                        ),
+                        height: 40.0,
+                        width: 40.0,
+                      ),
+                    );
+                  case LoadState.completed:
+                    _controller.forward();
+                    return FadeTransition(
+                      opacity: _controller,
+                      child: ExtendedRawImage(
+                        fit: widget.fit,
+                        image: state.extendedImageInfo?.image,
+                        width: widget.width,
+                        height: widget.height,
+                      ),
+                    );
+                  case LoadState.failed:
+                    _controller.reset();
+                    state.imageProvider.evict();
+                    return GestureDetector(
+                      child: Container(
+                        color: Colors.black12,
+                        child: Icon(
+                          Icons.error_outline,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      onTap: () {
+                        state.reLoadImage();
+                      },
+                    );
+                }
+              },
+            )
+          : Container(
+              width: widget.width,
+              height: widget.height,
+              color: Colors.black12,
+            ),
+    );
   }
 
   @override

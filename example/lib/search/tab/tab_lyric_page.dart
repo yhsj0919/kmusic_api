@@ -32,12 +32,13 @@ class TabLyricPage extends StatelessWidget {
                 Container(height: 4),
                 Row(
                   children: [
-                    Text(
+                    Flexible(
+                        child: Text(
                       "${datas[index]["singer"]}",
                       maxLines: 1,
                       style: Theme.of(context).textTheme.overline!.copyWith(color: Colors.black54),
                       overflow: TextOverflow.ellipsis,
-                    ),
+                    )),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4),
                       child: Text(

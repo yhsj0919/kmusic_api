@@ -70,12 +70,13 @@ class TabVideoPage extends StatelessWidget {
                       children: [
                         Icon(Icons.music_video, size: 14),
                         Container(width: 8),
-                        Text(
+                        Flexible(
+                            child: Text(
                           "${(datas[index]["singers"] as List).map((e) => e["name"]).join(",")}",
                           maxLines: 1,
                           style: Theme.of(context).textTheme.caption,
                           overflow: TextOverflow.ellipsis,
-                        )
+                        ))
                       ],
                     )
                   ],

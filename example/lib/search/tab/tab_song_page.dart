@@ -1,9 +1,13 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kmusic_api_example/entity/singer_entity.dart';
+import 'package:kmusic_api_example/entity/song_entity.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 import 'package:kmusic_api_example/utils/utils.dart';
+import 'package:kmusic_api_example/widget/music_widget.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
 
 class TabSongPage extends StatelessWidget {
@@ -13,27 +17,20 @@ class TabSongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _controller.obx((datas) {
+    return _controller.obx((List<SongEntity>? datas) {
       return PageListView(
         padding: EdgeInsets.only(bottom: 70),
         totalPage: _controller.totalPage.value,
         thisPage: _controller.thisPage.value,
         itemCount: datas?.length ?? 0,
         itemBuilder: (context, index) {
-          return ListTile(
+          return songItem(
             onTap: () {
-              playerController.play(datas?[index]);
+              playerController.play(datas![index]);
             },
-            title: Text(
-              "${datas?[index]?["name"]}",
-              maxLines: 1,
-              style: Theme.of(context).textTheme.subtitle1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              "${(datas?[index]?["artists"] as List?)?.map((e) => e["name"]).join(",")}",
-              maxLines: 1,
-            ),
+            img: datas?[index].img,
+            title: datas?[index].name,
+            subtitle: datas?[index].singer?.map((e) => e.name).join(","),
           );
         },
         onRefresh: (int index) {
@@ -48,11 +45,11 @@ class TabSongPage extends StatelessWidget {
   }
 }
 
-class TabSongController extends GetxController with StateMixin<dynamic> {
+class TabSongController extends GetxController with StateMixin<List<SongEntity>> {
   final migu = MiGuRepository();
   String _keyword = "";
 
-  List datas = [];
+  List<SongEntity> datas = [];
   RxInt totalPage = RxInt(0);
   RxInt thisPage = RxInt(0);
 
@@ -62,7 +59,7 @@ class TabSongController extends GetxController with StateMixin<dynamic> {
       _keyword = keyword;
     }
     if (page == 1) {
-      change([], status: RxStatus.loading());
+      change(<SongEntity>[], status: RxStatus.loading());
     }
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
@@ -72,8 +69,22 @@ class TabSongController extends GetxController with StateMixin<dynamic> {
           datas.clear();
           thisPage.value = 1;
         }
-        datas.addAll((value?["songResultData"]?["result"] ?? []) as List);
         totalPage.value = getPage(int.tryParse(value?["songResultData"]?["totalCount"]) ?? 0, size);
+
+        var list = value['songResultData']['result'] as List;
+
+        datas.addAll(list.map((e) {
+          return SongEntity(
+            id: e["songId"],
+            name: e["songName"],
+            img: (e["imgItems"] as List?)?.first?["img"],
+            album: e["album"],
+            albumId: e["albumId"],
+            singer: (e["artists"] as List?)?.map((e) => SingerEntity(id: e["id"], name: e["name"])).toList(),
+            lrc: e["lrcUrl"],
+          );
+        }).toList());
+
         change(datas, status: RxStatus.success());
       });
     } else {

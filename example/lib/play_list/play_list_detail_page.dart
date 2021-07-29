@@ -3,130 +3,117 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kmusic_api_example/entity/play_list_entity.dart';
 import 'package:kmusic_api_example/play_list/play_list_controller.dart';
 import 'package:kmusic_api_example/player/player_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
 import 'package:kmusic_api_example/widget/app_image.dart';
 import 'package:kmusic_api_example/widget/header_delegate.dart';
+import 'package:kmusic_api_example/widget/music_widget.dart';
 
 class PlayListDetailPage extends StatelessWidget {
   PlayListDetailPage({Key? key}) : super(key: key);
   final PlayListController _controller = Get.put(PlayListController());
 
-  final Map<String, dynamic> playList = Get.arguments;
+  final PlayListEntity playList = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     return PlayerPage(
-        imageUrl: RxString(playList["image"] ?? ""),
-        body: Obx(
-          () => CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                title: Text(
-                  "${playList["playlistName"]}",
-                  style: Theme.of(context).appBarTheme.titleTextStyle,
-                ),
-                elevation: 0,
-                expandedHeight: 180,
-                backgroundColor: Colors.transparent,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: false,
-                  stretchModes: [StretchMode.zoomBackground],
-                  background: Container(),
-                ),
-              ),
+      imageUrl: RxString(playList.img ?? ""),
+      appBar: AppAppBar(
+        title: Text(
+          "${playList.name}",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
+      ),
+      body: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        child: NestedScrollView(
+          // physics: NeverScrollableScrollPhysics(),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              _playListHeader(),
+              _playBar(),
+            ];
+          },
+          body: _songList(),
+        ),
+      ),
+    );
+  }
 
-              // SliverPersistentHeader(
-              //   delegate: HeaderDelegate(
-              //     minHeight: 140,
-              //     maxHeight: 140,
-              //     child: Container(
-              //       padding: EdgeInsets.symmetric(horizontal: 16),
-              //       alignment: Alignment.centerLeft,
-              //       child: Row(
-              //         children: [
-              //           Hero(
-              //             tag: playList["image"] ?? "",
-              //             child: AppImage(
-              //               url: playList["image"] ?? "",
-              //               radius: 10,
-              //               width: 100,
-              //               height: 100,
-              //               animationDuration: 0,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              SliverPersistentHeader(
-                // 可以吸顶的TabBar
-                pinned: true,
-                delegate: HeaderDelegate(
-                  minHeight: 60,
-                  maxHeight: 60,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                      border: Border.all(color: Colors.black12, width: 1.0),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.play_circle_fill),
-                          label: Text("播放全部"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Container(
-                      color: Colors.white,
-                      child: ListTile(
-                        onTap: () {
-                          Get.printError(info: json.encode(_controller.songs[index]));
-                          _controller.play(_controller.songs[index]);
-                        },
-                        leading: AppImage(
-                          width: 50,
-                          height: 50,
-                          radius: 10,
-                          url: "http://d.musicapp.migu.cn" + _controller.songs[index]['img1'],
-                        ),
-                        title: Text(
-                          _controller.songs[index]['songName'],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                        subtitle: Text(
-                          (_controller.songs[index]['singerList'] as List).map((e) => e["name"]).join(","),
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 12),
-                          maxLines: 1,
-                        ),
-                      ),
-                    );
-                  },
-                  childCount: _controller.songs.length,
+  Widget _playListHeader() {
+    return SliverPersistentHeader(
+      delegate: HeaderDelegate(
+        minHeight: 140,
+        maxHeight: 140,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              Hero(
+                tag: playList.img ?? "",
+                child: AppImage(
+                  url: playList.img ?? "",
+                  radius: 10,
+                  width: 100,
+                  height: 100,
+                  animationDuration: 0,
                 ),
               ),
             ],
-          ).paddingOnly(bottom: 70),
-        ));
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _playBar() {
+    return SliverPersistentHeader(
+      // 可以吸顶的TabBar
+      pinned: true,
+      delegate: HeaderDelegate(
+        minHeight: 60,
+        maxHeight: 60,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextButton.icon(onPressed: () {}, icon: Icon(Icons.play_circle_fill), label: Text("播放全部")),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _songList() {
+    return Container(
+      color: Colors.white,
+      child: _controller.obx(
+        (datas) => ListView.builder(
+            padding: EdgeInsets.only(bottom: 70),
+            physics: BouncingScrollPhysics(),
+            itemCount: _controller.songs.length,
+            itemBuilder: (_, index) => songItem(
+                  onTap: () {
+                    _controller.play(_controller.songs[index]);
+                  },
+                  img: "http://d.musicapp.migu.cn${_controller.songs[index].img}",
+                  title: _controller.songs[index].name,
+                  subtitle: _controller.songs[index].singer?.map((e) => e.name).join(","),
+                )),
+      ),
+    );
   }
 }

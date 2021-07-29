@@ -1,6 +1,8 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:kmusic_api_example/entity/play_list_entity.dart';
+import 'package:kmusic_api_example/entity/song_entity.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 
@@ -8,9 +10,9 @@ class HomeController extends GetxController {
   final playerController = Get.put(PlayerController());
   MiGuRepository? miguRepository;
   RxList<Map<String, dynamic>> banners = RxList<Map<String, dynamic>>();
-  RxList<Map<String, dynamic>> playList = RxList<Map<String, dynamic>>();
+  RxList<PlayListEntity> playList = RxList();
   RxList<Map<String, dynamic>> albums = RxList<Map<String, dynamic>>();
-  RxList<Map<String, dynamic>> songs = RxList<Map<String, dynamic>>();
+  RxList<SongEntity> songs = RxList();
 
   @override
   void onInit() {
@@ -40,13 +42,11 @@ class HomeController extends GetxController {
    */
   void getPlayList() {
     miguRepository?.playListNewWeb().then((value) {
+      printInfo(info: json.encode(value));
+
       playList.clear();
 
-      var list = value['msg'] as List;
-
-      playList.addAll(list.map((e) {
-        return e as Map<String, dynamic>;
-      }).toList());
+      playList.addAll(value);
     });
   }
 
@@ -71,16 +71,11 @@ class HomeController extends GetxController {
   void getSong() {
     miguRepository?.songNewWeb().then((value) {
       songs.clear();
-
-      var list = value['result']['results'] as List;
-
-      songs.addAll(list.map((e) {
-        return e['songData'] as Map<String, dynamic>;
-      }).toList());
+      songs.addAll(value);
     });
   }
 
-  Future<void> play(songId) async {
-    await playerController.play(songId);
+  Future<void> play(SongEntity song) async {
+    await playerController.play(song);
   }
 }
