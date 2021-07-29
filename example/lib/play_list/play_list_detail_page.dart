@@ -89,7 +89,12 @@ class PlayListDetailPage extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextButton.icon(onPressed: () {}, icon: Icon(Icons.play_circle_fill), label: Text("播放全部")),
+              TextButton.icon(
+                  onPressed: () {
+                    _controller.playAll(_controller.songs);
+                  },
+                  icon: Icon(Icons.play_circle_fill),
+                  label: Text("播放全部")),
             ],
           ),
         ),

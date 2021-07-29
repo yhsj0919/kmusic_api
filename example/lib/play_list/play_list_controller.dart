@@ -37,4 +37,8 @@ class PlayListController extends GetxController with StateMixin<dynamic> {
   Future<void> play(SongEntity song) async {
     await playerController.play(song);
   }
+
+  void playAll(List<SongEntity> songs) {
+    playerController.playAll(songs);
+  }
 }

@@ -24,7 +24,7 @@ class PlayerController extends GetxController {
 
   RxList<SongEntity> playList = RxList();
 
-  // RxInt playIndex = RxInt(-1);
+  int playIndex = 0;
 
   @override
   void onInit() {
@@ -32,12 +32,9 @@ class PlayerController extends GetxController {
 
     miguRepository = MiGuRepository();
     player.onErrorDo = (err) {
-      Get.snackbar("提示", "出错了,应该执行别的操作了",
-          backgroundColor: Colors.red.withOpacity(0.2),
-          maxWidth: 500,
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          dismissDirection: SnackDismissDirection.HORIZONTAL);
+      Get.snackbar("提示", "出错了,应该执行别的操作了", backgroundColor: Colors.red.withOpacity(0.2), maxWidth: 500, margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8), dismissDirection: SnackDismissDirection.HORIZONTAL);
     };
+
     player.playerState.listen((event) {
       playerState.value = event;
     });
@@ -53,11 +50,7 @@ class PlayerController extends GetxController {
       printInfo(info: "${position.value} == ${duration.value}");
 
       if (duration.value > 500 && duration.value - position.value < 200) {
-        Get.snackbar("提示", "应该播放下一首",
-            backgroundColor: Colors.red.withOpacity(0.2),
-            maxWidth: 500,
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            dismissDirection: SnackDismissDirection.HORIZONTAL);
+        next();
       }
     });
     player.current.listen((event) {
@@ -70,13 +63,12 @@ class PlayerController extends GetxController {
 
   Future<void> play(SongEntity song) async {
     playList.addIf(!playList.contains(song), song);
+
+    playIndex = playList.indexOf(song);
+
     await miguRepository?.playUrl(song.id ?? "").then((play) {
       if (play.code != "000000" && song.url == null) {
-        Get.snackbar("提示", play.msg ?? "",
-            backgroundColor: Colors.red.withOpacity(0.2),
-            maxWidth: 500,
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            dismissDirection: SnackDismissDirection.HORIZONTAL);
+        showInfo(play.msg ?? "");
       } else {
         openFile(
           (play.url ?? song.url).toString().replaceAll("MP3_128_16_Stero", "MP3_320_16_Stero"),
@@ -87,12 +79,34 @@ class PlayerController extends GetxController {
         );
       }
     }).catchError((error) {
-      Get.snackbar("提示", "$error",
-          backgroundColor: Colors.red.withOpacity(0.2),
-          maxWidth: 500,
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          dismissDirection: SnackDismissDirection.HORIZONTAL);
+      showInfo("$error");
     });
+  }
+
+  void playAll(List<SongEntity> songs) {
+    playList.clear();
+    playList.addAll(songs);
+    play(playList[0]);
+  }
+
+  void next() {
+    playIndex++;
+
+    if (playIndex < playList.length) {
+      play(playList[playIndex]);
+    } else {
+      showInfo("已经最后一首");
+    }
+  }
+
+  void previous() {
+    playIndex--;
+
+    if (playIndex >= 0 && playIndex < playList.length) {
+      play(playList[playIndex]);
+    } else {
+      showInfo("已经第一首");
+    }
   }
 
   Future<void> openFile(path, title, artist, album, image) async {
@@ -110,28 +124,22 @@ class PlayerController extends GetxController {
         ),
         headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
         showNotification: true,
-        notificationSettings: NotificationSettings(
-          customNextAction: (player) {
-            Get.snackbar("提示", "通知栏下一首",
-                backgroundColor: Colors.red.withOpacity(0.2),
-                maxWidth: 500,
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                dismissDirection: SnackDismissDirection.HORIZONTAL);
-          },
-          customPlayPauseAction: (player) {
-            player.playOrPause();
-            Get.snackbar("提示", "通知栏播放,暂停",
-                backgroundColor: Colors.red.withOpacity(0.2),
-                maxWidth: 500,
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                dismissDirection: SnackDismissDirection.HORIZONTAL);
-          },
-        ),
+        notificationSettings: NotificationSettings(customNextAction: (player) {
+          next();
+        }, customPlayPauseAction: (player) {
+          player.playOrPause();
+        }, customPrevAction: (player) {
+          previous();
+        }),
       );
     } catch (t) {
       initPlayer = false;
       //mp3 unreachable
     }
+  }
+
+  void showInfo(String msg) {
+    Get.snackbar("提示", msg, backgroundColor: Colors.red.withOpacity(0.2), maxWidth: 500, margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8), dismissDirection: SnackDismissDirection.HORIZONTAL);
   }
 
   void playOrPause() {
