@@ -20,16 +20,16 @@ class AlbumDetailPage extends StatelessWidget {
         playBar: _playBar(),
         headWidget: [
           Container(height: 4),
-          Row(
+        Row(
             children: [
               Icon(Icons.person, size: 14, color: Colors.black87),
               Container(width: 4),
-              Obx(() => Text(
-                    "${_controller.detail.value.singer?.map((e) => e.name).join(",") ?? ""}",
-                    style: TextStyle(fontSize: 12),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )),
+              Flexible(child:  Obx(() => Text(
+                "${_controller.detail.value.singer?.map((e) => e.name).join(",") ?? ""}",
+                style: TextStyle(fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ))),
             ],
           ),
           Spacer(),

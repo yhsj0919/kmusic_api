@@ -142,7 +142,12 @@ class _SearchPageState extends State<SearchPage> {
   //热门搜索item
   Widget hotWordItem(context, index) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        textController.text = searchController.hotwords[index]['word'];
+        searchController.showResult.value = true;
+
+        searchController.search("${searchController.hotwords[index]['word']}");
+      },
       title: Text(
         "${index + 1}   " + searchController.hotwords[index]['word'],
         style: TextStyle(fontSize: 14, color: index < 3 ? Colors.black : Color(0xff666666)),

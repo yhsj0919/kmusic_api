@@ -187,6 +187,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         width: 80,
                         height: 80,
                         radius: 10,
+                        animationDuration: 0,
                         url: homeController.albums[index].img ?? "",
                       )),
                   Container(
