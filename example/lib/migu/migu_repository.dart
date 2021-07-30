@@ -72,7 +72,6 @@ class MiGuRepository {
 
   Future<List<AlbumEntity>> albumNewWeb() {
     return _doRequest('/album/new/web', params: {}).then((value) {
-
       var list = (value['result']['results'] as List).map((e) => e['albumData']).toList();
 
       var resp = list.map((e) {
@@ -257,15 +256,14 @@ class MiGuRepository {
 
   Future<SongEntity> playUrl(String songId) {
     return _doRequest('/song/url', params: {'songId': songId, 'toneFlag': 'PQ'}).then((value) {
-
       if (value["code"] != "000000") {
         return Future.value(SongEntity(code: value["code"], msg: value["info"]));
       }
 
       final result = value['data'];
 
-      if (result["dialogInfo"] != null) {
-        return Future.value(SongEntity(code: result["cannotCode"], msg: result["dialogInfo"]["text"]));
+      if (result["dialogInfo"] != null && result == null) {
+        return Future.value(SongEntity(code: result["cannotCode"]??"004400", msg: result["dialogInfo"]["text"]));
       }
       final playSong = result["song"];
       var song = SongEntity(
