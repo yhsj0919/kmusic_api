@@ -106,7 +106,7 @@ class TabAlbumController extends GetxController with StateMixin<List<AlbumEntity
           return AlbumEntity(
             id: e["id"],
             name: e["name"],
-            img: (e["imgItems"] as List?)?.first?["img"],
+            img: (e["imgItems"] as List?)?.last?["img"],
             time: e["desc"],
             singer: [SingerEntity(name: e["singer"])],
           );

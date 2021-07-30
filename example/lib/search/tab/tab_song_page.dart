@@ -76,7 +76,7 @@ class TabSongController extends GetxController with StateMixin<List<SongEntity>>
           return SongEntity(
             id: e["songId"],
             name: e["songName"],
-            img: (e["imgItems"] as List?)?.first?["img"],
+            img: (e["imgItems"] as List?)?.last?["img"],
             album: e["album"],
             albumId: e["albumId"],
             singer: (e["artists"] as List?)?.map((e) => SingerEntity(id: e["id"], name: e["name"])).toList(),
