@@ -97,15 +97,17 @@ class MiGuRepository {
   Future<List<SongEntity>> albumSong({required String albumId, required String type}) {
     return _doRequest('/album/song', params: {'albumId': albumId, "type": type}).then((value) {
       var list = (value["resource"] as List?)?.first["songItems"] as List?;
+
       var resp = list?.map((e) {
+        var newRateFormats = e["newRateFormats"] as List?;
         return SongEntity(
           id: e["songId"],
           name: e["songName"],
           img: (e["albumImgs"] as List?)?.last["img"],
           lrc: e["lrcUrl"],
           hasMv: e["hasMv"] == "1",
-          singer: [SingerEntity(id: e['singerId'], name: e["singer"], img: (e["singerImg"][e['singerId']]["miguImgItems"] as List?)?.last["img"])],
-          url: (e["newRateFormats"] as List?)?.first["url"],
+          singer: (e["singerImg"] as Map?)?.entries.map((e) => SingerEntity(id: e.key, name: e.value["singerName"], img: (e.value["miguImgItems"] as List?)?.last["img"])).toList(),
+          url: (newRateFormats != null && newRateFormats.length > 0) ? (newRateFormats.first?["url"]) : null,
         );
       }).toList();
 
@@ -262,8 +264,8 @@ class MiGuRepository {
 
       final result = value['data'];
 
-      if (result["dialogInfo"] != null && result == null) {
-        return Future.value(SongEntity(code: result["cannotCode"]??"004400", msg: result["dialogInfo"]["text"]));
+      if (result["dialogInfo"] != null && result["song"] == null) {
+        return Future.value(SongEntity(code: result["cannotCode"] ?? "004400", msg: result["dialogInfo"]["text"]));
       }
       final playSong = result["song"];
       var song = SongEntity(
