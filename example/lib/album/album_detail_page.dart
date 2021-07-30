@@ -49,7 +49,7 @@ class AlbumDetailPage extends StatelessWidget {
                     onTap: () {
                       _controller.play(_controller.songs[index]);
                     },
-                    img: "http://d.musicapp.migu.cn${_controller.songs[index].img}",
+                    img: "${_controller.songs[index].img}",
                     title: _controller.songs[index].name,
                     subtitle: _controller.songs[index].singer?.map((e) => e.name).join(","),
                   )),

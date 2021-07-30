@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/entity/album_entity.dart';
@@ -43,7 +42,6 @@ class HomeController extends GetxController {
    */
   void getPlayList() {
     miguRepository?.playListNewWeb().then((value) {
-      printInfo(info: json.encode(value));
 
       playList.clear();
 

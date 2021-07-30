@@ -70,7 +70,6 @@ class TabLyricPage extends StatelessWidget {
           return _controller.search();
         },
         onLoadMore: (index) {
-          printInfo(info: "加载更多$index");
           return _controller.search(page: index);
         },
       );

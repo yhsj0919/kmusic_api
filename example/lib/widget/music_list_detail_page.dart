@@ -83,7 +83,7 @@ class MusicListDetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${name}", style: TextStyle(fontSize: 20), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text("$name", style: TextStyle(fontSize: 20), maxLines: 1, overflow: TextOverflow.ellipsis),
                     Container(height: 4),
                   ]..addAll(headWidget),
                 ).paddingAll(16),

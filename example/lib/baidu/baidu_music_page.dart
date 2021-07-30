@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kmusic_api_example/qq/qq_repository.dart';
 
 import 'baidu_repository.dart';
 

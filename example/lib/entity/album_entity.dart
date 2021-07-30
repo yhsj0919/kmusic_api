@@ -11,6 +11,7 @@ class AlbumEntity {
   String? totalCount;
   String? language;
   String? albumClass;
+  String? type;
   List<SingerEntity>? singer;
 
   AlbumEntity({
@@ -25,6 +26,7 @@ class AlbumEntity {
     this.totalCount,
     this.language,
     this.albumClass,
+    this.type,
   });
 
   AlbumEntity.fromJson(Map<String, dynamic> json) {
@@ -39,6 +41,7 @@ class AlbumEntity {
     totalCount = json['totalCount'];
     language = json['language'];
     albumClass = json['albumClass'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +57,7 @@ class AlbumEntity {
     data['totalCount'] = this.totalCount;
     data['language'] = this.language;
     data['albumClass'] = this.albumClass;
+    data['type'] = this.type;
     return data;
   }
 

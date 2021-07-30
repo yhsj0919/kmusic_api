@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,7 +64,6 @@ class TabAlbumPage extends StatelessWidget {
           return _controller.search();
         },
         onLoadMore: (index) {
-          printInfo(info: "加载更多$index");
           return _controller.search(page: index);
         },
       );
@@ -91,7 +89,6 @@ class TabAlbumController extends GetxController with StateMixin<List<AlbumEntity
     }
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
-        printInfo(info: json.encode(value));
         thisPage.value++;
         if (page == 1) {
           datas.clear();
@@ -108,6 +105,7 @@ class TabAlbumController extends GetxController with StateMixin<List<AlbumEntity
             name: e["name"],
             img: (e["imgItems"] as List?)?.last?["img"],
             time: e["desc"],
+            type: e["resourceType"],
             singer: [SingerEntity(name: e["singer"])],
           );
         }).toList());

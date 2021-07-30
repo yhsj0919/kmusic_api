@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,7 +63,6 @@ class TabSingerPage extends StatelessWidget {
           return _controller.search();
         },
         onLoadMore: (index) {
-          printInfo(info: "加载更多$index");
           return _controller.search(page: index);
         },
       );
@@ -90,7 +88,6 @@ class TabSingerController extends GetxController with StateMixin<dynamic> {
     }
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
-        printInfo(info: json.encode(value));
         thisPage.value++;
         if (page == 1) {
           datas.clear();

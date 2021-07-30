@@ -72,6 +72,7 @@ class MiGuRepository {
 
   Future<List<AlbumEntity>> albumNewWeb() {
     return _doRequest('/album/new/web', params: {}).then((value) {
+
       var list = (value['result']['results'] as List).map((e) => e['albumData']).toList();
 
       var resp = list.map((e) {
@@ -94,16 +95,18 @@ class MiGuRepository {
     return _doRequest('/album/new', params: {});
   }
 
-  Future<List<SongEntity>> albumSong({required String albumId}) {
-    return _doRequest('/album/song', params: {'albumId': albumId}).then((value) {
-      var list = value['data']['songList'] as List;
-      var resp = list.map((e) {
+  Future<List<SongEntity>> albumSong({required String albumId, required String type}) {
+    return _doRequest('/album/song', params: {'albumId': albumId, "type": type}).then((value) {
+      var list = (value["resource"] as List?)?.first["songItems"] as List?;
+      var resp = list?.map((e) {
         return SongEntity(
           id: e["songId"],
           name: e["songName"],
-          img: e["img1"],
-          singer: (e["singerList"] as List).map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
-          url: e["listenUrl"],
+          img: (e["albumImgs"] as List?)?.last["img"],
+          lrc: e["lrcUrl"],
+          hasMv: e["hasMv"] == "1",
+          singer: [SingerEntity(id: e['singerId'], name: e["singer"], img: (e["singerImg"][e['singerId']]["miguImgItems"] as List?)?.last["img"])],
+          url: (e["newRateFormats"] as List?)?.first["url"],
         );
       }).toList();
 
@@ -111,9 +114,9 @@ class MiGuRepository {
     });
   }
 
-  Future<AlbumEntity> albumInfo({required String albumId}) {
-    return _doRequest('/album/info', params: {'albumId': albumId}).then((value) {
-      var resource = value["data"];
+  Future<AlbumEntity> albumInfo({required String albumId, required String type}) {
+    return _doRequest('/album/info', params: {'albumId': albumId, "type": type}).then((value) {
+      var resource = (value["resource"] as List?)?.first;
       var data = AlbumEntity(
         id: resource?["albumId"],
         name: resource?["title"],
@@ -215,7 +218,7 @@ class MiGuRepository {
   }
 
   Future<List<SongEntity>> playListSong({required String id}) {
-    return _doRequest('/playList/song', params: {'id': id,"pageSize":1000}).then((value) {
+    return _doRequest('/playList/song', params: {'id': id, "pageSize": 1000}).then((value) {
       var list = value['data']['songList'] as List;
       var resp = list.map((e) {
         return SongEntity(
@@ -238,12 +241,7 @@ class MiGuRepository {
       var resp = list.map((e) => e['songData']).map((e) {
         var singerId = (e["singerId"] as List);
         var singerName = (e["singerName"] as List);
-        return SongEntity(
-            id: e["songId"],
-            img: e["picS"],
-            name: e["songName"],
-            singer: singerId.map((e) => SingerEntity(id: e, name: singerName[singerId.indexOf(e)])).toList(),
-            url: e["listenUrl"]);
+        return SongEntity(id: e["songId"], img: e["picS"], name: e["songName"], singer: singerId.map((e) => SingerEntity(id: e, name: singerName[singerId.indexOf(e)])).toList(), url: e["listenUrl"]);
       }).toList();
       return Future.value(resp);
     });
@@ -259,10 +257,16 @@ class MiGuRepository {
 
   Future<SongEntity> playUrl(String songId) {
     return _doRequest('/song/url', params: {'songId': songId, 'toneFlag': 'PQ'}).then((value) {
+
       if (value["code"] != "000000") {
         return Future.value(SongEntity(code: value["code"], msg: value["info"]));
       }
+
       final result = value['data'];
+
+      if (result["dialogInfo"] != null) {
+        return Future.value(SongEntity(code: result["cannotCode"], msg: result["dialogInfo"]["text"]));
+      }
       final playSong = result["song"];
       var song = SongEntity(
         code: value["code"],
@@ -270,7 +274,7 @@ class MiGuRepository {
         id: playSong["songId"],
         name: playSong["songName"],
         lrc: result["lrcUrl"],
-        url: result["url"].toString().replaceAll("MP3_128_16_Stero", "MP3_320_16_Stero"),
+        url: result["url"].toString().replaceAll("MP3_128_16_Stero", "MP3_320_16_Stero").replaceAll("ftp://218.200.160.122:21", "http://freetyst.nf.migu.cn"),
         img: "http://d.musicapp.migu.cn" + playSong["img1"],
         singer: (playSong["singerList"] as List?)?.map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
         album: playSong["album"],

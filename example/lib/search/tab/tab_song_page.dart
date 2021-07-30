@@ -36,7 +36,6 @@ class TabSongPage extends StatelessWidget {
           return _controller.search();
         },
         onLoadMore: (index) {
-          printInfo(info: "加载更多$index");
           return _controller.search(page: index);
         },
       );
@@ -62,7 +61,6 @@ class TabSongController extends GetxController with StateMixin<List<SongEntity>>
     }
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
-        // printInfo(info: json.encode(value));
         thisPage.value++;
         if (page == 1) {
           datas.clear();
@@ -77,6 +75,7 @@ class TabSongController extends GetxController with StateMixin<List<SongEntity>>
             id: e["songId"],
             name: e["songName"],
             img: (e["imgItems"] as List?)?.last?["img"],
+            url: (e["newRateFormats"] as List?)?.first["url"],
             album: e["album"],
             albumId: e["albumId"],
             singer: (e["artists"] as List?)?.map((e) => SingerEntity(id: e["id"], name: e["name"])).toList(),

@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/entity/album_entity.dart';
 import 'package:kmusic_api_example/entity/song_entity.dart';
@@ -22,16 +21,16 @@ class AlbumController extends GetxController with StateMixin<dynamic> {
   @override
   void onReady() {
     super.onReady();
-    getSongList(album.id!);
-    getInfo(album.id!);
+    getSongList(album.id!, album.type ?? "2003");
+    getInfo(album.id!, album.type ?? "2003");
   }
 
   /**
    * 获取歌单歌曲
    */
-  void getSongList(String id) {
+  void getSongList(String id, String type) {
     change([], status: RxStatus.loading());
-    miguRepository?.albumSong(albumId: id).then((value) {
+    miguRepository?.albumSong(albumId: id, type: type).then((value) {
       songs.clear();
       songs.addAll(value);
       change(songs, status: RxStatus.success());
@@ -41,8 +40,8 @@ class AlbumController extends GetxController with StateMixin<dynamic> {
   /**
    * 获取歌单详情
    */
-  void getInfo(String id) {
-    miguRepository?.albumInfo(albumId: id).then((value) {
+  void getInfo(String id, String type) {
+    miguRepository?.albumInfo(albumId: id, type: type).then((value) {
       detail.value = value;
     });
   }

@@ -68,6 +68,19 @@ Handler albumNew = (Map query, cookie) async {
  */
 Handler albumSong = (Map query, cookie) async {
   final data = {
+    "resourceId": query['albumId'],
+    "needSimple": query['needSimple'] ?? "01",
+    "resourceType": query['type'] ?? "2003",
+  };
+  return request(
+    'GET',
+    "https://app.c.nf.migu.cn/MIGUM2.0/v1.0/content/resourceinfo.do",
+    data,
+    cookies: cookie,
+  );
+};
+Handler albumSong2 = (Map query, cookie) async {
+  final data = {
     "albumId": query['albumId'],
     "pageNo": 1,
   };
@@ -80,9 +93,23 @@ Handler albumSong = (Map query, cookie) async {
 };
 
 /*
-* 专辑歌曲
+* 专辑信息
  */
 Handler albumInfo = (Map query, cookie) async {
+  final data = {
+    "resourceId": query['albumId'],
+    "needSimple": query['needSimple'] ?? "00",
+    "resourceType": query['type'] ?? "2003",
+  };
+  return request(
+    'GET',
+    "https://app.c.nf.migu.cn/MIGUM2.0/v1.0/content/resourceinfo.do",
+    data,
+    cookies: cookie,
+  );
+};
+
+Handler albumInfo2 = (Map query, cookie) async {
   final data = {
     "albumId": query['albumId'],
   };
