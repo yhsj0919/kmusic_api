@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kmusic_api_example/entity/play_list_entity.dart';
-import 'package:kmusic_api_example/play_list/play_list_controller.dart';
+import 'package:kmusic_api_example/entity/album_entity.dart';
 import 'package:kmusic_api_example/widget/music_list_detail_page.dart';
 import 'package:kmusic_api_example/widget/music_widget.dart';
 
-class PlayListDetailPage extends StatelessWidget {
-  PlayListDetailPage({Key? key}) : super(key: key);
-  final PlayListController _controller = Get.put(PlayListController());
-  final PlayListEntity playList = Get.arguments;
+import 'album_controller.dart';
+
+class AlbumDetailPage extends StatelessWidget {
+  AlbumDetailPage({Key? key}) : super(key: key);
+  final AlbumController _controller = Get.put(AlbumController());
+  final AlbumEntity playList = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     return MusicListDetailPage(
         img: playList.img ?? "",
-        title: "歌单",
+        title: "专辑",
         name: "${playList.name}",
         playBar: _playBar(),
         headWidget: [
@@ -24,7 +25,7 @@ class PlayListDetailPage extends StatelessWidget {
               Icon(Icons.person, size: 14, color: Colors.black87),
               Container(width: 4),
               Obx(() => Text(
-                    "${_controller.detail.value.userName ?? ""}",
+                    "${_controller.detail.value.singer?.map((e) => e.name).join(",") ?? ""}",
                     style: TextStyle(fontSize: 12),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -33,7 +34,7 @@ class PlayListDetailPage extends StatelessWidget {
           ),
           Spacer(),
           Obx(() => Text(
-                "${_controller.detail.value.intro ?? ""}",
+                "${_controller.detail.value.desc ?? ""}",
                 style: TextStyle(color: Colors.black54, fontSize: 12),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

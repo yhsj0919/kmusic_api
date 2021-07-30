@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:kmusic_api/migu_music.dart';
 import 'package:kmusic_api/utils/answer.dart';
+import 'package:kmusic_api_example/entity/album_entity.dart';
 import 'package:kmusic_api_example/entity/play_list_entity.dart';
 import 'package:kmusic_api_example/entity/singer_entity.dart';
 import 'package:kmusic_api_example/entity/song_entity.dart';
@@ -67,8 +70,20 @@ class MiGuRepository {
     return _doRequest('/banner', params: {});
   }
 
-  Future<dynamic> albumNewWeb() {
-    return _doRequest('/album/new/web', params: {});
+  Future<List<AlbumEntity>> albumNewWeb() {
+    return _doRequest('/album/new/web', params: {}).then((value) {
+      var list = (value['result']['results'] as List).map((e) => e['albumData']).toList();
+
+      var resp = list.map((e) {
+        return AlbumEntity(
+          id: e["albumId"],
+          name: e["albumName"],
+          img: e["albumsSmallUrl"],
+        );
+      }).toList();
+
+      return Future.value(resp);
+    });
   }
 
   Future<dynamic> albumNewType() {
@@ -79,12 +94,40 @@ class MiGuRepository {
     return _doRequest('/album/new', params: {});
   }
 
-  Future<dynamic> albumSong() {
-    return _doRequest('/album/song', params: {'albumId': '1136495459'});
+  Future<List<SongEntity>> albumSong({required String albumId}) {
+    return _doRequest('/album/song', params: {'albumId': albumId}).then((value) {
+      var list = value['data']['songList'] as List;
+      var resp = list.map((e) {
+        return SongEntity(
+          id: e["songId"],
+          name: e["songName"],
+          img: e["img1"],
+          singer: (e["singerList"] as List).map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
+          url: e["listenUrl"],
+        );
+      }).toList();
+
+      return Future.value(resp);
+    });
   }
 
-  Future<dynamic> albumInfo() {
-    return _doRequest('/album/info', params: {'albumId': '1136495459'});
+  Future<AlbumEntity> albumInfo({required String albumId}) {
+    return _doRequest('/album/info', params: {'albumId': albumId}).then((value) {
+      var resource = value["data"];
+      var data = AlbumEntity(
+        id: resource["albumId"],
+        name: resource["title"],
+        img: (resource["imgItems"] as List?)?.first["img"],
+        desc: resource["summary"].toString().trim(),
+        singer: [SingerEntity(id: resource["singerId"], name: resource["singer"])],
+        time: resource["publishTime"],
+        company: resource["publishCompany"],
+        totalCount: resource["totalCount"],
+        language: resource["language"],
+        albumClass: resource["albumClass"],
+      );
+      return Future.value(data);
+    });
   }
 
   Future<dynamic> mvResource() {
@@ -121,7 +164,6 @@ class MiGuRepository {
           img: e["image"],
         );
       }).toList();
-
       return Future.value(resp);
     });
   }
@@ -152,10 +194,23 @@ class MiGuRepository {
     return _doRequest('/playList/tagList', params: {});
   }
 
-  Future<dynamic> playListInfo() {
-    return _doRequest('/playList/info', params: {
-      'id': '181694965',
-      'type': '2021',
+  Future<PlayListEntity> playListInfo({required String id, String? type}) {
+    return _doRequest('/playList/info', params: {'id': id, 'type': type ?? DateTime.now().year}).then((value) {
+      var resource = (value["resource"] as List?)?.first;
+      var playList = PlayListEntity(
+        id: resource["musicListId"],
+        name: resource["title"],
+        img: resource["imgItem"]["img"],
+        intro: resource["summary"],
+        keepNum: resource["opNumItem"]["keepNumDesc"],
+        musicNum: "${resource["musicNum"]}",
+        type: resource["resourceType"],
+        playNum: resource["opNumItem"]["playNumDesc"],
+        tags: (resource["tags"] as List?)?.map((e) => e["tagName"].toString()).toList(),
+        userId: resource["ownerId"],
+        userName: resource["ownerName"],
+      );
+      return Future.value(playList);
     });
   }
 

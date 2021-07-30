@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:kmusic_api_example/home/home_page.dart';
 import 'package:kmusic_api_example/utils/sp.dart';
 
 import 'route/routes.dart';
@@ -27,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: "纯音乐",
       builder: (context, child) => Scaffold(
         // 全局隐藏键盘
         body: GestureDetector(

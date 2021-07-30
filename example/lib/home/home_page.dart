@@ -174,23 +174,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.ALBUM_DETAIL, arguments: homeController.albums[index]);
+              },
               borderRadius: BorderRadius.all(Radius.circular(10)),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppImage(
-                    width: 80,
-                    height: 80,
-                    radius: 10,
-                    url: homeController.albums[index]['albumsSmallUrl'],
-                  ),
+                  Hero(
+                      tag: homeController.albums[index].img ?? "",
+                      child: AppImage(
+                        width: 80,
+                        height: 80,
+                        radius: 10,
+                        url: homeController.albums[index].img ?? "",
+                      )),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 4),
                     width: 80,
                     alignment: Alignment.center,
                     child: Text(
-                      homeController.albums[index]['albumName'],
+                      homeController.albums[index].name ?? "",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 12),
                       maxLines: 1,

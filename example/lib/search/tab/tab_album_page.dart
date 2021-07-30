@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kmusic_api_example/entity/album_entity.dart';
+import 'package:kmusic_api_example/entity/singer_entity.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
+import 'package:kmusic_api_example/route/routes.dart';
 import 'package:kmusic_api_example/utils/utils.dart';
 import 'package:kmusic_api_example/widget/app_image.dart';
 import 'package:kmusic_api_example/widget/page_list_view.dart';
@@ -19,14 +24,17 @@ class TabAlbumPage extends StatelessWidget {
         itemCount: datas?.length ?? 0,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: () {
+              Get.toNamed(Routes.ALBUM_DETAIL, arguments: datas![index]);
+            },
             leading: AppImage(
               width: 50,
               height: 50,
               radius: 10,
-              url: (datas[index]["imgItems"] as List).last["img"],
+              url: datas?[index].img ?? "",
             ),
             title: Text(
-              "${datas?[index]?["name"]}",
+              "${datas?[index].name ?? ""}",
               maxLines: 1,
               style: Theme.of(context).textTheme.subtitle1,
               overflow: TextOverflow.ellipsis,
@@ -35,7 +43,7 @@ class TabAlbumPage extends StatelessWidget {
               children: [
                 Flexible(
                     child: Text(
-                  "${datas[index]["singer"]}",
+                  "${datas?[index].singer?.map((e) => e.name).join(",")}",
                   maxLines: 1,
                   style: Theme.of(context).textTheme.caption,
                   overflow: TextOverflow.ellipsis,
@@ -43,7 +51,7 @@ class TabAlbumPage extends StatelessWidget {
                 Container(width: 8),
                 Flexible(
                     child: Text(
-                  "${datas[index]["desc"]}",
+                  "${datas?[index].time}",
                   maxLines: 1,
                   style: Theme.of(context).textTheme.caption,
                   overflow: TextOverflow.ellipsis,
@@ -65,11 +73,11 @@ class TabAlbumPage extends StatelessWidget {
   }
 }
 
-class TabAlbumController extends GetxController with StateMixin<dynamic> {
+class TabAlbumController extends GetxController with StateMixin<List<AlbumEntity>> {
   final migu = MiGuRepository();
   String _keyword = "";
 
-  List datas = [];
+  List<AlbumEntity> datas = <AlbumEntity>[];
   RxInt totalPage = RxInt(0);
   RxInt thisPage = RxInt(0);
 
@@ -83,17 +91,27 @@ class TabAlbumController extends GetxController with StateMixin<dynamic> {
     }
     if (_keyword.isNotEmpty) {
       return migu.search(_keyword, type: type, page: page, size: size).then((value) {
-        // printInfo(info: json.encode(value));
+        printInfo(info: json.encode(value));
         thisPage.value++;
         if (page == 1) {
           datas.clear();
           thisPage.value = 1;
         }
-        datas.addAll((value?["albumResultData"]?["result"] ?? []) as List);
 
         totalPage.value = getPage(int.tryParse(value?["albumResultData"]?["totalCount"]) ?? 0, size);
-        printInfo(info: "总页数$totalPage");
-        printInfo(info: "总条数${int.tryParse(value?["albumResultData"]?["totalCount"]) ?? 0}");
+
+        var list = value['albumResultData']['result'] as List;
+
+        datas.addAll(list.map((e) {
+          return AlbumEntity(
+            id: e["id"],
+            name: e["name"],
+            img: (e["imgItems"] as List?)?.first?["img"],
+            time: e["desc"],
+            singer: [SingerEntity(name: e["singer"])],
+          );
+        }).toList());
+
         change(datas, status: RxStatus.success());
       });
     } else {

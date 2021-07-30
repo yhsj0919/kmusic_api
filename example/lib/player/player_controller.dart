@@ -24,7 +24,7 @@ class PlayerController extends GetxController {
 
   RxList<SongEntity> playList = RxList();
 
-  int playIndex = 0;
+  RxInt playIndex = RxInt(0);
 
   @override
   void onInit() {
@@ -32,7 +32,11 @@ class PlayerController extends GetxController {
 
     miguRepository = MiGuRepository();
     player.onErrorDo = (err) {
-      Get.snackbar("提示", "出错了,应该执行别的操作了", backgroundColor: Colors.red.withOpacity(0.2), maxWidth: 500, margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8), dismissDirection: SnackDismissDirection.HORIZONTAL);
+      Get.snackbar("提示", "出错了,应该执行别的操作了",
+          backgroundColor: Colors.red.withOpacity(0.2),
+          maxWidth: 500,
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          dismissDirection: SnackDismissDirection.HORIZONTAL);
     };
 
     player.playerState.listen((event) {
@@ -64,7 +68,7 @@ class PlayerController extends GetxController {
   Future<void> play(SongEntity song) async {
     playList.addIf(!playList.contains(song), song);
 
-    playIndex = playList.indexOf(song);
+    playIndex.value = playList.indexOf(song);
 
     await miguRepository?.playUrl(song.id ?? "").then((play) {
       if (play.code != "000000" && song.url == null) {
@@ -93,7 +97,7 @@ class PlayerController extends GetxController {
     playIndex++;
 
     if (playIndex < playList.length) {
-      play(playList[playIndex]);
+      play(playList[playIndex.value]);
     } else {
       showInfo("已经最后一首");
     }
@@ -103,7 +107,7 @@ class PlayerController extends GetxController {
     playIndex--;
 
     if (playIndex >= 0 && playIndex < playList.length) {
-      play(playList[playIndex]);
+      play(playList[playIndex.value]);
     } else {
       showInfo("已经第一首");
     }
@@ -139,7 +143,8 @@ class PlayerController extends GetxController {
   }
 
   void showInfo(String msg) {
-    Get.snackbar("提示", msg, backgroundColor: Colors.red.withOpacity(0.2), maxWidth: 500, margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8), dismissDirection: SnackDismissDirection.HORIZONTAL);
+    Get.snackbar("提示", msg,
+        backgroundColor: Colors.red.withOpacity(0.2), maxWidth: 500, margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8), dismissDirection: SnackDismissDirection.HORIZONTAL);
   }
 
   void playOrPause() {

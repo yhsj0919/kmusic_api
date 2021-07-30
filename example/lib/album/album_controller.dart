@@ -1,17 +1,17 @@
 
 import 'package:get/get.dart';
-import 'package:kmusic_api_example/entity/play_list_entity.dart';
+import 'package:kmusic_api_example/entity/album_entity.dart';
 import 'package:kmusic_api_example/entity/song_entity.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 
-class PlayListController extends GetxController with StateMixin<dynamic> {
+class AlbumController extends GetxController with StateMixin<dynamic> {
   final playerController = Get.put(PlayerController());
   MiGuRepository? miguRepository;
   RxList<SongEntity> songs = RxList();
-  final PlayListEntity playList = Get.arguments;
+  final AlbumEntity album = Get.arguments;
 
-  Rx<PlayListEntity> detail = Rx(PlayListEntity());
+  Rx<AlbumEntity> detail = Rx(AlbumEntity());
 
   @override
   void onInit() {
@@ -22,8 +22,8 @@ class PlayListController extends GetxController with StateMixin<dynamic> {
   @override
   void onReady() {
     super.onReady();
-    getSongList(playList.id!);
-    getInfo(playList.id!, playList.type);
+    getSongList(album.id!);
+    getInfo(album.id!);
   }
 
   /**
@@ -31,8 +31,7 @@ class PlayListController extends GetxController with StateMixin<dynamic> {
    */
   void getSongList(String id) {
     change([], status: RxStatus.loading());
-    miguRepository?.playListSong(id: id).then((value) {
-
+    miguRepository?.albumSong(albumId: id).then((value) {
       songs.clear();
       songs.addAll(value);
       change(songs, status: RxStatus.success());
@@ -42,8 +41,8 @@ class PlayListController extends GetxController with StateMixin<dynamic> {
   /**
    * 获取歌单详情
    */
-  void getInfo(String id, String? type) {
-    miguRepository?.playListInfo(id: id, type: type).then((value) {
+  void getInfo(String id) {
+    miguRepository?.albumInfo(albumId: id).then((value) {
       detail.value = value;
     });
   }

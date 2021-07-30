@@ -7,11 +7,25 @@ class PlayListEntity {
   String? keepNum;
   String? musicNum;
   String? playNum;
+  String? type;
   String? userId;
   String? userName;
   List<String>? tags;
 
-  PlayListEntity({this.id, this.name, this.img, this.site, this.playNum, this.intro, this.keepNum, this.userId, this.userName, this.musicNum, this.tags});
+  PlayListEntity({
+    this.id,
+    this.name,
+    this.img,
+    this.site,
+    this.playNum,
+    this.intro,
+    this.keepNum,
+    this.userId,
+    this.userName,
+    this.musicNum,
+    this.tags,
+    this.type,
+  });
 
   PlayListEntity.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -25,6 +39,7 @@ class PlayListEntity {
     userId = json['userId'];
     userName = json['userName'];
     tags = json['tags'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +55,7 @@ class PlayListEntity {
     data['userId'] = this.userId;
     data['userName'] = this.userName;
     data['tags'] = this.tags;
+    data['type'] = this.type;
     return data;
   }
 

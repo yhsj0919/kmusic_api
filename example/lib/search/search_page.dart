@@ -9,7 +9,6 @@ import 'package:kmusic_api_example/search/tab/tab_singer_page.dart';
 import 'package:kmusic_api_example/search/tab/tab_song_page.dart';
 import 'package:kmusic_api_example/search/tab/tab_video_page.dart';
 import 'package:kmusic_api_example/widget/app_appbar.dart';
-import 'package:kmusic_api_example/widget/auto_complete_text_field.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

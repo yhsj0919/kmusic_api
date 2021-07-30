@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:kmusic_api_example/entity/album_entity.dart';
 import 'package:kmusic_api_example/entity/play_list_entity.dart';
 import 'package:kmusic_api_example/entity/song_entity.dart';
 import 'package:kmusic_api_example/migu/migu_repository.dart';
@@ -11,7 +12,7 @@ class HomeController extends GetxController {
   MiGuRepository? miguRepository;
   RxList<Map<String, dynamic>> banners = RxList<Map<String, dynamic>>();
   RxList<PlayListEntity> playList = RxList();
-  RxList<Map<String, dynamic>> albums = RxList<Map<String, dynamic>>();
+  RxList<AlbumEntity> albums = RxList();
   RxList<SongEntity> songs = RxList();
 
   @override
@@ -56,12 +57,7 @@ class HomeController extends GetxController {
   void getAlbum() {
     miguRepository?.albumNewWeb().then((value) {
       albums.clear();
-
-      var list = value['result']['results'] as List;
-
-      albums.addAll(list.map((e) {
-        return e['albumData'] as Map<String, dynamic>;
-      }).toList());
+      albums.addAll(value);
     });
   }
 

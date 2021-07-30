@@ -5,6 +5,8 @@ description: Demonstrates how to use the kmusic_api plugin.
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
+version: 0.0.1+1
+
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -31,7 +33,7 @@ dependencies:
 
   assets_audio_player: ^3.0.3+5
   get: ^4.2.0
-#  cached_network_image: ^3.1.0
+  #  cached_network_image: ^3.1.0
   extended_image: ^4.1.0
 
   #  we_slide: ^2.1.0
@@ -43,7 +45,10 @@ dependencies:
 
   # hive: ^1.4.4+1
   #https://github.com/bnxm/material_floating_search_bar
-#  material_floating_search_bar: ^0.3.4
+  #  material_floating_search_bar: ^0.3.4
+  #https://github.com/fluttercandies/extended_nested_scroll_view
+  #解决pinned的Header的问题
+  extended_nested_scroll_view: ^3.0.1
 
 
 dev_dependencies:

@@ -139,6 +139,7 @@ class TabPlayListController extends GetxController with StateMixin<List<PlayList
             intro: e["intro"],
             keepNum: e["keepNum"],
             musicNum: e["musicNum"],
+            type: e["resourceType"],
             playNum: e["playNum"],
             tags: (e["ts"] as List).map((e) => e.toString()).toList(),
             userId: e["userId"],

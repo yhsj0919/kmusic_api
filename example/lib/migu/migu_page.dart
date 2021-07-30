@@ -80,13 +80,13 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                 ListTile(
                   title: Text('专辑歌曲'),
                   onTap: () {
-                    miguRepository?.albumSong().then(onData).catchError(onError);
+                    miguRepository?.albumSong(albumId: '1136495459').then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
                   title: Text('专辑信息'),
                   onTap: () {
-                    miguRepository?.albumInfo().then(onData).catchError(onError);
+                    miguRepository?.albumInfo(albumId: '1136495459').then(onData).catchError(onError);
                   },
                 ),
                 ListTile(
@@ -140,12 +140,12 @@ class _MiGuPageState extends State<MiGuPage> with AutomaticKeepAliveClientMixin 
                 ListTile(
                     title: Text('歌单信息'),
                     onTap: () {
-                      miguRepository?.playListInfo().then(onData).catchError(onError);
+                      miguRepository?.playListInfo(id: '181694965').then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('歌单歌曲'),
                     onTap: () {
-                      miguRepository?.playListSong(id:'181694965').then(onData).catchError(onError);
+                      miguRepository?.playListSong(id: '181694965').then(onData).catchError(onError);
                     }),
                 ListTile(
                     title: Text('新歌类型'),

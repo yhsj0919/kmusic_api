@@ -83,20 +83,18 @@ class PlayerPage extends StatelessWidget {
   }
 
   Widget playerBar() {
-    return Obx(
-      () => Container(
-        alignment: Alignment.center,
-        height: 70,
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        width: Get.width,
-        child: Row(
-          children: [
-            head(),
-            title(),
-            play(),
-            playlistButton(),
-          ],
-        ),
+    return Container(
+      alignment: Alignment.center,
+      height: 70,
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      width: Get.width,
+      child: Row(
+        children: [
+          Obx(() => head()),
+          Obx(() => title()),
+          play(),
+          playlistButton(),
+        ],
       ),
     );
   }
@@ -157,17 +155,17 @@ class PlayerPage extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            player.isBuffering.value == true
+            Obx(() => player.isBuffering.value == true
                 ? Hero(tag: "player_Progress1", child: const CircularProgressIndicator(strokeWidth: 2, backgroundColor: Colors.black12))
                 : Hero(
                     tag: "player_Progress2",
-                    child: CircularProgressIndicator(value: player.position.value / player.duration.value, strokeWidth: 1, backgroundColor: Colors.black12)),
-            Hero(
+                    child: CircularProgressIndicator(value: player.position.value / player.duration.value, strokeWidth: 1, backgroundColor: Colors.black12))),
+            Obx(() => Hero(
                 tag: "player_play",
                 child: Icon(
                   player.playerState == PlayerState.play ? Icons.pause : Icons.play_arrow,
                   size: 25,
-                )),
+                ))),
           ],
         ),
       ),
@@ -177,44 +175,43 @@ class PlayerPage extends StatelessWidget {
   Widget playlistButton() {
     return IconButton(
       onPressed: () {
-        if (player.panelController.isPanelOpen) {
-          player.panelController.close();
-        } else {
-          player.panelController.open();
-        }
+        player.next();
       },
       icon: Container(
         width: 45,
         height: 45,
-        child: Hero(tag: "player_playlist", child: Icon(Icons.format_list_bulleted, size: 25)),
+        child: Hero(tag: "player_playlist", child: Icon(Icons.skip_next, size: 25)),
       ),
     ).marginSymmetric(horizontal: 4);
   }
 
   Widget playlist(ScrollController sc) {
-    return Obx(() => ListView.builder(
-        controller: sc,
-        physics: BouncingScrollPhysics(),
-        itemCount: player.playList.length,
-        itemBuilder: (context, index) {
-          return Material(
-              color: Colors.transparent,
-              child: Ink(
-                  child: InkWell(
-                splashColor: Colors.black26,
-                onTap: () {
-                  player.play(player.playList[index]);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: Text(
-                    player.playList[index].name ?? "",
-                    style: TextStyle(fontSize: 14),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
-              )));
-        })).marginOnly(top: 50);
+    return Obx(() => player.playIndex.value != -1
+        ? ListView.builder(
+            controller: sc,
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.all(0),
+            itemCount: player.playList.length,
+            itemBuilder: (context, index) {
+              return Material(
+                  color: Colors.transparent,
+                  child: Ink(
+                      child: InkWell(
+                    splashColor: Colors.black26,
+                    onTap: () {
+                      player.play(player.playList[index]);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      child: Text(
+                        player.playList[index].name ?? "",
+                        style: TextStyle(fontSize: 14, color: player.playIndex.value == index ? Colors.blue : null),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  )));
+            })
+        : Container()).marginOnly(top: 70);
   }
 }
