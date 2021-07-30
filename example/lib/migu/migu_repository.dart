@@ -115,16 +115,16 @@ class MiGuRepository {
     return _doRequest('/album/info', params: {'albumId': albumId}).then((value) {
       var resource = value["data"];
       var data = AlbumEntity(
-        id: resource["albumId"],
-        name: resource["title"],
-        img: (resource["imgItems"] as List?)?.first["img"],
-        desc: resource["summary"].toString().trim(),
-        singer: [SingerEntity(id: resource["singerId"], name: resource["singer"])],
-        time: resource["publishTime"],
-        company: resource["publishCompany"],
-        totalCount: resource["totalCount"],
-        language: resource["language"],
-        albumClass: resource["albumClass"],
+        id: resource?["albumId"],
+        name: resource?["title"],
+        img: (resource?["imgItems"] as List?)?.first["img"],
+        desc: resource?["summary"].toString().trim(),
+        singer: [SingerEntity(id: resource?["singerId"], name: resource?["singer"])],
+        time: resource?["publishTime"],
+        company: resource?["publishCompany"],
+        totalCount: resource?["totalCount"],
+        language: resource?["language"],
+        albumClass: resource?["albumClass"],
       );
       return Future.value(data);
     });
@@ -215,7 +215,7 @@ class MiGuRepository {
   }
 
   Future<List<SongEntity>> playListSong({required String id}) {
-    return _doRequest('/playList/song', params: {'id': id}).then((value) {
+    return _doRequest('/playList/song', params: {'id': id,"pageSize":1000}).then((value) {
       var list = value['data']['songList'] as List;
       var resp = list.map((e) {
         return SongEntity(
