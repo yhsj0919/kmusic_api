@@ -100,13 +100,21 @@ class MiGuRepository {
 
       var resp = list?.map((e) {
         var newRateFormats = e["newRateFormats"] as List?;
+        var singerList = e["miguImgItems"] as List?;
         return SongEntity(
           id: e["songId"],
           name: e["songName"],
           img: (e["albumImgs"] as List?)?.last["img"],
           lrc: e["lrcUrl"],
           hasMv: e["hasMv"] == "1",
-          singer: (e["singerImg"] as Map?)?.entries.map((e) => SingerEntity(id: e.key, name: e.value["singerName"], img: (e.value["miguImgItems"] as List?)?.last["img"])).toList(),
+          singer: (e["singerImg"] as Map?)
+              ?.entries
+              .map((e) => SingerEntity(
+                    id: e.key,
+                    name: e.value["singerName"],
+                    img: singerList?.isEmpty == true ? null : singerList?.last["img"],
+                  ))
+              .toList(),
           url: (newRateFormats != null && newRateFormats.length > 0) ? (newRateFormats.first?["url"]) : null,
         );
       }).toList();
