@@ -71,6 +71,8 @@ Handler albumSong = (Map query, cookie) async {
     "resourceId": query['albumId'],
     "needSimple": query['needSimple'] ?? "01",
     "resourceType": query['type'] ?? "2003",
+    "pageNo": query['page'] ?? 1,
+    "pageSize": query['size'] ?? 50,
   };
   return request(
     'GET',
@@ -82,7 +84,8 @@ Handler albumSong = (Map query, cookie) async {
 Handler albumSong2 = (Map query, cookie) async {
   final data = {
     "albumId": query['albumId'],
-    "pageNo": 1,
+    "pageNo": query['page'] ?? 1,
+    "pageSize": query['size'] ?? 50,
   };
   return request(
     'GET',

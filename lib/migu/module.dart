@@ -29,6 +29,7 @@ final handles = <String, Handler>{
   "/album/new": albumNew,
   "/album/new/type": albumNewType,
   "/album/song": albumSong,
+  "/album/song2": albumSong2,
   "/album/info": albumInfo,
   "/banner": banner,
   "/mv/resource": mvResource,

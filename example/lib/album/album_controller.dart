@@ -5,6 +5,7 @@ import 'package:kmusic_api_example/migu/migu_repository.dart';
 import 'package:kmusic_api_example/player/player_controller.dart';
 
 class AlbumController extends GetxController with StateMixin<dynamic> {
+  int pageSize = 50;
   final playerController = Get.put(PlayerController());
   MiGuRepository? miguRepository;
   RxList<SongEntity> songs = RxList();
@@ -21,19 +22,29 @@ class AlbumController extends GetxController with StateMixin<dynamic> {
   @override
   void onReady() {
     super.onReady();
-    getSongList(album.id!, album.type ?? "2003");
+    getSongList(album.id!, album.type ?? "2003", 1);
     getInfo(album.id!, album.type ?? "2003");
   }
 
   /**
    * 获取歌单歌曲
    */
-  void getSongList(String id, String type) {
-    change([], status: RxStatus.loading());
-    miguRepository?.albumSong(albumId: id, type: type).then((value) {
-      songs.clear();
+  void getSongList(String id, String type, int pageNo) {
+    if (pageNo == 1) {
+      change([], status: RxStatus.loading());
+    }
+    (pageNo == 1
+            ? miguRepository?.albumSong(albumId: id, type: type, pageNo: pageNo, pageSize: pageSize)
+            : miguRepository?.albumSong2(albumId: id, type: type, pageNo: pageNo, pageSize: pageSize))
+        ?.then((value) {
+      if (pageNo == 1) {
+        songs.clear();
+      }
       songs.addAll(value);
       change(songs, status: RxStatus.success());
+      if (songs.length < (int.tryParse(detail.value.musicNum ?? "0") ?? 0)) {
+        getSongList(id, type, ++pageNo);
+      }
     });
   }
 

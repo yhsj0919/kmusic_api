@@ -8,7 +8,7 @@ class AlbumEntity {
   String? desc;
   String? time;
   String? company;
-  String? totalCount;
+  String? musicNum;
   String? language;
   String? albumClass;
   String? type;
@@ -23,7 +23,7 @@ class AlbumEntity {
     this.singer,
     this.time,
     this.company,
-    this.totalCount,
+    this.musicNum,
     this.language,
     this.albumClass,
     this.type,
@@ -38,7 +38,7 @@ class AlbumEntity {
     singer = json['singer'];
     time = json['time'];
     company = json['company'];
-    totalCount = json['totalCount'];
+    musicNum = json['musicNum'];
     language = json['language'];
     albumClass = json['albumClass'];
     type = json['type'];
@@ -54,7 +54,7 @@ class AlbumEntity {
     data['singer'] = this.singer;
     data['time'] = this.time;
     data['company'] = this.company;
-    data['totalCount'] = this.totalCount;
+    data['musicNum'] = this.musicNum;
     data['language'] = this.language;
     data['albumClass'] = this.albumClass;
     data['type'] = this.type;

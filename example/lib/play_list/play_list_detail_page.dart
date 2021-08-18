@@ -71,7 +71,7 @@ class PlayListDetailPage extends StatelessWidget {
                 ),
                 Container(width: 4),
                 Obx(() => Text(
-                      "(${_controller.songs.length})",
+                      "(${_controller.detail.value.musicNum} - ${_controller.songs.length})",
                       style: TextStyle(
                         fontSize: 10,
                       ),

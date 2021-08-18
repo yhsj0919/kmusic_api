@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kmusic_api_example/entity/play_list_entity.dart';
@@ -33,6 +32,7 @@ class TabPlayListPage extends StatelessWidget {
                       child: AppImage(
                         url: datas?[index].img ?? "",
                         width: 80,
+                        animationDuration: 0,
                         height: 80,
                         radius: 10,
                       )),
