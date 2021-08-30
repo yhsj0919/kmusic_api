@@ -249,7 +249,7 @@ class MiGuRepository {
           id: e["songId"],
           name: e["songName"],
           img: e["img1"],
-          singer: (e["singerList"] as List).map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
+          singer: (e["singerList"] as List?)?.map((e) => SingerEntity(id: e['id'], name: e["name"], img: "http://d.musicapp.migu.cn" + e["img"])).toList(),
           url: e["listenUrl"],
         );
       }).toList();
