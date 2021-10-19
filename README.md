@@ -1,4 +1,5 @@
 # kmusic Flutter
+
 ## 感谢
 
 [https://github.com/ziming1/NeteaseCloudMusicApi](https://github.com/ziming1/NeteaseCloudMusicApi)，
@@ -17,8 +18,6 @@
 
 开始添加qq接口，现有歌手相关，音乐相关，mv相关，只测试了能不能通过，参数还没有调整，有些是写死的
 
-
-
 ## 其他说明
 
 [网易云api](https://binaryify.github.io/NeteaseCloudMusicApi/#/)
@@ -27,16 +26,13 @@
 [百度接口说明](https://github.com/yhsj0919/KMusic/blob/master/BaiduMisic.md)
 具体什么参数直接看代码吧，
 
-
-
-
 ## NeteaseCloudMusicApi同步信息
 
-版本: bf8f98d7269d7f4f0a203334b054528f1e4539e2
+版本: 9fe5238ab8f83cff14a9e07047ef536ea9ff7c8a
 
-日期: 2021/4/9 10:28:42
+日期: 2021/10/14 周四 17:01:07
 
-信息: 新增用户历史评论接口
+信息: 同步到最新版本
 
 ## BaiduMusicApi同步信息
 

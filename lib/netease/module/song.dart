@@ -7,7 +7,7 @@ Handler songDetail = (query, cookie) {
   query['ids'] = query['ids'].toString().split(RegExp(r'\s*,\s*'));
   return request(
     'POST',
-    'https://music.163.com/weapi/v3/song/detail',
+    'https://music.163.com/api/v3/song/detail',
     {
       'c': '[' + query['ids'].map((id) => ('{"id":' + id + '}')).join(',') + ']',
     },
@@ -55,6 +55,36 @@ Handler songUrl = (query, cookie) {
       'ids': '[${query["id"]}]',
       'br': int.parse(query['br'] ?? '999000'),
     },
+    cookies: cookie,
+  );
+};
+// 已购单曲
+Handler songPurchased = (query, cookie) {
+  final data = {
+    'limit': query['limit'] ?? 20,
+    'offset': query['offset'] ?? 0,
+  };
+  return request(
+    'POST',
+    'https://music.163.com/weapi/single/mybought/song/list',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
+
+//歌曲上传
+//TODO
+Handler songUpload = (query, cookie) {
+  return request(
+    'POST',
+    'http://interface.music.163.com/',
+    {
+      'pid': query['pid'],
+      'trackIds': query['ids'],
+      'op': 'update',
+    },
+    crypto: Crypto.weapi,
     cookies: cookie,
   );
 };

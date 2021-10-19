@@ -153,7 +153,6 @@ Future<Answer> request(
     final content = await response.cast<List<int>>().transform(utf8.decoder).join();
     final body = json.decode(content);
     ans = ans.copy(status: int.parse(body['code'].toString()), body: body);
-
     ans = ans.copy(status: ans.status > 100 && ans.status < 600 ? ans.status : 400);
     return ans;
   }).catchError((e, s) {

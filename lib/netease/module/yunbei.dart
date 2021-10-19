@@ -102,3 +102,39 @@ Handler yunbei = (query, cookie) {
     cookies: cookie,
   );
 };
+
+// 云贝推歌
+Handler yunbeiRcmdSong = (query, cookie) {
+  final data = {
+    'songId': query['id'],
+    'reason': query['reason'] ?? '好歌献给你',
+    'scene': '',
+    'fromUserId': -1,
+  };
+
+  return request(
+    'POST',
+    'https://music.163.com/weapi/yunbei/rcmd/song/submit',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
+
+// 云贝推歌历史记录
+Handler yunbeiRcmdSongHistory = (query, cookie) {
+  final data = {
+    'page': json.encode({
+      'size': query['size'] ?? 20,
+      'cursor': query['cursor'] ?? '',
+    })
+  };
+
+  return request(
+    'POST',
+    'https://music.163.com/weapi/yunbei/rcmd/song/history/list',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};

@@ -164,16 +164,8 @@ Handler playlistSubscribe = (query, cookie) {
 
 // 歌单收藏者
 Handler playlistSubscribers = (query, cookie) {
-  return request(
-      'POST',
-      'https://music.163.com/weapi/playlist/subscribers',
-      {
-        'id': query['id'],
-        'limit': query['limit'] ?? 20,
-        'offset': query['offset'] ?? 0
-      },
-      crypto: Crypto.weapi,
-      cookies: cookie);
+  return request('POST', 'https://music.163.com/weapi/playlist/subscribers', {'id': query['id'], 'limit': query['limit'] ?? 20, 'offset': query['offset'] ?? 0},
+      crypto: Crypto.weapi, cookies: cookie);
 };
 
 // 更新歌单名
@@ -198,11 +190,7 @@ Handler playlistTrackAdd = (query, cookie) {
   final data = {
     'id': query['pid'],
     'tracks': json.encode(
-      query['ids']
-          .toString()
-          .split(',')
-          .map((e) => {'type': 3, 'id': e})
-          .toList(),
+      query['ids'].toString().split(',').map((e) => {'type': 3, 'id': e}).toList(),
     ),
   };
   return request(
@@ -220,11 +208,7 @@ Handler playlistTrackDelete = (query, cookie) {
   final data = {
     'id': query['pid'],
     'tracks': json.encode(
-      query['ids']
-          .toString()
-          .split(',')
-          .map((e) => {'type': 3, 'id': e})
-          .toList(),
+      query['ids'].toString().split(',').map((e) => {'type': 3, 'id': e}).toList(),
     ),
   };
   return request(
@@ -263,12 +247,9 @@ Handler playlistUpdate = (query, cookie) {
   query['desc'] = query['desc'] ?? '';
   query['tags'] = query['tags'] ?? '';
   final data = {
-    '/api/playlist/desc/update':
-        '{"id":${query['id']},"desc":"${query['desc']}"}',
-    '/api/playlist/tags/update':
-        '{"id":${query['id']},"tags":"${query['tags']}"}',
-    '/api/playlist/update/name':
-        '`{"id":${query['id']},"name":"${query['name']}"}',
+    '/api/playlist/desc/update': '{"id":${query['id']},"desc":"${query['desc']}"}',
+    '/api/playlist/tags/update': '{"id":${query['id']},"tags":"${query['tags']}"}',
+    '/api/playlist/update/name': '`{"id":${query['id']},"name":"${query['name']}"}',
   };
 
   return request(
@@ -286,6 +267,22 @@ Handler playlisVideoRecent = (query, cookie) {
   return request(
     'POST',
     'https://music.163.com/api/playlist/video/recent',
+    data,
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
+
+// 公开隐私歌单
+Handler playlisPrivacy = (query, cookie) {
+  final data = {
+    'id': query['id'],
+    'privacy': 0,
+  };
+
+  return request(
+    'POST',
+    'https://interface.music.163.com/eapi/playlist/update/privacy',
     data,
     crypto: Crypto.weapi,
     cookies: cookie,

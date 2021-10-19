@@ -9,7 +9,7 @@ Handler homepageBlockPage = (query, cookie) {
   return request(
     'POST',
     'https://music.163.com/api/homepage/block/page',
-    {'refresh': query['refresh'] ?? true},
+    {'refresh': query['refresh'] ?? false, 'cursor': query['cursor']},
     crypto: Crypto.weapi,
     cookies: cookie,
   );

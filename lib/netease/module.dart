@@ -24,6 +24,8 @@ part 'module/captcha.dart';
 
 part 'module/check_music.dart';
 
+part 'module/cloud_match.dart';
+
 part 'module/comment.dart';
 
 part 'module/countries.dart';
@@ -53,6 +55,10 @@ part 'module/login.dart';
 part 'module/lyric.dart';
 
 part 'module/msg.dart';
+
+part 'module/musician.dart';
+
+part 'module/mlog.dart';
 
 part 'module/mv.dart';
 
@@ -92,6 +98,8 @@ part 'module/video.dart';
 
 part 'module/weblog.dart';
 
+part 'module/vip.dart';
+
 part 'module/yunbei.dart';
 
 typedef Handler = Future<Answer> Function(Map query, List<Cookie> cookie);
@@ -108,6 +116,7 @@ final handles = <String, Handler>{
   "/album/songsaleboard": albumSongSaleBoard,
   "/album/sub": albumSub,
   "/album/sublist": albumSublist,
+  "/album/sales": albumSales,
   //歌手
   "/artist/album": artistAlbum,
   "/artist/desc": artistDesc,
@@ -121,6 +130,7 @@ final handles = <String, Handler>{
   "/artist/sublist": artistSubList,
   "/artist/top/song": artistTopSong,
   "/artists": artists,
+  "/artists/fans": artistFans,
   //Banner
   "/banner": banner,
   // 批量请求接口
@@ -132,6 +142,8 @@ final handles = <String, Handler>{
   "/captcha/verify": captchaVerify,
   //音乐是否可用
   "check/music": checkMusic,
+  //云盘
+  "cloud/match": cloudMatch,
   //评论
   "/comment/album": commentAlbum,
   "/comment/dj": commentDj,
@@ -209,6 +221,10 @@ final handles = <String, Handler>{
   "/activate/init/profile": activateInitProfile,
   //歌词
   "/lyric": lyric,
+  //mlog
+  "/mlog/video": mlogToVideo,
+  "/mlog/url": mlogUrl,
+  "/mlog/music/rcmd": mlogMusicRcmd,
   //通知消息
   "/msg/comment": msgComment,
   "/msg/forwards": msgForwards,
@@ -216,6 +232,13 @@ final handles = <String, Handler>{
   "/msg/private/history": msgPrivateHistory,
   "/msg/private": msgPrivate,
   "/msg/recentcontact": msgRecentcontact,
+  //音乐人
+  'musician/cloudbean': musicianCloudBean,
+  'musician/cloudbean/obtain': musicianCloudBeanObtain,
+  'musician/data/overview': musicianDataOverview,
+  'musician/play/trend': musicianPlayTrend,
+  'musician/task': musicianTask,
+  'musician/sign': musicianSign,
   //MV
   "/mv/all": mvAll,
   "/mv/detail/info": mvDetailInfo,
@@ -254,6 +277,7 @@ final handles = <String, Handler>{
   "/playlist/tracks": playlistTracks,
   "/playlist/update": playlistUpdate,
   "/playlist/video/recent": playlisVideoRecent,
+  "/playlist/privacy": playlisPrivacy,
   //心动模式/智能播放
   "/playmode/intelligence/list": playmodeIntelligenceList,
   //推荐
@@ -294,6 +318,7 @@ final handles = <String, Handler>{
   "/song/detail": songDetail,
   "/song/order/update": songOrderUpdate,
   "/song/url": songUrl,
+  "/song/purchased": songPurchased,
   //热门
   "/top/album": topAlbum,
   "/top/artists": topArtists,
@@ -340,6 +365,12 @@ final handles = <String, Handler>{
   "/video/timeline/all": videoTimelineAll,
   "/video/timeline/recommend": videoTimelineRecommend,
   "/video/url": videoUrl,
+  //VIP
+  "vip/growthpoint": vipGrowthpoint,
+  "vip/growthpoint/detail": vipGrowthpointDetail,
+  "vip/growthpoint/get": vipGrowthpointGet,
+  "vip/task": vipTasks,
+  "vip/info": vipInfo,
 
   "/weblog": weblog,
   //云贝
@@ -352,4 +383,6 @@ final handles = <String, Handler>{
   "/yunbei/tasks": yunbeiTask,
   "/yunbei/today": yunbeiToday,
   "/yunbei": yunbei,
+  "/yunbei/rcmd/song": yunbeiRcmdSong,
+  "/yunbei/rcmd/song/hhistory": yunbeiRcmdSongHistory,
 };

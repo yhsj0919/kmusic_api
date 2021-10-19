@@ -2,9 +2,7 @@ part of '../module.dart';
 
 //专辑内容
 Handler album = (Map query, List<Cookie> cookie) {
-  return request(
-      'POST', "https://music.163.com/weapi/v1/album/${query['id']}", {},
-      cookies: cookie, crypto: Crypto.weapi);
+  return request('POST', "https://music.163.com/weapi/v1/album/${query['id']}", {}, cookies: cookie, crypto: Crypto.weapi);
 };
 
 // 专辑动态信息
@@ -34,12 +32,7 @@ Handler albumDetail = (Map query, List<Cookie> cookie) {
 Handler albumStyle = (query, cookie) => request(
       'POST',
       'https://music.163.com/weapi/vipmall/appalbum/album/style',
-      {
-        'limit': query['limit'] ?? 10,
-        'offset': query['offset'] ?? 0,
-        'total': true,
-        'area': query['area'] ?? 'Z_H'
-      },
+      {'limit': query['limit'] ?? 10, 'offset': query['offset'] ?? 0, 'total': true, 'area': query['area'] ?? 'Z_H'},
       crypto: Crypto.weapi,
       cookies: cookie,
     );
@@ -49,13 +42,7 @@ Handler albumStyle = (query, cookie) => request(
 Handler albumList = (query, cookie) => request(
       'POST',
       'https://music.163.com/weapi/vipmall/albumproduct/list',
-      {
-        'limit': query['limit'] ?? 30,
-        'offset': query['offset'] ?? 0,
-        'total': true,
-        'area': query['area'] ?? 'ALL',
-        'type': query['type']
-      },
+      {'limit': query['limit'] ?? 30, 'offset': query['offset'] ?? 0, 'total': true, 'area': query['area'] ?? 'ALL', 'type': query['type']},
       crypto: Crypto.weapi,
       cookies: cookie,
     );
@@ -123,10 +110,19 @@ Handler albumSublist = (Map query, List<Cookie> cookie) {
   return request(
     'POST',
     "https://music.163.com/weapi/album/sublist",
+    {'limit': query['limit'] ?? 25, 'offset': query['offset'] ?? 0, 'total': true},
+    cookies: cookie,
+    crypto: Crypto.weapi,
+  );
+};
+
+// 数字专辑销量
+Handler albumSales = (Map query, List<Cookie> cookie) {
+  return request(
+    'POST',
+    "https://music.163.com/weapi/vipmall/albumproduct/album/query/sales",
     {
-      'limit': query['limit'] ?? 25,
-      'offset': query['offset'] ?? 0,
-      'total': true
+      'albumIds': query['ids'],
     },
     cookies: cookie,
     crypto: Crypto.weapi,

@@ -6,8 +6,12 @@ Handler loginCellphone = (query, cookie) {
   final data = {
     'phone': query['phone'],
     'countrycode': query['countrycode'] ?? 86,
-    'password': Encrypted(Uint8List.fromList(md5.convert(utf8.encode(query['password'])).bytes)).base16,
-    'rememberLogin': 'true'
+    'rememberLogin': 'true',
+    'captcha': query['captcha'],
+    query['captcha'] == null ? 'password' : 'captcha':
+    query['captcha'] == null ? Encrypted(Uint8List.fromList(md5
+        .convert(utf8.encode(query['password']))
+        .bytes)).base16 : query['captcha'],
   };
 
   return request(
@@ -85,7 +89,9 @@ Handler loginStatus = (query, cookie) {
 // 邮箱登录
 Handler login = (query, cookie) {
   cookie.add(Cookie('os', 'pc'));
-  final data = {'username': query['email'], 'password': Encrypted(Uint8List.fromList(md5.convert(utf8.encode(query['password'])).bytes)).base16, 'rememberLogin': 'true'};
+  final data = {'username': query['email'], 'password': Encrypted(Uint8List.fromList(md5
+      .convert(utf8.encode(query['password']))
+      .bytes)).base16, 'rememberLogin': 'true'};
 
   return request(
     'POST',

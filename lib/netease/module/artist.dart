@@ -161,5 +161,27 @@ Handler artistTopSong = (Map query, List<Cookie> cookie) {
 
 // 歌手单曲
 Handler artists = (Map query, List<Cookie> cookie) {
-  return request('POST', 'https://music.163.com/weapi/v1/artist/${query["id"]}', {}, cookies: cookie, crypto: Crypto.weapi);
+  return request(
+    'POST',
+    'https://music.163.com/weapi/v1/artist/${query["id"]}',
+    {},
+    cookies: cookie,
+    crypto: Crypto.weapi,
+  );
+};
+
+// 歌手粉丝
+Handler artistFans = (Map query, List<Cookie> cookie) {
+  final data = {
+    'id': query['id'],
+    'limit': query['limit'] ?? 20,
+    'offset': query['offset'] ?? 0,
+  };
+  return request(
+    'POST',
+    'https://music.163.com/weapi/v1/artist/${query["id"]}',
+    data,
+    cookies: cookie,
+    crypto: Crypto.weapi,
+  );
 };
